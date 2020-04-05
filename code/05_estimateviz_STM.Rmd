@@ -1,0 +1,791 @@
+---
+title: "03_estimateviz_STM.Rmd"
+author: "Rebecca Johnson (raj2@princeton.edu)"
+date: "1/9/2020"
+output: html_document
+---
+
+
+# 0. Load packages and graphing theme
+
+```{r}
+## Load packages
+library(dplyr)
+library(data.table)
+library(stm)
+library(ggplot2)
+library(lubridate)
+library(here)
+library(tm)
+library(viridis)
+library(RColorBrewer)
+theme_new <- function(base_size = 16, base_family = "Helvetica"){
+  theme_bw(base_size = base_size, base_family = base_family) %+replace%
+    theme(
+      panel.grid = element_blank(),   
+      panel.border = element_rect(fill = NA, colour = "black", size=1),
+      panel.background = element_rect(fill = "white", colour = "black"), 
+      strip.background = element_rect(fill = NA),
+      axis.text.x = element_text(color = "black"),
+      axis.text.y = element_text(color = "black")
+    )
+}
+
+
+
+```
+
+
+
+# Read in the preprocessed data for each state and compare to the filings data
+
+
+```{r}
+dc_preprocessed = read.csv("/Users/raj2/Dropbox/dph_hearing_decisions/data/dc/intermediate/hearings_preprocessed.csv") %>%
+        mutate(state = "DC",
+               frpl_eligible_rate = NA) %>%
+        filter(year %in% seq(from = 2014, to = 2018)) 
+dc_total_filings = 2105
+
+
+
+texas_preprocessed = read.csv("/Users/raj2/Dropbox/dph_hearing_decisions/data/texas/intermediate/hearings_preprocessed.csv") %>%
+        mutate(state = "Texas",
+        year =  ifelse(year_request < 2014, 2014, 
+                            year_request)) #since year_request was for filing and not hearing, and since downloaded
+
+bothstates_preprocessed = rbind.data.frame(dc_preprocessed %>%
+                                    dplyr::select(year, 
+                                                  state, 
+                                                  text_preprocess,
+                                                  frpl_eligible_rate, 
+                                                  parent_cat),
+                                    texas_preprocessed %>%
+                                    dplyr::select(year, 
+                                                  state,
+                                                  text_preprocess,
+                                                  frpl_eligible_rate,
+                                                  parent_cat))
+colnames(bothstates_preprocessed)
+
+```
+
+
+
+```{r}
+df_frompy = bothstates_preprocessed
+
+
+processed_hearings = textProcessor(documents = df_frompy$text_preprocess, 
+                                metadata = df_frompy %>% dplyr::select(year, state, 
+                                                                       parent_cat) %>%
+                  mutate(any_parent = ifelse(parent_cat != "neither_parent", 1, 0)),
+                                
+                                ## cleaning args;
+                                ## by default, set to true
+                                ## deviating from default and setting to false
+                                ## because we already preprocessed
+                                lowercase = FALSE,
+                              removestopwords = FALSE, 
+                              removenumbers = FALSE,
+                            removepunctuation = FALSE, stem = FALSE,
+                                verbose = TRUE)
+
+print(class(processed_hearings))
+
+## results in three outputs
+hearing_docs = processed_hearings$documents
+hearing_vocab = processed_hearings$vocab
+head(hearing_vocab)
+hearing_meta = processed_hearings$meta
+head(hearing_meta)
+
+## plot number of focuments we'd remove at diff filtering thresholds
+## plot at different thresholds for minum number of ocuments
+plotRemoved(hearing_docs,
+            lower.thres = seq(from = 1, to = 50, by = 1))
+
+prep_formodel = prepDocuments(hearing_docs, hearing_vocab, 
+                              hearing_meta, lower.thres = 10, 
+                              upper.thres = dim(df_frompy)[0]-10)
+
+
+
+### estimate model, making sure to set a seed
+#vary_k = searchK(prep_formodel$documents, prep_formodel$vocab, K = 4:20,
+ #                prevalence = ~any_parent + state, 
+  #               data = prep_formodel$meta)
+
+#saveRDS(vary_k, "topicmodel_varyk.RDS")
+vary_k = readRDS("topicmodel_varyk.RDS")
+plot(vary_k)
+
+results_varyk = vary_k$results
+getPalette = colorRampPalette(brewer.pal(8, "Set2"))
+ggplot(results_varyk, aes(x = semcoh, y = exclus,
+                          group = factor(K),
+                          color = factor(K))) +
+  #geom_point(size = 3) +
+  theme_new() +
+  xlab("Semantic coherence (higher= better)") +
+  ylab("Exclusivity (higher = better)") +
+  guides(color = FALSE) +
+  geom_text(aes(x = semcoh, y = exclus+1, group= factor(K),
+                 color = factor(K),
+                 label = K), size = 6) +
+  theme(legend.position = c(0.3, 0.3),
+        legend.background = element_blank()) +
+  scale_color_manual(values =getPalette(length(unique(results_varyk$K))))
+  
+ggsave("../output/varyk.pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9,
+       device = "pdf")
+
+chosen_k = 17
+case_fixk_varymodel = selectModel(prep_formodel$documents,
+                                  prep_formodel$vocab,
+                                  K = chosen_k,
+                                  prevalence = ~any_parent + state,
+                                  data = prep_formodel$meta,
+                                  runs = 10,
+                                  seed = 19840404) # low value and should increase
+plotModels(case_fixk_varymodel)
+selected_model = case_fixk_varymodel$runout[[2]]
+summary(selected_model)
+
+## pull up docs with a high probability of topic 15
+doc_proportions = selected_model$theta
+doc_proportions_df = cbind.data.frame(doc_proportions[, 15],
+                                df_frompy) %>%
+                rename(prop_top15 = `doc_proportions[, 15]`)
+
+
+doc_proportions_df %>% arrange(desc(prop_top15)) %>% slice(1:5)
+
+```
+
+## Get correlation between attributes and topic prevalence
+
+```{r}
+relate_attributes = estimateEffect(1:17 ~ any_parent  + state,
+                meta = prep_formodel$meta, 
+                stmobj = selected_model,
+                uncertainty = "Global")
+
+
+## look at results 
+summary(relate_attributes)
+summary(selected_model)
+
+
+```
+
+
+## Visualize results
+
+
+Recommend tidystm over built-in plotting functions
+
+```{r}
+#devtools::install_github("mikaelpoul/tidystm", dependencies = TRUE)
+library(tidystm)  
+
+
+state_forplot_init = extract.estimateEffect(x = relate_attributes,
+                         covariate = "state",
+                         method = "difference",
+                         labeltype = "frex",
+                         model = selected_model,
+                         cov.value1 = "Texas",
+                         cov.value2 = "DC")
+
+state_forplot_init
+
+
+
+
+## order values of covariate by estimate size
+shorter_labels_list = sapply(as.character(state_forplot_init$label),
+                      strsplit, ",") 
+shorter_labels_variable = sprintf("%s;%s;%s;%s",lapply(shorter_labels_list, 
+                                              "[", 1),
+                                  lapply(shorter_labels_list, 
+                                         "[", 2),
+                                  lapply(shorter_labels_list, 
+                                         "[", 3),
+                                  lapply(shorter_labels_list, 
+                                         "[", 4))
+state_forplot = state_forplot_init %>%
+              mutate(clean_label = shorter_labels_variable,
+                ordered_label = factor(clean_label,
+                                       levels=unique(clean_label[order(estimate)]), 
+                                       ordered=TRUE))
+
+## get finer grained by
+## estimating topics within
+saveRDS(parentcat_forplot,
+        "../intermediate_objects/parent_v_topic.RDS")
+
+## separate plots into three categories
+texas_higher = state_forplot %>%
+          filter(estimate >0 & 
+                ci.lower > 0)
+
+no_diff = state_forplot %>%
+        filter(ci.upper > 0 & 
+              ci.lower < 0)
+
+
+
+dc_higher = state_forplot %>%
+        filter(estimate < 0 & 
+              ci.upper < 0)
+
+
+ggplot(texas_higher, aes(x = ordered_label, 
+                                  y = estimate,
+                                  group = ordered_label,
+                                  color = ordered_label)) +
+  geom_point(size = 6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = 'wheat4') +
+  geom_errorbar(aes(ymin = ci.lower,
+                    ymax = ci.upper),
+                width = 0.6,
+                lwd = 2) +
+  coord_flip() +
+  ylab('Estimated topic prevalence and 95% CI\n(Positive = higher prevalence in Texas hearings\nthan in DC hearings)') +
+  xlab('') +
+  theme_new(base_size = 24) +
+  theme(axis.text.y   = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = c(0.6, 0.2),
+        legend.background = element_blank()) +
+  labs(color = "") +
+  coord_flip() +
+  scale_color_brewer(palette = "Dark2") 
+
+ggsave("../output/pooled_highertx.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+ggplot(dc_higher, aes(x = ordered_label, 
+                                  y = estimate,
+                                  group = ordered_label,
+                                  color = ordered_label)) +
+  geom_point(size = 6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = 'wheat4') +
+  geom_errorbar(aes(ymin = ci.lower,
+                    ymax = ci.upper),
+                width = 0.6,
+                lwd = 2) +
+  coord_flip() +
+  ylab('Estimated topic prevalence and 95% CI\n(Negative = higher prevalence in DC hearings\nthan in Texas hearings)') +
+  xlab('') +
+  theme_new(base_size = 24) +
+  theme(axis.text.y   = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = c(0.35, 0.8),
+        legend.background = element_blank()) +
+  labs(color = "") +
+  coord_flip() +
+  scale_color_manual(values =getPalette(nrow(dc_higher))) +
+  ylim(-0.3, 0.05)
+
+ggsave("../output/pooled_higherdc.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+
+ggplot(no_diff, aes(x = ordered_label, 
+                                  y = estimate,
+                                  group = ordered_label,
+                                  color = ordered_label)) +
+  geom_point(size = 6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = 'wheat4') +
+  geom_errorbar(aes(ymin = ci.lower,
+                    ymax = ci.upper),
+                width = 0.6,
+                lwd = 2) +
+  coord_flip() +
+  ylab('Estimated topic prevalence and 95% CI\n(Negative = higher prevalence in DC hearings\nthan in Texas hearings)') +
+  xlab('') +
+  theme_new(base_size = 24) +
+  theme(axis.text.y   = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = c(0.7, 0.2),
+        legend.background = element_blank()) +
+  labs(color = "") +
+  coord_flip() +
+  scale_color_manual(values =getPalette(nrow(no_diff))) +
+  ylim(-0.05, 0.1)
+
+ggsave("../output/pooled_same.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+
+```
+
+
+# Variation within DC and Texas
+
+## DC: parent involvement
+
+
+```{r}
+parent_summary = df_frompy %>%
+        group_by(state, parent_cat) %>%
+        summarise(count = n()) %>%
+        left_join(df_frompy %>% group_by(state) %>% summarise(count_denom = n())) %>%
+        mutate(prop_parents = count/count_denom)
+
+parent_summary
+
+ggplot(parent_summary, aes(x = factor(parent_cat, 
+                                  levels = c("mother_only",
+                                              "neither_parent",
+                                             "both_parents",
+                                            
+                                             "father_only"),
+                                  labels = c("Mother\nonly",
+                                                                      "Neither\n parent",
+                                             "Both",
+                                             
+                    
+                                             "Father\nonly"),
+                                  ordered = TRUE),
+                           group = parent_cat,
+                           y = prop_parents)) +
+  geom_bar(stat = "identity", fill = "wheat4") +
+  theme_new() +
+  facet_wrap(~state) +
+  xlab("Who mentioned?") + 
+  ylab("Proportion of hearings (2014-2018)")
+
+ggsave("../output/parent_involvement.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+```
+
+
+```{r}
+head(df_frompy %>% filter(state == "DC" & parent_cat == "neither_parent"))
+processed_hearings_dc = textProcessor(documents = df_frompy$text_preprocess[df_frompy$state == "DC"], 
+            metadata = df_frompy %>% filter(state == "DC") %>% dplyr::select(year, 
+                                                                       parent_cat) %>%
+                  mutate(any_parent = ifelse(parent_cat != "neither_parent", 1, 0),
+                         both_parents = ifelse(parent_cat == "both_parents",1, 0)),
+                                
+                                ## cleaning args;
+                                ## by default, set to true
+                                ## deviating from default and setting to false
+                                ## because we already preprocessed
+                                lowercase = FALSE,
+                              removestopwords = FALSE, 
+                              removenumbers = FALSE,
+                            removepunctuation = FALSE, stem = FALSE,
+                                verbose = TRUE)
+
+print(class(processed_hearings))
+
+## results in three outputs
+hearing_docs = processed_hearings_dc$documents
+hearing_vocab = processed_hearings_dc$vocab
+hearing_meta = processed_hearings_dc$meta
+head(hearing_meta)
+
+## plot number of focuments we'd remove at diff filtering thresholds
+## plot at different thresholds for minum number of ocuments
+plotRemoved(hearing_docs,
+            lower.thres = seq(from = 1, to = 50, by = 1))
+
+prep_formodel = prepDocuments(hearing_docs, hearing_vocab, 
+                              hearing_meta, lower.thres = 10, 
+                              upper.thres = dim(df_frompy %>%
+                                          filter(state == "DC"))[0]-10)
+
+case_fixk_varymodel_dc = selectModel(prep_formodel$documents,
+                                  prep_formodel$vocab,
+                                  K = chosen_k,
+                                  prevalence = ~both_parents,
+                                  data = prep_formodel$meta,
+                                  runs = 10,
+                                  seed = 19840404) 
+
+
+plotModels(case_fixk_varymodel_dc)
+selected_model_dc = case_fixk_varymodel_dc$runout[[2]]
+summary(selected_model_dc)
+
+## pull up high probability topics
+summ
+
+
+relate_attributes_dc = estimateEffect(1:17 ~ both_parents,
+                meta = prep_formodel$meta, 
+                stmobj = selected_model_dc,
+                uncertainty = "Global")
+
+
+## look at results 
+summary(relate_attributes_dc)
+summary(selected_model)
+
+
+library(tidystm)  
+
+
+dc_contrast_init = extract.estimateEffect(x = relate_attributes_dc,
+                         covariate = "both_parents",
+                         method = "difference",
+                         labeltype = "frex",
+                         model = selected_model_dc,
+                         cov.value1 = 1,
+                         cov.value2 = 0)
+
+dc_contrast_init
+
+
+
+
+## order values of covariate by estimate size
+shorter_labels_list = sapply(as.character(dc_contrast_init$label),
+                      strsplit, ",") 
+shorter_labels_variable = sprintf("%s;%s;%s;%s",lapply(shorter_labels_list, 
+                                              "[", 1),
+                                  lapply(shorter_labels_list, 
+                                         "[", 2),
+                                  lapply(shorter_labels_list, 
+                                         "[", 3),
+                                  lapply(shorter_labels_list, 
+                                         "[", 4))
+dc_contrast = dc_contrast_init %>%
+              mutate(clean_label = shorter_labels_variable,
+                ordered_label = factor(clean_label,
+                                       levels=unique(clean_label[order(estimate)]), 
+                                       ordered=TRUE))
+
+
+dc_contrast
+
+ggplot(dc_contrast, aes(x = ordered_label, 
+                                  y = estimate,
+                                  group = ordered_label,
+                                  color = ordered_label)) +
+  geom_point(size = 6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = 'wheat4') +
+  geom_errorbar(aes(ymin = ci.lower,
+                    ymax = ci.upper),
+                width = 0.6,
+                lwd = 2) +
+  coord_flip() +
+  ylab('Estimated topic prevalence and 95% CI\n(Positive = higher prevalence in hearings \nmentioning both parents relative to all others)') +
+  xlab('') +
+  theme_new(base_size = 24) +
+  theme(axis.text.y   = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = c(0.7, 0.5),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 14)) +
+  labs(color = "") +
+  scale_color_manual(values =getPalette(nrow(dc_contrast))) +
+  ylim(-0.1, 0.4)
+
+ggsave("../output/dc_ses.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+
+## show ses
+tx_data = df_frompy %>%
+      filter(state == "Texas") %>%
+      mutate(any_parent = ifelse(parent_cat != "neither_parent", 1, 0), 
+              mother_only = ifelse(parent_cat == "mother_only", 1, 0), 
+              both_parents = ifelse(parent_cat == "both_parents", 1, 0),
+             father_only = ifelse(parent_cat == "father_only", 1, 0),
+             neither_parent = ifelse(parent_cat == "neither_parent", 1, 0))
+
+mother_pred = predict(glm(mother_only ~ frpl_eligible_rate, data = tx_data,
+                           family = "binomial"), 
+                          newdata = data.frame(frpl_eligible_rate = 
+                                                  seq(0, 0.9, by = 0.01)),
+                          type = "response",
+                          se.fit = TRUE)
+both_pred = predict(glm(both_parents ~ frpl_eligible_rate, data = tx_data,
+                           family = "binomial"), 
+                          newdata = data.frame(frpl_eligible_rate = 
+                                                  seq(0, 0.9, by = 0.01)),
+                          type = "response",
+                          se.fit = TRUE)
+neither_pred = predict(glm(neither_parent ~ frpl_eligible_rate, data = tx_data,
+                           family = "binomial"), 
+                          newdata = data.frame(frpl_eligible_rate = 
+                                                  seq(0, 0.9, by = 0.01)),
+                          type = "response",
+                          se.fit = TRUE)
+parent_ses = rbind.data.frame(data.frame(fit= mother_pred$fit, 
+                                         se = mother_pred$se.fit,
+                                         outcome = "Mother alone"),
+                              data.frame(fit= both_pred$fit, 
+                                         se = both_pred$se.fit,
+                                         outcome = "Both parents"),
+                              data.frame(fit = neither_pred$fit,
+                                         se = neither_pred$se.fit,
+                                         outcome = "Neither parent")) %>%
+              mutate(lower = fit- 1.96*se,
+                     upper = fit+1.96*se,
+                     frpl_eligible_rate = rep(seq(0, 0.9, by = 0.01),
+                                               3))
+
+
+
+ggplot(parent_ses %>%
+    filter( 
+          outcome == "Mother alone"), aes(x = frpl_eligible_rate, y = fit)) +
+  geom_line(size = 2, color = "black") +
+  theme_new()  +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3, fill = "wheat4") +
+  xlab("Share of students in district\neligible for free lunch") +
+  ylab("Predicted probability of only mentioning mother") +
+  ylim(0, 0.8) +
+  geom_rug(data = tx_data, 
+          aes(x = frpl_eligible_rate, color = factor(mother_only, 
+                                                     levels = c(0, 1),
+                                                     labels = c("No", "Yes"))),
+           inherit.aes = FALSE) +
+  labs(color = "Mother\nonly") +
+  scale_color_manual(values = c("wheat4", "cyan3")) +
+  theme(legend.position = c(0.8, 0.2)) 
+
+ggsave("../output/motheronly_pred.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 8,
+       height = 12)
+
+ggplot(parent_ses %>%
+    filter( 
+          outcome == "Neither parent"), aes(x = frpl_eligible_rate, y = fit)) +
+  geom_line(size = 2, color = "black") +
+  theme_new()  +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3, fill = "wheat4") +
+  xlab("Share of students in district\neligible for free lunch") +
+  ylab("Predicted probability of mentioning neither parent") +
+  ylim(0, 0.8) +
+  geom_rug(data = tx_data, 
+          aes(x = frpl_eligible_rate, color = factor(neither_parent, 
+                                                     levels = c(0, 1),
+                                                     labels = c("No", "Yes"))),
+           inherit.aes = FALSE) +
+  labs(color = "Neither\nparent") +
+  scale_color_manual(values = c("wheat4", "cyan3")) +
+  theme(legend.position = c(0.8, 0.2)) 
+
+ggsave("../output/neitherparent_pred.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 8,
+       height = 12)
+
+ggplot(parent_ses %>%
+    filter( 
+          outcome == "Both parents" & frpl_eligible_rate > 0.05 & 
+          frpl_eligible_rate < 0.75), 
+  aes(x = frpl_eligible_rate, y = fit)) +
+  geom_line(size = 2, color = "black") +
+  theme_new()  +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3, fill = "wheat4") +
+  xlab("Share of students in district\neligible for free lunch") +
+  ylab("Predicted probability of mentioning mother and father") +
+  ylim(0, 0.8) +
+  geom_rug(data = tx_data, 
+          aes(x = frpl_eligible_rate, color = factor(both_parents, 
+                                                     levels = c(0, 1),
+                                                     labels = c("No", "Yes"))),
+           inherit.aes = FALSE) +
+  labs(color = "Both\nparents") +
+  scale_color_manual(values = c("wheat4", "cyan3")) +
+  theme(legend.position = c(0.8, 0.8)) 
+
+ggsave("../output/bothparents_pred.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 8,
+       height = 12)
+
+
+```
+
+```{r}
+prep_forplot <- function(data){
+  
+  shorter_labels_list = sapply(as.character(data$label),
+                      strsplit, ",") 
+  shorter_labels_variable =
+    sprintf("%s;%s;%s;%s",lapply(shorter_labels_list, 
+                                              "[", 1),
+                                  lapply(shorter_labels_list, 
+                                         "[", 2),
+                                  lapply(shorter_labels_list, 
+                                         "[", 3),
+                                  lapply(shorter_labels_list, 
+                                         "[", 4))
+  clean_data = data %>%
+              mutate(clean_label = shorter_labels_variable,
+                ordered_label = factor(clean_label,
+                                       levels=unique(clean_label[order(estimate)]), 
+                                       ordered=TRUE))
+
+  return(clean_data)
+}
+
+
+
+```
+
+
+## Model texas
+
+
+```{r}
+
+processed_hearings_texas = textProcessor(documents = df_frompy$text_preprocess[df_frompy$state == "Texas" & !is.na(df_frompy$frpl_eligible_rate)], 
+            metadata = df_frompy %>% filter(state == "Texas" & !is.na(frpl_eligible_rate)) 
+            %>% dplyr::select(year, 
+                                                                       frpl_eligible_rate),
+                                
+                                ## cleaning args;
+                                ## by default, set to true
+                                ## deviating from default and setting to false
+                                ## because we already preprocessed
+                                lowercase = FALSE,
+                              removestopwords = FALSE, 
+                              removenumbers = FALSE,
+                            removepunctuation = FALSE, stem = FALSE,
+                                verbose = TRUE)
+
+print(class(processed_hearings))
+
+## results in three outputs
+hearing_docs = processed_hearings_texas$documents
+hearing_vocab = processed_hearings_texas$vocab
+hearing_meta = processed_hearings_texas$meta
+head(hearing_meta)
+
+## plot number of focuments we'd remove at diff filtering thresholds
+## plot at different thresholds for minum number of ocuments
+plotRemoved(hearing_docs,
+            lower.thres = seq(from = 1, to = 50, by = 1))
+
+prep_formodel = prepDocuments(hearing_docs, hearing_vocab, 
+                              hearing_meta, lower.thres = 10, 
+                              upper.thres = dim(df_frompy %>%
+                                          filter(state == "Texas"))[0]-10)
+
+case_fixk_varymodel_texas = selectModel(prep_formodel$documents,
+                                  prep_formodel$vocab,
+                                  K = chosen_k,
+                                  prevalence = ~both_parents,
+                                  data = prep_formodel$meta,
+                                  runs = 10,
+                                  seed = 19840404) 
+
+
+plotModels(case_fixk_varymodel_texas)
+selected_model_texas = case_fixk_varymodel_texas$runout[[1]]
+summary(selected_model_texas)
+
+
+relate_attributes_texas = estimateEffect(1:17 ~ frpl_eligible_rate,
+                meta = prep_formodel$meta, 
+                stmobj = selected_model_texas,
+                uncertainty = "Global")
+
+summary(relate_attributes_texas)
+no_diff = c(1, 3, 4, 6, 8, 9, 10, 15, 17)
+negative = c(2, 11, 12, 13, 16)
+positive = c(5, 7, 14)
+
+
+
+library(tidystm)  
+
+
+texas_contrast_init = extract.estimateEffect(x = relate_attributes_texas,
+ covariate = "frpl_eligible_rate",
+                         method = "continuous",
+                         labeltype = "frex",
+                         model = selected_model_texas) %>%
+        mutate(frpl_lower = abs(0.25-covariate.value),
+               frpl_upper = abs(0.75-covariate.value))
+
+positive_texas = texas_contrast_init %>% filter(topic %in% c(negative, positive))
+diff_texas_forplot = prep_forplot(positive_texas)
+ggplot(diff_texas_forplot, aes(x = covariate.value, 
+                           y = estimate, 
+                           color = ordered_label, 
+                           group = ordered_label)) +
+  geom_line(size = 2) +
+  theme_new() +
+  xlab("Share of district students eligible\nfor free lunch") +
+  ylab("Estimate") +
+  theme_new() + 
+  labs(color = "") +
+  ylim(0, 0.15) +
+  scale_color_brewer(palette = "Spectral") +
+  theme(legend.position = "bottom",
+        legend.background = element_blank()) +
+  guides(color = guide_legend(ncol = 2))
+
+
+ggsave("../output/texas_topic_frpl.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 16,
+       height = 10)
+
+nodiff = texas_contrast_init %>% filter(!topic %in% c(negative, positive))
+nodiff_texas_forplot = prep_forplot(nodiff)
+
+
+ggplot(nodiff_texas_forplot, 
+      aes(x = covariate.value, 
+                           y = estimate, 
+                           color = ordered_label, 
+                           group = ordered_label)) +
+  geom_line(size = 2) +
+  theme_new() +
+  xlab("Share of district students eligible\nfor free lunch") +
+  ylab("Estimate") +
+  theme_new() + 
+  labs(color = "") +
+  ylim(0, 0.1) +
+  scale_color_brewer(palette = "Spectral") +
+  theme(legend.position = "bottom",
+        legend.background = element_blank()) +
+  guides(color = guide_legend(ncol = 2))
+
+
+ggsave("../output/texas_topic_frpl_nodiff.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 16,
+       height = 10)
+
+```
