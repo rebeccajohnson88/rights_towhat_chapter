@@ -1,0 +1,1077 @@
+---
+title: "04_summarizefilings_allstates.Rmd"
+author: "Rebecca Johnson"
+date: "3/28/2020"
+output: html_document
+---
+
+# Imports and packages
+
+
+```{r}
+library(data.table)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(scales)
+library(xtable)
+library(here)
+library(viridis)
+library(pscl)
+library(MASS)
+library(mgcv)
+library(tidymv)
+library(tidycensus)
+library(sf)
+library(maps)
+library(stargazer)
+library(utils)
+library(itsadug)
+
+theme_new <- function(base_size = 16, base_family = "Helvetica"){
+  theme_bw(base_size = base_size, base_family = base_family) %+replace%
+    theme(
+      panel.grid = element_blank(),   
+      panel.border = element_rect(fill = NA, colour = "black", size=1),
+      panel.background = element_rect(fill = "white", colour = "black"), 
+      strip.background = element_rect(fill = NA),
+      axis.text.x = element_text(color = "black"),
+      axis.text.y = element_text(color = "black")
+      )
+}
+
+
+```
+
+
+# Load and clean data: DC
+
+
+```{r}
+base_path = "/Users/raj2/Dropbox/dph_hearing_decisions/"
+dc_data = read.csv(here("../dph_hearing_decisions/data/dc/cleaned/filings_withdem.csv"))
+
+head(dc_data$AGAINST_LEA)
+## load raw nces data to get total enrollment 
+## and latitude/longitude for a school
+dc_nces_raw = read.csv(here("../dph_hearing_decisions/data/dc/intermediate/dc_ccd.csv")) 
+colnames(dc_nces_raw) = gsub("\\.+", "_", colnames(dc_nces_raw)) 
+dc_nces_subset = dc_nces_raw %>%
+                dplyr::select(School_Name, 
+                       Total_Students_All_Grades_Excludes_AE_Public_School_2013_14,
+                       School_Level_Public_School_2013_14,
+                       Latitude_Public_School_2013_14,
+                       Longitude_Public_School_2013_14,
+                       Title_I_Eligible_School_Public_School_2013_14)
+
+dc_nces_subset[dc_nces_subset == "†"] = NA
+
+
+dc_data = dc_data %>%
+      mutate(rate_per_iep = AGAINST_LEA/STUDENTS_WITH_DISABILITIES_SERVED_UNDER_IDEA,
+             only_discipline = ifelse(AGAINST_LEA == 0 & EXPEDITED_DISCIPLINE >= 1,
+                                      1, 0),
+             only_nondisc = ifelse(AGAINST_LEA >= 1 & EXPEDITED_DISCIPLINE == 0, 1, 0),
+             both = ifelse(AGAINST_LEA >=1 & EXPEDITED_DISCIPLINE >=1, 1, 0),
+             neither = ifelse(AGAINST_LEA == 0 & EXPEDITED_DISCIPLINE == 0, 1, 0),
+             any_case = ifelse(AGAINST_LEA >= 1 | EXPEDITED_DISCIPLINE >= 1, 1, 0),
+             any_white = ifelse(white_rate > 0, 1, 0),
+             total_filings = AGAINST_LEA + EXPEDITED_DISCIPLINE)
+
+## merge with nces subset
+dc_data_wnces = merge(dc_data, 
+                      dc_nces_subset, 
+                      by.x = "nces_name_tomerge",
+                      by.y = "School_Name",
+                      all.x = TRUE)
+
+
+dc_data_wnces = dc_data_wnces %>%
+          mutate(total_students_nces = as.numeric(as.character(Total_Students_All_Grades_Excludes_AE_Public_School_2013_14)),
+                 total_students = ifelse(is.na(total_students_nces) & 
+                                              !is.na(total_students_iep_data),
+                                              total_students_iep_data,
+                                        total_students_nces),
+            in_nces = ifelse(is.na(Total_Students_All_Grades_Excludes_AE_Public_School_2013_14),
+                                  0, 1))
+
+## restrict analytic sample to those with total students
+dc_analytic = dc_data_wnces %>%
+          filter(!is.na(total_students))
+
+print(xtable(data.frame(school_name = 
+            setdiff(dc_data_wnces$nces_name_tomerge, dc_analytic$nces_name_tomerge))),
+      include.rownames  = FALSE)
+
+## Look at residualized measure of number of cases and 
+
+
+
+```
+
+## DC: summarize demographic attributes
+
+
+```{r}
+ggplot(dc_analytic, aes(x = white_rate, y = black_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Black") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch\neligible") +
+  xlim(0, 1) +
+  ylim(0, 1)
+
+ggsave("../output/dc_bw_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(dc_analytic, aes(x = white_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch\neligible") +
+  xlim(0, 1) +
+  ylim(0, 1)
+
+ggsave("../output/dc_hisp_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(dc_analytic, aes(x = black_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare Black") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.8, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of\nstudents\nfree lunch\neligible") +
+  xlim(0, 1) +
+  ylim(0, 1)
+
+ggsave("../output/dc_hispblack_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+
+
+```
+
+
+
+
+# Load and clean data: Texas
+
+
+```{r}
+texas_data = read.csv(here("../dph_hearing_decisions/data/texas/cleaned/filings_withdem.csv"))
+
+## add in enrollment count
+texas_nces_raw = read.csv(here("../dph_hearing_decisions/data/texas/intermediate/texas_ccd_pull1.csv")) 
+colnames(texas_nces_raw) = gsub("\\.+", "_", colnames(texas_nces_raw))
+texas_nces_additional = read.csv(here("../dph_hearing_decisions/data/texas/intermediate/texas_ccd_extraattributes.csv")) 
+colnames(texas_nces_additional) = gsub("\\.+", "_", colnames(texas_nces_additional))
+
+texas_nces_combined = merge(texas_nces_raw,
+                            texas_nces_additional %>% dplyr::select(-contains("State"),
+                                                             -Agency_Name,
+                                                             -Agency_Type_District_2013_14,
+                                                             -Agency_Name_District_2013_14),
+                            by = "Agency_ID_NCES_Assigned_District_Latest_available_year") %>%
+                mutate(charter = ifelse(grepl("^Charter", LEA_Charter_Status_District_2013_14),
+                                        1, 0))
+
+## get latitude and longitude of district 
+
+
+texas_nces_subset = texas_nces_combined %>%
+                dplyr::select(Agency_ID_NCES_Assigned_District_Latest_available_year, 
+                       Total_Students_All_Grades_Excludes_AE_District_2013_14,
+                       Agency_Name, contains("Latitude"),
+                       contains("Longitude"))
+
+texas_nces_subset[texas_nces_subset == "†"] = NA
+
+## merge
+texas_data_wnces = merge(texas_data, 
+                         texas_nces_subset,
+                      by.x = "nces_id",
+                      by.y = "Agency_ID_NCES_Assigned_District_Latest_available_year",
+                      all.x = TRUE)
+
+texas_data_analytic = texas_data_wnces %>%
+            filter(!is.na(Total_Students_All_Grades_Excludes_AE_District_2013_14)) %>%
+            mutate(total_students = as.numeric(as.character(Total_Students_All_Grades_Excludes_AE_District_2013_14)))
+
+print(xtable(data.frame(school_name = 
+            sort(setdiff(texas_data_wnces$Agency_Name, texas_data_analytic$Agency_Name)))),
+      include.rownames  = FALSE)
+
+
+```
+
+## TX: summarize demographic attributes
+
+```{r}
+ggplot(texas_data_analytic, aes(x = white_rate, y = black_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Black") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch\neligible")
+
+ggsave("../output/tx_bw_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(texas_data_analytic, aes(x = white_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch\neligible")
+
+ggsave("../output/tx_hisp_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(texas_data_analytic, aes(x = black_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare Black") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch\neligible")
+
+ggsave("../output/tx_hispblack_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+
+
+```
+
+
+## Texas-- summarize relationship with demographics
+
+
+```{r}
+total_filings = rowSums(texas_data_analytic[,
+                      grep("total_filings_", colnames(texas_data_analytic))])
+
+
+texas_data_analytic$total_filings = total_filings
+texas_data_analytic = texas_data_analytic %>%
+            mutate(any_filing = ifelse(total_filings > 0, 1, 0))
+
+ggplot(texas_data_analytic, aes(x = total_filings)) +
+  geom_histogram(binwidth = 1, fill = "wheat4",
+                 color = "black") +
+  theme_new(base_size = 24) +
+  xlab("Total filings (2014-2018)") +
+  ylab("Count of districts") +
+  annotate("text", x = 20, y = 500, 
+           label = "79% of districts\nhad no filings",
+           size = 8)
+
+
+ggsave("../output/tx_filings_hist.pdf",
+       device = "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
+
+
+gam_tx = gam(total_filings ~ s(frpl_eligible_rate) + s(total_students),
+             data = texas_data_analytic)
+gam_tx_binary = gam(any_filing ~ s(frpl_eligible_rate) + s(total_students),
+             data = texas_data_analytic,
+             family = binomial)
+
+
+gamtabs(gam_tx)
+gamtabs(gam_tx_binary)
+
+
+gam_tx_predict = predict_gam(gam_tx, 
+                             values = 
+                            list(total_students = mean(texas_data_analytic$total_students,
+          na.rm = TRUE))) 
+
+ggplot(gam_tx_predict %>% filter(frpl_eligible_rate < 0.9), 
+      aes(x = frpl_eligible_rate, 
+                           y = fit)) +
+  geom_smooth_ci(color = "red") +
+  geom_rug(data = texas_data_analytic %>% filter(frpl_eligible_rate < 0.9),
+           aes(x = frpl_eligible_rate), 
+           sides = "b",
+           inherit.aes = FALSE,
+           alpha = 0.2,
+           color = "wheat4") +
+  ylab("Predicted number of filings (GAM)") +
+  xlab("FRPL eligible rate") +
+  theme_new() +
+  ylim(0, 2) 
+
+ggsave("../output/texas_gam_predict.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+  
+## likelihood of any filing
+ggplot(gam_tx_predict_any, aes(x = frpl_eligible_rate, y = fit)) +
+  geom_smooth_ci()
+
+
+negbin_tx = glm.nb(total_filings ~ frpl_eligible_rate + log(total_students), 
+                data = texas_data_analytic)
+
+predict_negbin = predict(negbin_tx,
+                         type = "response",
+                         se.fit = TRUE,
+                         newdata = data.frame(frpl_eligible_rate = 
+                                  seq(from = 0.25, 
+                                      to = 0.8,
+                                      by = 0.01),
+                                  total_students = 
+                                mean(texas_data_analytic$total_students,
+                                     na.rm  = TRUE)))
+
+predict_negbin_df = data.frame(predicted_count = predict_negbin$fit,
+                               frpl = seq(from = 0.25, 
+                                      to = 0.8,
+                                      by = 0.01),
+                               se = predict_negbin$se.fit) %>%
+                  mutate(lower = predicted_count - 1.96*se,
+                         upper = predicted_count + 1.96*se,
+                         category = ifelse(frpl == 0.25, 
+                              "25% FRPL",
+                              ifelse(frpl == 0.5,
+                              "50% FRPL",
+                              ifelse(frpl == 0.75,
+                              "75% FRPL",
+                              "Other"))))
+
+```
+
+## All states: read in shapefiles and census information
+
+
+
+
+```{r}
+
+
+
+total_pop = c("B00001_001", "B00001_001")
+race = c("B02001_001",
+          "B02001_002",
+         "B02001_003", 
+         "B02001_004", 
+         "B02001_005",
+         "B02001_006",
+         "B02001_007",
+         "B02001_008",
+         "B03001_002",
+         "B03001_003",
+         "B03001_001")
+
+## get names of variables that are assocated with
+educ_vars = c("B16010_001", "B16010_002", "B16010_015",
+              "B16010_028", "B16010_041", "B19013_001")
+poverty = c("B06012_001",
+            "B06012_002",
+            "B06012_003",
+            "B06012_004",
+            "B09010_001", # snap
+            "B09010_002",
+            "C18120_001",
+            "C18120_006") # unemployment  
+
+
+vars_topull = c(total_pop, 
+                race,
+                educ_vars, poverty)
+
+census_api_key("8105419cada33ca0aaa48b111b8c44b9484e286a")
+
+
+case_states <- c("DC", "TX", "OH", "WA")
+tract_dem = lapply(case_states,  function(x) get_acs(geography = "tract",
+                    variables = vars_topull,
+                    state = x,
+                    year = 2013,
+                    geometry = FALSE))
+
+saveRDS(tract_dem, "../intermediate_objects/tractdem.RDS")
+
+tract_dem = readRDS("../intermediate_objects/tractdem.RDS")
+
+## then, rename vars
+pull_all_tracts_df = do.call(rbind.data.frame,
+                             tract_dem)
+
+acs_vars = load_variables(2013,
+                          "acs5", cache = TRUE)
+        
+## rename variables
+
+vars_pulled = acs_vars %>%
+          filter(name %in% vars_topull) %>%
+          mutate(cleaned_name = gsub(" ", "_", 
+                                gsub("Estimate!!Total(!!)?", 
+                                     "",
+                                  label)),
+                 cleaned_name_2 = ifelse(cleaned_name == "",
+                                         tolower(gsub(" ", "_", concept)),
+                                         cleaned_name)) %>%
+        dplyr::select(name, cleaned_name_2)
+
+pull_tracts_wnames = merge(pull_all_tracts_df,
+                              vars_pulled,
+                              by.x = "variable",
+                              by.y = "name",
+                              all.x = TRUE)  %>%
+                dplyr::select(GEOID, estimate, cleaned_name_2) %>%
+                reshape2::dcast(GEOID ~ cleaned_name_2, value.var = "estimate") 
+colnames(pull_tracts_wnames) = sprintf("acs_count_%s",
+                                       colnames(pull_tracts_wnames))
+
+## get percentage with bachelor's degree or higher
+educ_vars = grep("degree|graduate", colnames(pull_tracts_wnames),
+                 value = TRUE)
+educ_denom = rowSums(pull_tracts_wnames[, educ_vars])
+find_perc <- function(data, vars, denom){
+  
+  perc = data[, vars]/denom
+  colnames(perc) =  sprintf("%s_%s",
+                  colnames(data[, vars]),
+                  "percent")
+  return(perc)
+  
+}
+
+educ_perc = find_perc(pull_tracts_wnames, educ_vars, 
+                     educ_denom)
+head(educ_perc)
+tractdem_weduc = cbind.data.frame(pull_tracts_wnames, 
+                                  educ_perc) %>%
+              mutate(STATEFP = str_extract(acs_count_GEOID, "[0-9][0-9]"))
+
+## merge with tract shapefiles and plot
+tract_shapefiles = readRDS("/Users/raj2/Dropbox/EligibilityPaper/PreferenceInference/Data/Raw/spatial_derivedobjs/tracts_sf_format.RDS")
+tract_shapefiles_4states = tract_shapefiles[tract_shapefiles$STATEFP %in% 
+                                    unique(tractdem_weduc$STATEFP),
+                                    ]
+
+tract_shapefiles_wdem = sp::merge(tract_shapefiles_4states,
+                              tractdem_weduc %>% dplyr::select(-STATEFP),
+                              by.x = "GEOID",
+                              by.y = "acs_count_GEOID",
+                              all.x = TRUE)
+
+saveRDS(tract_shapefiles_wdem,
+        "../intermediate_objects/tract_shapefiles_add_dem.RDS")
+
+tract_shapefiles_wdem = readRDS("../intermediate_objects/tract_shapefiles_add_dem.RDS")
+tract_shapefiles_sf = st_as_sf(tract_shapefiles_wdem)
+rm(tract_shapefiles)
+
+```
+
+
+## Texas map
+
+```{r}
+texas_shapefiles = tract_shapefiles_sf %>% filter(STATEFP == 48) %>%
+            mutate(college_perc = `acs_count_Bachelor's_degree_or_higher_percent`*100,
+                   med_hh_inc = `acs_count_Estimate!!Median_household_income_in_the_past_12_months_(in_2013_inflation-adjusted_dollars)`,
+                   log_hh_income = log(med_hh_inc))
+
+texas_shapefiles$`acs_count_Estimate!!Median_household_income_in_the_past_12_months_(in_2013_inflation-adjusted_dollars)`
+## then, plot with overlay using lat/longitude of school districts
+ggplot(texas_shapefiles) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_point(data = texas_data_analytic, 
+             aes(x =Longitude_District_2013_14,
+                 y = Latitude_District_2013_14,
+                 color = factor(any_filing),
+                 shape = factor(any_filing))) +
+  scale_color_manual(values = c("wheat4",
+                                "darkgreen")) +
+  xlab("") +
+  ylab("") +
+  guides(color = guide_legend(override.aes = list(alpha = 1), ncol = 2),
+         shape = guide_legend(ncol = 2))
+
+
+## next: add any filing based on latitude and longitude
+ggsave("../output/tx_income_filings.pdf",
+       device = "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
+
+
+
+data(world.cities)
+tx_cities = world.cities %>% filter(country.etc == "USA" &
+                name %in% c("Houston",
+                            "Dallas",
+                            "Austin",
+                            "San Antonio", 
+                            "El Paso")) 
+
+ggplot(texas_shapefiles) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(0.2, 0.2),
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_text(data = tx_cities, aes(x = long, y = lat, 
+                                  label = name), 
+            fontface = "bold") +
+  xlab("") +
+  ylab("") 
+
+
+ggsave("../output/texas_labeled.pdf",
+       plot = last_plot(),
+       device= "pdf",
+       width = 12,
+       height = 8)
+
+dallas_only = texas_shapefiles %>% filter(COUNTYFP == "113")
+ggplot(dallas_only) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_point(data = texas_data_analytic %>%
+            filter(Longitude_District_2013_14 >= -97 &
+                  Longitude_District_2013_14 <= -96.5 &
+                  Latitude_District_2013_14 >= 32.6 &
+                  Latitude_District_2013_14 <= 33), 
+             aes(x =Longitude_District_2013_14,
+                 y = Latitude_District_2013_14,
+                 color = factor(any_filing),
+                 shape = factor(any_filing)), size= 2) +
+  scale_color_manual(values = c("wheat4",
+                                "darkgreen")) +
+  xlab("") +
+  ylab("") +
+  guides(color = guide_legend(override.aes = list(alpha = 1), ncol = 2),
+         shape = guide_legend(ncol = 2))
+
+ggsave("../output/dallas_zoom.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+```
+
+
+## DC: map
+
+
+
+```{r}
+dc_shapefiles = tract_shapefiles_sf %>% filter(STATEFP == 11) %>%
+            mutate(college_perc = `acs_count_Bachelor's_degree_or_higher_percent`*100,
+                   med_hh_inc = `acs_count_Estimate!!Median_household_income_in_the_past_12_months_(in_2013_inflation-adjusted_dollars)`,
+                   log_hh_income = log(med_hh_inc))
+
+dc_analytic = dc_analytic %>%
+        mutate(lat = as.numeric(as.character(Latitude_Public_School_2013_14)),
+               long = as.numeric(as.character(Longitude_Public_School_2013_14)))
+
+
+## then, plot with overlay using lat/longitude of school districts
+ggplot(dc_shapefiles) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1)  +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_point(data = dc_analytic, 
+             aes(x =long,
+                 y = lat,
+                 color = factor(any_case),
+                 shape = factor(any_case))) +
+  scale_color_manual(values = c("wheat4",
+                                "darkgreen")) +
+  xlab("") +
+  ylab("") +
+  guides(color = guide_legend(override.aes = list(alpha = 1), ncol = 2),
+         shape = guide_legend(ncol = 2))
+
+
+## next: add any filing based on latitude and longitude
+ggsave("../output/dc_income_filings.pdf",
+       device = "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
+
+
+
+
+```
+
+## DC: analysis
+
+
+```{r}
+dc_analytic = dc_analytic %>%
+          mutate(any_filing = ifelse(total_filings > 0, 1, 0)) 
+
+head(dc_analytic)
+
+mean(dc_analytic$any_filing)
+ggplot(dc_analytic, aes(x = total_filings)) +
+  geom_histogram(binwidth = 1, fill = "wheat4",
+                 color = "black") +
+  theme_new(base_size = 24) +
+  xlab("Total filings (2014-2018)") +
+  ylab("Count of schools") +
+  ggplot2::annotate("text", x = 40, y = 40, 
+           label = "50% of schools\nhad no filings",
+           size = 8)
+
+ggsave("../output/dc_filings_hist.pdf",
+       device= "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 8)
+
+gam_dc = gam(total_filings ~ s(frpl_eligible_rate) + s(total_students),
+             data = dc_analytic)
+gam_dc_binary = gam(any_filing ~ s(frpl_eligible_rate) + s(total_students),
+             data = dc_analytic,
+             family = binomial)
+
+
+gamtabs(gam_dc)
+gamtabs(gam_dc_binary)
+
+gam_dc_predict = predict_gam(gam_dc, 
+                             values = 
+                            list(total_students = mean(dc_analytic$total_students,
+          na.rm = TRUE))) 
+
+ggplot(gam_dc_predict %>% filter(frpl_eligible_rate > 0.95), 
+      aes(x = frpl_eligible_rate, 
+                           y = fit)) +
+  geom_smooth_ci(color = "red") +
+  geom_rug(data = dc_analytic %>% filter(frpl_eligible_rate > 0.95),
+           aes(x = frpl_eligible_rate), 
+           sides = "b",
+           inherit.aes = FALSE,
+           alpha = 0.2,
+           color = "wheat4") +
+  ylab("Predicted number of filings (GAM)") +
+  xlab("Free lunch eligible rate") +
+  theme_new() 
+
+
+ggsave("../output/dc_gam_predict_zoom.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+
+```
+
+# Repeat for Ohio
+
+
+```{r}
+ohio_data = read.csv(here("../dph_hearing_decisions/data/ohio/cleaned/filings_withdem.csv"))
+
+ohio_ccd = read.csv(here("../dph_hearing_decisions/data/ohio/intermediate/ohio_ccd.csv"),
+                   fileEncoding = "latin1")
+colnames(ohio_ccd) = gsub("\\.", "_", colnames(ohio_ccd))
+head(ohio_ccd)
+
+ohio_wnces = merge(ohio_data, 
+                   ohio_ccd %>% dplyr::select(Agency_Name,
+                                            Agency_ID___NCES_Assigned__District__Latest_available_year),
+                   by.x = "nces_id",
+                   by.y = "Agency_ID___NCES_Assigned__District__Latest_available_year")
+
+
+ohio_wnces[ohio_wnces == "†"] = NA
+
+ohio_data_analytic = ohio_wnces %>%
+            filter(!is.na(TOTAL_STUDENTS_ALL_GRADES__EXCLUDES_AE___DISTRICT__2013.14)) %>%
+            mutate(total_students = as.numeric(as.character(TOTAL_STUDENTS_ALL_GRADES__EXCLUDES_AE___DISTRICT__2013.14)))
+
+print(xtable(data.frame(school_name = 
+            sort(setdiff(ohio_wnces$Agency_Name, ohio_data_analytic$Agency_Name)))),
+      include.rownames  = FALSE)
+
+
+
+ggplot(ohio_data_analytic, aes(x = white_rate, y = black_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Black") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch eligible")
+
+ggsave("../output/ohio_bw_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(ohio_data_analytic, aes(x = white_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare White") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch eligible")
+
+ggsave("../output/ohio_hisp_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+ggplot(ohio_data_analytic, aes(x = black_rate, y = hispanic_rate)) +
+  geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
+  geom_smooth(se = FALSE) +
+  xlab("Prop. of students who\nare Black") +
+  ylab("Prop. of students who\nare Hispanic") +
+  theme_new(base_size = 24) +
+  scale_color_viridis(direction = -1) +
+  guides(size = FALSE) +
+  theme(legend.position = c(0.7, 0.8),
+        legend.background = element_blank(),
+        plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
+  labs(color = "Prop. of students\nfree lunch eligible")
+
+ggsave("../output/ohio_hispblack_scatter.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 9,
+       height = 12)
+
+
+total_filings = rowSums(ohio_data_analytic[,
+                      grep("total_filings_", colnames(ohio_data_analytic))])
+
+
+ohio_data_analytic$total_filings = total_filings
+ohio_data_analytic = ohio_data_analytic %>%
+            mutate(any_filing = ifelse(total_filings > 0, 1, 0))
+
+mean(ohio_data_analytic$any_filing)
+
+ggplot(ohio_data_analytic, aes(x = total_filings)) +
+  geom_histogram(binwidth = 1, fill = "wheat4",
+                 color = "black") +
+  theme_new(base_size = 24) +
+  xlab("Total filings (2014-2018)") +
+  ylab("Count of districts") +
+  annotate("text", x = 20, y = 500, 
+           label = "75.8% of districts\nhad no filings",
+           size = 8)
+
+
+ggsave("../output/ohio_filings_hist.pdf",
+       device = "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
+
+
+
+ohio_shapefiles = tract_shapefiles_sf %>% filter(STATEFP == 39) %>%
+            mutate(college_perc = `acs_count_Bachelor's_degree_or_higher_percent`*100,
+                   med_hh_inc = `acs_count_Estimate!!Median_household_income_in_the_past_12_months_(in_2013_inflation-adjusted_dollars)`,
+                   log_hh_income = log(med_hh_inc))
+
+
+## then, plot with overlay using lat/longitude of school districts
+ggplot(ohio_shapefiles) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_point(data = ohio_data_analytic, 
+             aes(x =LONGITUDE__DISTRICT__2013.14,
+                 y = LATITUDE__DISTRICT__2013.14,
+                 color = factor(any_filing),
+                 shape = factor(any_filing))) +
+  scale_color_manual(values = c("wheat4",
+                                "darkgreen")) +
+  xlab("") +
+  ylab("") +
+  guides(color = guide_legend(override.aes = list(alpha = 1), ncol = 2),
+         shape = guide_legend(ncol = 2))
+
+
+## next: add any filing based on latitude and longitude
+ggsave("../output/ohio_income_filings.pdf",
+       device = "pdf",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
+
+## show against cities
+data(world.cities)
+oh_cities = world.cities %>% filter(country.etc == "USA" &
+                name %in% c("Cleveland",
+                            "Toledo",
+                            "Cincinnati",
+                            "Columbus") &
+                pop > 200000) 
+
+ggplot(ohio_shapefiles) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 40000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(0.8, 0.2),
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_text(data = oh_cities, aes(x = long, y = lat, 
+                                  label = name), 
+            fontface = "bold") +
+  xlab("") +
+  ylab("") 
+
+
+ggsave("../output/ohio_labeled.pdf",
+       plot = last_plot(),
+       device= "pdf",
+       width = 12,
+       height = 8)
+
+## zoom in on one county
+clev_only = ohio_shapefiles %>% filter(COUNTYFP == "035")
+ggplot(clev_only) +
+  geom_sf(aes(fill = med_hh_inc),
+          color = "wheat4", size = 0.1) +
+  theme_new(base_size = 14) +
+  labs(fill = "Median hh income", color = "Any filing",
+       shape = "Any filing") +
+  scale_fill_gradient2(low = "firebrick",
+                       mid = "white",
+                       high = "purple",
+                       midpoint = 60000) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom",
+        legend.background = element_blank(),
+        legend.direction = "vertical") +
+  geom_point(data = ohio_data_analytic %>%
+            filter(LONGITUDE__DISTRICT__2013.14 >= -82 &
+                  LONGITUDE__DISTRICT__2013.14 <= -81.4 &
+                  LATITUDE__DISTRICT__2013.14 >= 41.3 &
+                  LATITUDE__DISTRICT__2013.14 <= 41.6), 
+             aes(x =LONGITUDE__DISTRICT__2013.14,
+                 y = LATITUDE__DISTRICT__2013.14,
+                 color = factor(any_filing),
+                 shape = factor(any_filing)), size= 2) +
+  scale_color_manual(values = c("wheat4",
+                                "darkgreen")) +
+  xlab("") +
+  ylab("") +
+  guides(color = guide_legend(override.aes = list(alpha = 1), ncol = 2),
+         shape = guide_legend(ncol = 2))
+
+ggsave("../output/clev_zoom.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+## estimate the models
+gam_oh = gam(total_filings ~ s(frpl_eligible_rate) + s(total_students),
+             data = ohio_data_analytic)
+gam_oh_binary = gam(any_filing ~ s(frpl_eligible_rate) + s(total_students),
+             data = ohio_data_analytic,
+             family = binomial)
+
+
+gamtabs(gam_oh)
+gamtabs(gam_oh_binary)
+
+
+gam_oh_predict = predict_gam(gam_oh, 
+                             values = 
+                            list(total_students = mean(ohio_data_analytic$total_students,
+          na.rm = TRUE))) 
+
+ggplot(gam_oh_predict %>% filter(frpl_eligible_rate < 0.9), 
+      aes(x = frpl_eligible_rate, 
+                           y = fit)) +
+  geom_smooth_ci(color = "red") +
+  geom_rug(data = ohio_data_analytic %>% filter(frpl_eligible_rate < 0.9),
+           aes(x = frpl_eligible_rate), 
+           sides = "b",
+           inherit.aes = FALSE,
+           alpha = 0.2,
+           color = "wheat4") +
+  ylab("Predicted number of filings (GAM)") +
+  xlab("Free lunch eligible rate") +
+  theme_new() +
+  ylim(0, 2) 
+
+ggsave("../output/oh_gam_predict.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 9)
+
+
+
+```
+
+
+# DC: look at discipline share
+
+
+```{r}
+dc_analytic_any = dc_analytic %>%
+        filter(any_filing == 1) %>%
+        mutate(prop_discipline = EXPEDITED_DISCIPLINE/total_filings)
+
+ggplot(dc_analytic_any, aes(x = total_filings, y = prop_discipline, color = TOTAL_DISCIPLINE_rate)) +
+  geom_point(size = 4) +
+  theme_new() +
+  xlab("Total filings (2014-2018)") +
+  ylab("Proportion focused on school discipline")  +
+  labs(color = "Discipline rate\n(Civil rights\ndata collection)") +
+  theme(legend.position = c(0.7, 0.8))
+
+summary(lm(prop_discipline ~ TOTAL_DISCIPLINE_rate, 
+           data = dc_analytic_any))
+
+
+mean(dc_analytic_any$prop_discipline)
+
+```
