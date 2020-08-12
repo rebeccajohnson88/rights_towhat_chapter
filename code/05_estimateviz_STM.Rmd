@@ -367,7 +367,7 @@ ggplot(parent_summary, aes(x = factor(parent_cat,
                            group = parent_cat,
                            y = prop_parents)) +
   geom_bar(stat = "identity", fill = "wheat4") +
-  theme_new() +
+  theme_new(base_size = 24) +
   facet_wrap(~state) +
   xlab("Who mentioned?") + 
   ylab("Proportion of hearings (2014-2018)")
@@ -736,22 +736,23 @@ texas_contrast_init = extract.estimateEffect(x = relate_attributes_texas,
                frpl_upper = abs(0.75-covariate.value))
 
 positive_texas = texas_contrast_init %>% filter(topic %in% c(negative, positive))
-diff_texas_forplot = prep_forplot(positive_texas)
+diff_texas_forplot = prep_forplot(positive_texas) %>%
+            mutate(type = ifelse(topic %in% positive, "Increase",
+                                 "Decrease"))
 ggplot(diff_texas_forplot, aes(x = covariate.value, 
                            y = estimate, 
                            color = ordered_label, 
                            group = ordered_label)) +
-  geom_line(size = 2) +
-  theme_new() +
+  geom_line(aes(linetype = type), size = 2) +
+  theme_new(base_size = 24) +
   xlab("Share of district students eligible\nfor free lunch") +
   ylab("Estimate") +
-  theme_new() + 
   labs(color = "") +
-  ylim(0, 0.15) +
-  scale_color_brewer(palette = "Spectral") +
+  scale_color_brewer(palette = "Set2") +
   theme(legend.position = "bottom",
         legend.background = element_blank()) +
-  guides(color = guide_legend(ncol = 2))
+  guides(color = guide_legend(ncol = 2),
+         linetype = FALSE)
 
 
 ggsave("../output/texas_topic_frpl.pdf",

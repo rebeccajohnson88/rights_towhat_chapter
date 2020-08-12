@@ -372,6 +372,10 @@ ggplot(gam_tx_predict_any, aes(x = frpl_eligible_rate, y = fit)) +
 
 negbin_tx = glm.nb(total_filings ~ frpl_eligible_rate + log(total_students), 
                 data = texas_data_analytic)
+logit_tx = glm(any_filing ~ frpl_eligible_rate + log(total_students),
+               data = texas_data_analytic,
+               family = "binomial")
+stargazer(logit_tx, negbin_tx, report = "vcsp*")
 
 predict_negbin = predict(negbin_tx,
                          type = "response",
@@ -522,7 +526,7 @@ saveRDS(tract_shapefiles_wdem,
 
 tract_shapefiles_wdem = readRDS("../intermediate_objects/tract_shapefiles_add_dem.RDS")
 tract_shapefiles_sf = st_as_sf(tract_shapefiles_wdem)
-rm(tract_shapefiles)
+
 
 ```
 
@@ -702,6 +706,11 @@ ggsave("../output/dc_income_filings.pdf",
        width = 12,
        height = 9)
 
+ggsave("../output/dc_income_filings.jpg",
+       device = "jpg",
+       plot = last_plot(),
+       width = 12,
+       height = 9)
 
 
 
@@ -770,6 +779,16 @@ ggsave("../output/dc_gam_predict_zoom.pdf",
        height = 8)
 
 
+dc_analytic_fit = dc_analytic %>% filter(!is.na(frpl_eligible_rate) & 
+                                        !is.na(total_students) &
+                                      !is.na(total_filings)) %>%
+          mutate(log_total = log(total_students+0.000001))
+negbin_dc = glm.nb(total_filings ~ frpl_eligible_rate + log_total, 
+                data = dc_analytic_fit, link = "identity")
+logit_dc = glm(any_filing ~ frpl_eligible_rate + log_total,
+               data = dc_analytic_fit,
+               family = "binomial")
+stargazer(logit_tx, report = "vcsp*")
 
 ```
 
@@ -1021,6 +1040,7 @@ gamtabs(gam_oh)
 gamtabs(gam_oh_binary)
 
 
+
 gam_oh_predict = predict_gam(gam_oh, 
                              values = 
                             list(total_students = mean(ohio_data_analytic$total_students,
@@ -1039,7 +1059,7 @@ ggplot(gam_oh_predict %>% filter(frpl_eligible_rate < 0.9),
   ylab("Predicted number of filings (GAM)") +
   xlab("Free lunch eligible rate") +
   theme_new() +
-  ylim(0, 2) 
+  ylim(-0.1, 2) 
 
 ggsave("../output/oh_gam_predict.pdf",
        plot = last_plot(),
@@ -1048,6 +1068,13 @@ ggsave("../output/oh_gam_predict.pdf",
        height = 9)
 
 
+
+negbin_oh = glm.nb(total_filings ~ frpl_eligible_rate + log(total_students), 
+                data = ohio_data_analytic)
+logit_oh = glm(any_filing ~ frpl_eligible_rate + log(total_students),
+               data = ohio_data_analytic,
+               family = "binomial")
+stargazer(logit_oh, negbin_oh, report = "vcsp*")
 
 ```
 
@@ -1067,6 +1094,10 @@ ggplot(dc_analytic_any, aes(x = total_filings, y = prop_discipline, color = TOTA
   ylab("Proportion focused on school discipline")  +
   labs(color = "Discipline rate\n(Civil rights\ndata collection)") +
   theme(legend.position = c(0.7, 0.8))
+
+ggplot(dc_analytic_any, aes(x = frpl_eligible_rate, y= total_filings)) +
+  geom_point() +
+  geom_smooth(method = "gam", se.fit = FALSE)
 
 summary(lm(prop_discipline ~ TOTAL_DISCIPLINE_rate, 
            data = dc_analytic_any))
