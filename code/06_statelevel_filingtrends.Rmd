@@ -1,0 +1,435 @@
+---
+title: "Trends in due process hearings over time"
+author: "Rebecca Johnson (raj2@princeton.edu)"
+date: "5/5/2019"
+output: html_document
+---
+
+```{r}
+library(data.table)
+library(ggplot2)
+library(dplyr)
+library(devtools)
+library("jsonlite")
+library(stringr)
+library(scales)
+library(xtable)
+library(stringr)
+
+#devtools::install_github('UrbanInstitute/education-data-package-r')
+
+
+theme_new <- function(base_size = 24, base_family = "Helvetica"){
+  theme_bw(base_size = base_size, base_family = base_family) %+replace%
+    theme(
+      panel.grid = element_blank(),   
+      panel.border = element_rect(fill = NA, colour = "black", size=1),
+      panel.background = element_rect(fill = "white", colour = "black"), 
+      strip.background = element_rect(fill = NA),
+      axis.text.x = element_text(color = "black"),
+      axis.text.y = element_text(color = "black")
+      )
+}
+
+```
+
+
+# Step one: load and merge numerator data on complaints by state
+
+General link: https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#part-b-menu
+
+## Pull all the years from that site
+
+```{r}
+start_fall = 2006
+start_spring= 2007
+end_fall = 2017
+end_spring = 2018
+
+falls = seq(from = start_fall, to = end_fall, by = 1)
+springs = seq(from = start_spring, to =  end_spring, by = 1)
+spring_suffix = gsub("20", "", springs)
+urls_dr = sprintf("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/part-b-data/dispute-resolution/bdispres%s-%s.csv",
+                  falls,
+                  spring_suffix)
+
+## iterate and read in
+all_dr_years = list()
+for(i in 1:length(urls_dr)){
+  one_dr_year = fread(urls_dr[i])
+  all_dr_years[[i]] = one_dr_year
+}
+
+## remove empty rows
+all_dr_years_removeblank = lapply(all_dr_years, function(x){x[rowSums(x == "") == 0]})
+
+## subset to actual data columns
+all_dr_years = lapply(all_dr_years_removeblank,
+                                function(x){x[2:nrow(x), ]})
+all_dr_years_colnames = lapply(all_dr_years_removeblank, 
+                               function(x){unlist(x[1, ])})
+all_dr_years_colnames_n = lapply(all_dr_years_colnames, 
+                                 length)
+
+## go df by df and try to merge
+
+### first see which don't match
+
+for(i in 1:length(all_dr_years_colnames)){
+  print(sprintf("difference between df %s and df %s cols: ",
+                i, i+1))
+  print(setdiff(unlist(all_dr_years_colnames[i]),
+                unlist(all_dr_years_colnames[i+1])))
+  
+}
+
+
+### for RG: stopped here; reconcile colnames
+### until they match and you can rbind
+### make sure all up to 2017-2018 are captured
+### ping me if you have questions about how to reconcile the names 
+### (think it's mainly removing weird suffixes like  1.2)
+
+all_dr_years_firstwo_renamed = lapply(all_dr_years[1:2],
+                              setNames,
+                            unique(unlist(all_dr_years_colnames[1:2])))
+
+all_dr_years_firstwo_bound = do.call(rbind.data.frame,
+                                     all_dr_years_firstwo_renamed)
+
+all_dr_years_7through11_renamed = lapply(all_dr_years[7:11],
+                              setNames,
+                          unique(unlist(all_dr_years_colnames[7:11])))
+all_dr_years_7through11_bound = do.call(rbind.data.frame,
+                                all_dr_years_7through11_renamed)
+table(all_dr_years_7through11_bound$Year)
+table(all_dr_years_firstwo_bound$Year)
+
+## rg: this code initially just used later years
+## bc it was too much work to reconcile columns
+## ideally, would create an analytic dataset
+## with all years pulled above
+## after colnames have been reconciled
+df_analytic_prerename = all_dr_years_7through11_bound
+colnames(df_analytic_prerename) =   gsub("\\s+|\\(|\\)", 
+                          "_", 
+                        colnames(all_dr_years_7through11_bound)) 
+df_analytic_rename_2 = df_analytic_prerename
+colnames(df_analytic_rename_2) = gsub("[0-9]+.*$|__",
+                            "",
+                            colnames(df_analytic_prerename))
+
+df_analytic = df_analytic_rename_2
+```
+
+## Write complaints data to file
+
+For RG: updated path to write to so it's stored in same github repo
+
+```{r}
+
+### set working directory so that it's where
+### current file is stored
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+fwrite(df_analytic,
+"../intermediate_objects/complaints_allstates.csv")
+
+
+
+```
+
+# Step two: load and merge data on denominator (total count of students and count of students with ieps)
+
+## Denom 1: total count of students
+
+Original data source: NCES, Common core data, elsi table generator: https://nces.ed.gov/ccd/elsi/tableGenerator.aspx
+
+
+```{r}
+totalenroll_raw = read.csv("../raw_input/elsi_enrollment_removeheaderfooter.csv")
+
+## clean:
+## 1. use total students all grades excludes AE as the correct count
+## 2. might want to reshape from its current wide format
+## to long format (states repeated across school years)
+## to make easier to auto-calculate rates
+
+## then, write clean copy to tje intermediate objects directory
+
+```
+
+## Denom 2: count of students with IEP (IDEA part B)
+
+Get from same site as complaints data since not in NCES data
+
+```{r}
+## link for sy 2005-2006 to 2011-2012
+baselink_earlier_root = "https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/part-b-data/child-count/bchildcount"
+years_earlier = seq(from = 2005, to = 2011)
+baselink_earlier_full = sprintf("%s%s.csv",
+                                baselink_earlier_root,
+                                years_earlier)
+all_earlier_iep = lapply(baselink_earlier_full,
+                         function(x) fread(x))
+
+## for RG: see that need to do cleaning  of headers to get  the actual columns (seem to start at row 5)
+head(all_earlier_iep[[1]])
+
+## repeat for later links
+baselink_later_root = "https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/part-b-data/child-count-and-educational-environments/bchildcountandedenvironments"
+years_later = seq(from = 2012, to = 2018)
+
+### see from looking at links that it's 
+### just the fall of the year up through 2016
+### then it switches to whole year
+baselink_later_full_1 = sprintf("%s%s.csv",
+                                baselink_later_root,
+                                years_later[years_later < 2017])
+baselink_later_full_2 = sprintf("%s%s-%s.csv",
+                                baselink_later_root,
+                                years_later[years_later >= 2017],
+                               gsub("20", 
+                                    "", 
+                                    years_later[years_later >= 2017] +1))
+
+all_later_iep = lapply(c(baselink_later_full_1,
+                         baselink_later_full_2),
+                         function(x) fread(x))
+
+
+## clean each and then rowbind
+## main column to retain is the name of the state,
+## the year,
+## and the count of iep students, which is
+## Age 3-21 totals in earlier data
+## and separated into 3-5 and 6-21
+## in later data, so you might need to find sum
+```
+
+
+# Step three: construct two rates and summarize 
+
+- Count of due process hearing *requests* by state divided by total student enrollment. You'll want to look at the documentation for the complaints data to get the right var/you can ping me on slack when the data is clean, but I think the varname is something like DPCTotal (which should be a higher count than the variable DPC adjudicated which references filings that go to a hearing)
+- Count of due process hearing *requests* by state divided by total number of students aged 3-21 with IEP
+
+- Show DC first compared to median of other states
+- Then compare to a few other high complaint east coast states (e.g., NY)
+
+
+## Older code that might be relevant but refers to older data / varnames
+
+Might be useful but doesn't run as is due to changes in the input data!
+
+
+```{r}
+
+
+## merge using state name
+colnames(compare_states) = gsub("\\s+", "_", colnames(compare_states))
+compare_states = compare_states %>%
+            rename(total_students = `Total_Students_[State]_2013-14`,
+                   total_districts = `Total_Number_Operational_School_Districts_[District]_2013-14`)
+unique(compare_states$State_Name)
+unique(dph$State)
+
+
+dph_mainyear = dph %>%
+      filter(Year == "2016-2017") %>%
+      mutate(dph_filed = as.numeric(gsub(",", "", as.character(`Due_Process_ComplaintsDPCTotal`))),
+             dph_hearings = as.numeric(gsub(",", "", 
+                              as.character(`DPC_Hearingsfully_adjudicatedTotal`)))) %>%
+      dplyr::select(State, dph_filed, dph_hearings) %>%
+      mutate(State_Name = toupper(State)) %>%
+      dplyr::select(-State) 
+      
+
+## merge
+
+compare_w_dph = merge(compare_states,
+                      dph_mainyear,
+                      by = "State_Name",
+                      all.x = TRUE) %>%
+            left_join(ieps %>% dplyr::select(State_Name, ncesiepcount),
+                      on = "State_Name") %>%
+            mutate(ncesiepcount = ifelse(State_Name == "DISTRICT OF COLUMBIA",
+                                         10644, ncesiepcount)) %>%
+            mutate(filings_perstudent = (dph_filed/total_students)*10000,
+                   hearings_perstudent = (dph_hearings/total_students)*10000,
+                   ieps_perstudent= (ncesiepcount/total_students)*100,
+                   students_per_district = total_students/total_districts,
+                   state_category = case_when(State_Name %in% c("DISTRICT OF COLUMBIA",
+                                                                "TEXAS",
+                                                                "OHIO") ~ "Case study",
+                                    State_Name %in% states_obtained ~ "Filings obtained",
+                                    TRUE ~ "Filings not obtained"),
+                   state_title = str_to_title(State_Name),
+                   hearing_per_filing = ifelse(dph_filed == 0,
+                                          0, dph_hearings/dph_filed))
+
+ggplot(compare_w_dph, aes(x = reorder(state_title, filings_perstudent), 
+                          y = filings_perstudent,
+                          color = state_category)) +
+  geom_point(size = 4) +
+  ylab("Due process filings per\n10,000 students") +
+  theme_new(base_size = 24) +
+  theme(axis.text.y = element_text(size = 10),
+        legend.position = c(0.7, 0.2),
+        legend.background = element_blank()) +
+  scale_color_manual(values = c("#FDE725FF", 
+                                "wheat4",
+                              "#238A8DFF")) +
+  coord_flip() +
+  labs(color = "") +
+  xlab("")
+
+ggsave("../output/dph_rate.pdf",
+       plot = last_plot(),
+       width = 9,
+       height = 12,
+       device = "pdf")
+
+
+## create dc specific plot
+focus_states = compare_w_dph %>% filter(State_Name %in% c("DISTRICT OF COLUMBIA", "VIRGINIA", "MARYLAND", "NEW YORK"))
+national_median = quantile(compare_w_dph$filings_perstudent,
+                           probs = 0.5)
+focus_states_forplot = rbind.data.frame(focus_states %>%
+                                      dplyr::select(state_title,
+                                                    filings_perstudent,
+                                                    state_category),
+                          data.frame(state_title = "National\nmedian",
+                                     filings_perstudent = national_median,
+                                     state_category = "Filings obtained")) %>%
+                          mutate(clean_state = 
+                                      case_when(state_title == "District Of Columbia" ~
+                                                "DC",
+                                                TRUE ~ state_title),
+                                 clean_category = 
+                                  case_when(clean_state == "DC" ~ "Case study",
+                                            TRUE ~ "Other"))
+ggplot(focus_states_forplot, aes(x = reorder(clean_state, filings_perstudent), 
+                          y = filings_perstudent,
+                          fill = clean_category)) +
+  geom_bar(stat = "identity") +
+  ylab("Due process filings per\n10,000 students") +
+  theme_new(base_size = 24) +
+  theme(legend.position = c(0.7, 0.2),
+        legend.background = element_blank()) +
+  scale_fill_manual(values = c("Case study" = "#132460",
+                                "Other" = "#999999")) +
+  coord_flip() +
+  labs(color = "") +
+  xlab("") +
+  geom_label(aes(x = reorder(clean_state, filings_perstudent),
+                 y = filings_perstudent,
+                  label = round(filings_perstudent, 2)),
+             fill = "white", size = 14) +
+  guides(fill = FALSE)  +
+  ylim(-5, 50)
+
+ggsave("../output/dph_rate_dcfocus.jpg",
+       plot = last_plot(),
+       width = 9,
+       height = 12,
+       device = "jpg")
+  
+
+ggplot(compare_w_dph %>%
+      filter(state_title != "Hawaii"),
+      aes(x = reorder(state_title, students_per_district), 
+                          y = students_per_district,
+                          color = state_category)) +
+  geom_point(size = 4) +
+  ylab("Total students divided by total\nnumber of districts") +
+  theme_new(base_size = 24) +
+  scale_y_continuous(breaks = pretty_breaks(n = 10)) +
+  theme(axis.text.y = element_text(size = 10),
+        legend.position = c(0.7, 0.2),
+        axis.text.x = element_text(angle = 90),
+        legend.background = element_blank()) +
+  scale_color_manual(values = c("#FDE725FF", 
+                                "wheat4",
+                              "#238A8DFF")) +
+  coord_flip() +
+  labs(color = "") +
+  xlab("")
+
+ggsave("../output/dist_consolidation.pdf",
+       plot = last_plot(),
+       width = 9,
+       height = 12,
+       device = "pdf")
+
+ggplot(compare_w_dph, aes(x = reorder(state_title, ieps_perstudent), 
+                          y = ieps_perstudent,
+                          color = state_category)) +
+  geom_point(size = 4) +
+  ylab("Percent of students who have\nIEPs") +
+  theme_new(base_size = 24) +
+  scale_y_continuous(breaks = pretty_breaks(n = 10)) +
+  theme(axis.text.y = element_text(size = 10),
+        legend.position = c(0.3, 0.8),
+        legend.background = element_blank()) +
+  scale_color_manual(values = c("#FDE725FF", 
+                                "wheat4",
+                              "#238A8DFF")) +
+  coord_flip() +
+  labs(color = "") +
+  xlab("")
+
+ggsave("../output/iep_rate.pdf",
+       plot = last_plot(),
+       width = 9,
+       height = 12,
+       device = "pdf")
+
+
+
+
+
+
+
+## 
+dph_states_wdata = dph %>%
+          filter(State %in% filings_progress$state)
+
+
+
+dist = read.csv("../data/allstates/district_consolidation.csv") %>%
+      mutate(n_students = )
+
+dph_1314 = dph %>%
+  filter(Year == "2013-2014") %>%
+  left_join(statedisp %>% filter(springschoolyear == 2014) %>% %>% mutate(state = as.character(state)) %>%
+                    dplyr::select(state, ncesiepcount),
+                    by = "state")
+
+
+
+
+filings_progress = filings_progress %>%
+          left_join(dph %>% 
+                      filter(Year == "2012-2013") %>%
+                      dplyr::select(State, Due_Process_ComplaintsDPCTotal),
+                    by = c("state" = "State")) %>%
+          left_join(statedisp %>% filter(springschoolyear == 2013) %>% mutate(state = as.character(state)) %>%
+                    dplyr::select(state, ncesiepcount),
+                    by = "state") %>%
+        left_join(dist, by = "state") %>%
+          mutate(n_districts = as.numeric(gsub(",", "", n_districts)), 
+                 students_per_district = as.numeric(gsub(",", "", avg_per_district)),
+                 complaints_total = as.numeric(Due_Process_ComplaintsDPCTotal),
+                 ieps_total = ifelse(state != "District of Columbia",
+                                  as.numeric(ncesiepcount), 
+                                  11000),
+              complaints_per_100iep = (complaints_total/ieps_total)*100) %>%
+            dplyr::select(-avg_per_district, -excluded_districts, -n_schools,
+                          -Due_Process_ComplaintsDPCTotal, -ncesiepcount, -n_students)
+cols_select = c("state", "years", "format", "n_districts",
+                "students_per_district",
+                "complaints_total", "ieps_total", "complaints_per_100iep")
+print(xtable(filings_progress[, cols_select]), include.rownames = FALSE)
+
+```
+
