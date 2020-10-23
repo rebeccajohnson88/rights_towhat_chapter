@@ -7,7 +7,10 @@ output: html_document
 
 ```{r}
 library(data.table)
+library(janitor)
+library(tidyr)
 library(ggplot2)
+library(rlist)
 library(dplyr)
 library(devtools)
 library("jsonlite")
@@ -15,6 +18,7 @@ library(stringr)
 library(scales)
 library(xtable)
 library(stringr)
+library(tidyverse)
 
 #devtools::install_github('UrbanInstitute/education-data-package-r')
 
@@ -75,11 +79,45 @@ all_dr_years_colnames_n = lapply(all_dr_years_colnames,
 
 ### first see which don't match
 
-for(i in 1:length(all_dr_years_colnames)){
+clean_colnames = lapply(all_dr_years_colnames, function(x) {
+  
+  x <- gsub("[0-9]+.*$|__",
+                            "",
+                            unlist(x))
+  x <- gsub("[[:punct:]]",
+                            "",
+                            unlist(x))
+  x <- gsub("\\s+",
+                            " ",
+                            unlist(x))
+  x <- gsub("^\\s+|\\s+$",
+                            "",
+                            unlist(x))
+  x <- gsub("\\s+|\\(|\\)", 
+                          "_", 
+                        unlist(x))
+  
+  x <- toupper(x)
+  return(x)
+})
+
+clean_colnames[[3]][["V8"]] <- "WSC_Pending_Total"
+clean_colnames[[3]][["V9"]] <- "WSC_Pending_a_due_Process_Hearing"
+clean_colnames[[3]][["V10"]] <- "WSC_Withdrawn_or_Dismissed_Total"
+clean_colnames[[3]][["V14"]] <- "Mediations_Related_to_due_process_Agreements"
+clean_colnames[[3]][["V15"]] <- "Mediations_not_Related_to_due_Process"
+clean_colnames[[3]][["V16"]] <- "Mediations_not_Related_to_due_process_Agreements"
+
+clean_colnames = lapply(clean_colnames, function(x) { 
+  x <- toupper(x)
+  return(x)
+})
+
+for(i in 1:length(clean_colnames)){
   print(sprintf("difference between df %s and df %s cols: ",
                 i, i+1))
-  print(setdiff(unlist(all_dr_years_colnames[i]),
-                unlist(all_dr_years_colnames[i+1])))
+  print(setdiff(unlist(clean_colnames[i]),
+                unlist(clean_colnames[i+1])))
   
 }
 
@@ -90,36 +128,56 @@ for(i in 1:length(all_dr_years_colnames)){
 ### ping me if you have questions about how to reconcile the names 
 ### (think it's mainly removing weird suffixes like  1.2)
 
-all_dr_years_firstwo_renamed = lapply(all_dr_years[1:2],
+all_dr_years_firsthree_renamed = lapply(all_dr_years[1:3],
                               setNames,
-                            unique(unlist(all_dr_years_colnames[1:2])))
+                            unique(unlist(clean_colnames[1:3])))
 
-all_dr_years_firstwo_bound = do.call(rbind.data.frame,
-                                     all_dr_years_firstwo_renamed)
 
-all_dr_years_7through11_renamed = lapply(all_dr_years[7:11],
+all_dr_years_firsthree_bound = do.call(rbind.data.frame,
+                                     all_dr_years_firsthree_renamed)
+
+all_dr_years_firsthree_bound <- all_dr_years_firsthree_bound %>%
+  rename(
+    WRITTEN_SIGNED_COMPLAINTS_WSC_TOTAL = WRITTEN_SIGNED_COMPLAINTS_TOTAL,
+    WSC_REPORTS_WITH_FINDINGS = WSC_REPORTS_WITH_FINDING,
+    WSC_REPORTS_WITHIN_TIMELINE = WSC_REPORTS_WITH_TIMELINES,                     
+    WSC_REPORTS_WITHIN_EXTENDED_TIMELINES = WSC_REPORTS_WITH_EXTENDED_TIMELINES,  
+    WSC_WITHDRAWN_OR_DISMISSED = WSC_WITHDRAWN_OR_DISMISSED_TOTAL,                
+    MEDIATIONS_HELD_TOTAL = MEDIATIONS_TOTAL,                                  
+    MEDIATIONS_HELD_RELATED_TO_DUE_PROCESS_COMPLAINTS = MEDIATIONS_RELATED_TO_DUE_PROCESS,
+    MEDIATION_AGREEMENTS_RELATED_TO_DUE_PROCESS_COMPLAINTS = MEDIATIONS_RELATED_TO_DUE_PROCESS_AGREEMENTS,     
+    MEDIATIONS_HELD_NOT_RELATED_TO_DUE_PROCESS_COMPLAINTS = MEDIATIONS_NOT_RELATED_TO_DUE_PROCESS,            
+    MEDIATION_AGREEMENTS_NOT_RELATED_TO_DUE_PROCESS_COMPLAINTS = MEDIATIONS_NOT_RELATED_TO_DUE_PROCESS_AGREEMENTS, 
+    MEDIATIONS_PENDING = MEDIATIONS_NOT_HELD_INCLUDING_PENDING_TOTAL, # check     
+    DUE_PROCESS_COMPLAINTS_DPC_TOTAL = HEARING_REQUESTS_TOTAL,                            
+    DPC_RESOLUTION_MEETINGS_TOTAL = HR_RESOLUTION_SESSIONS_TOTAL,                    
+    DPC_RESOLUTION_MEETINGS_WRITTEN_SETTLEMENT_AGREEMENTS = HR_RESOLUTIONS_SETTLEMENT_AGREEMENTS,             
+    DPC_HEARINGS_FULLY_ADJUDICATED_TOTAL = HEARINGS_FULLY_ADJUDICATED_TOTAL,                  
+    DPC_WRITTEN_DECISIONS_WITHIN_TIMELINE = HEARINGS_DECISIONS_WI_TIMELINE,             
+    DPC_WRITTEN_DECISIONS_WITHIN_EXTENDED_TIMELINES = HEARINGS_DECISIONS_WI_EXTENDED_TIMELINE,          
+    DPC_WITHDRAWN_OR_DISMISSED = HR_RESOLVED_WITHOUT_A_HEARING_TOTAL, # check              
+    EXPEDITED_DUE_PROCESS_COMPLAINTS_EDPC_TOTAL = EXPEDITED_HEARING_REQUESTS_TOTAL,                  
+    EDPC_RESULTED_IN_A_RESOLUTION_MEETING_TOTAL =  EHR_RESOLUTION_SESSIONS_TOTAL,                     
+    EDPC_RESOLUTION_MEETINGS_WRITTEN_SETTLEMENT_AGREEMENTS = RESOLUTION_SESSIONS_SETTLEMENT_AGREEMENTS, 
+    EDPC_EXPEDITED_HEARINGS_FULLY_ADJUDICATED_TOTAL = EHR_EXPEDITED_HEARINGS_FULLY_ADJUDICATED_TOTAL, 
+    EDPC_EXPEDITED_HEARINGS_CHANGE_OF_PLACEMENT_ORDERED = EHR_EXPEDITED_HEARINGS_CHANGE_OF_PLACEMENT_ORDERED
+  )
+
+all_dr_years_4through12_renamed = lapply(all_dr_years[4:12],
                               setNames,
-                          unique(unlist(all_dr_years_colnames[7:11])))
-all_dr_years_7through11_bound = do.call(rbind.data.frame,
-                                all_dr_years_7through11_renamed)
-table(all_dr_years_7through11_bound$Year)
-table(all_dr_years_firstwo_bound$Year)
+                          unique(unlist(clean_colnames[4:12])))
+all_dr_years_4through12_bound = do.call(rbind.data.frame,
+                                all_dr_years_4through12_renamed)
+table(all_dr_years_4through12_bound$Year)
+table(all_dr_years_firsthree_bound$Year)
 
 ## rg: this code initially just used later years
 ## bc it was too much work to reconcile columns
 ## ideally, would create an analytic dataset
 ## with all years pulled above
 ## after colnames have been reconciled
-df_analytic_prerename = all_dr_years_7through11_bound
-colnames(df_analytic_prerename) =   gsub("\\s+|\\(|\\)", 
-                          "_", 
-                        colnames(all_dr_years_7through11_bound)) 
-df_analytic_rename_2 = df_analytic_prerename
-colnames(df_analytic_rename_2) = gsub("[0-9]+.*$|__",
-                            "",
-                            colnames(df_analytic_prerename))
+df_analytic = rbind(all_dr_years_firsthree_bound, all_dr_years_4through12_bound, fill=TRUE) 
 
-df_analytic = df_analytic_rename_2
 ```
 
 ## Write complaints data to file
@@ -148,14 +206,19 @@ Original data source: NCES, Common core data, elsi table generator: https://nces
 
 ```{r}
 totalenroll_raw = read.csv("../raw_input/elsi_enrollment_removeheaderfooter.csv")
+totalenroll_long <- gather(totalenroll_raw, Year, "Student Count", Total.Students..State..2017.18:Total.Students.All.Grades..Excludes.AE...Public.School..2006.07, factor_key=TRUE)
 
+totalenroll_analytic <- totalenroll_long %>%
+  select(State = State.Name, Year, "Student Count") %>%
+  filter(grepl('All', Year)) %>%
+  mutate(Year = str_extract(Year, "(\\d+)+"))
 ## clean:
 ## 1. use total students all grades excludes AE as the correct count
 ## 2. might want to reshape from its current wide format
 ## to long format (states repeated across school years)
 ## to make easier to auto-calculate rates
 
-## then, write clean copy to tje intermediate objects directory
+## then, write clean copy to the intermediate objects directory
 
 ```
 
@@ -166,19 +229,79 @@ Get from same site as complaints data since not in NCES data
 ```{r}
 ## link for sy 2005-2006 to 2011-2012
 baselink_earlier_root = "https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/part-b-data/child-count/bchildcount"
-years_earlier = seq(from = 2005, to = 2011)
+years_earlier = seq(from = 2005, to = 2006)
 baselink_earlier_full = sprintf("%s%s.csv",
                                 baselink_earlier_root,
                                 years_earlier)
 all_earlier_iep = lapply(baselink_earlier_full,
                          function(x) fread(x))
 
+years_middle = seq(from = 2007, to = 2011)
+baselink_middle_full = sprintf("%s%s.csv",
+                                baselink_earlier_root,
+                                years_middle)
+all_middle_iep = lapply(baselink_middle_full,
+                         function(x) fread(x))
+
 ## for RG: see that need to do cleaning  of headers to get  the actual columns (seem to start at row 5)
 head(all_earlier_iep[[1]])
 
+clean_earlier_iep = lapply(all_earlier_iep,
+                           function(x) { 
+  x <- x %>%
+    row_to_names(row_number = 5)
+  
+  return(x)
+})
+
+
+clean_middle_iep = lapply(all_middle_iep,
+                           function(x) { 
+  x <- x %>%
+    row_to_names(row_number = 4)
+  
+  return(x)
+})
+
+filtered_earlier_iep = lapply(clean_earlier_iep, 
+                               function(x) {
+                                 x <- x %>%
+                                   filter(Disability == "All disabilities") %>%
+                                   select(Year, State, "Age 3 to 21" = "Age 3-21 Totals")
+                                 return(x)
+                               })
+
+filtered_middle_iep = lapply(clean_middle_iep, 
+                               function(x) {
+                                 x <- x %>%
+                                   filter(Disability == "All disabilities")
+                                 return(x)
+                               })
+
+names(filtered_middle_iep[[1]]) <- gsub("[\r\n]",
+                            "", names(filtered_middle_iep[[1]]))
+filtered_first_middle_iep <- filtered_middle_iep[[1]] %>%
+  rename("Age 3 to 21" = "Ages3_21Total ") %>%
+  select(Year, State, "Age 3 to 21")
+
+filtered_rest_middle_iep <- lapply(filtered_middle_iep[2:5], 
+                               function(x) {
+                                 x <- x %>%
+                                   select(Year, State, "Age 3 to 21")
+                                 return(x)
+                               })
+
+filtered_earlier_iep_bound <- do.call(rbind.data.frame,
+                                filtered_earlier_iep)
+
+filtered_rest_middle_iep_bound <- do.call(rbind.data.frame,
+                                filtered_rest_middle_iep)
+
+filtered_earlier_middle_iep_bound = rbind(filtered_earlier_iep_bound, filtered_first_middle_iep, filtered_rest_middle_iep_bound)
+
 ## repeat for later links
 baselink_later_root = "https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/part-b-data/child-count-and-educational-environments/bchildcountandedenvironments"
-years_later = seq(from = 2012, to = 2018)
+years_later = seq(from = 2012, to = 2017)
 
 ### see from looking at links that it's 
 ### just the fall of the year up through 2016
@@ -197,6 +320,38 @@ all_later_iep = lapply(c(baselink_later_full_1,
                          baselink_later_full_2),
                          function(x) fread(x))
 
+clean_later_iep = lapply(all_later_iep,
+                           function(x) { 
+  x <- x %>%
+    row_to_names(row_number = 5) %>%
+    clean_names()
+  return(x)
+})
+
+clean_2016_iep <- all_later_iep[[5]] %>%
+    row_to_names(row_number = 4) %>%
+    clean_names() %>%
+    select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21)
+
+clean_later_iep[[5]] <- clean_2016_iep
+filtered_later_iep = lapply(clean_later_iep,
+                           function(x) { 
+  x <- x %>%
+    select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21) %>%
+    filter(sea_disability_category == "All Disabilities") %>%
+    filter(grepl("Total",sea_education_environment))%>%
+    mutate(age_3_to_5=replace(age_3_to_5, age_3_to_5 == "-", 0)) %>%
+    mutate(ages_6_21=replace(ages_6_21, ages_6_21 == "-", 0)) %>%
+    group_by(year, state_name) %>%
+    summarise("Age 3 to 21" = sum(as.numeric(age_3_to_5), as.numeric(ages_6_21))) %>%
+    rename(State = state_name, Year = year)
+  return(x)
+})
+
+filtered_later_iep_bound <- do.call(rbind.data.frame,
+                                filtered_later_iep)
+
+iep_analytic = rbind(data.frame(filtered_earlier_middle_iep_bound), data.frame(filtered_later_iep_bound))
 
 ## clean each and then rowbind
 ## main column to retain is the name of the state,
@@ -216,7 +371,36 @@ all_later_iep = lapply(c(baselink_later_full_1,
 - Show DC first compared to median of other states
 - Then compare to a few other high complaint east coast states (e.g., NY)
 
+```{r}
+totalenroll_analytic <- totalenroll_analytic %>%
+  rename_all(toupper) %>%
+  mutate(STATE = tolower(STATE)) %>%
+  mutate(STATE = sub("(.)", "\\U\\1", STATE, perl=TRUE))
 
+iep_analytic <- iep_analytic %>%
+  rename_all(toupper)
+
+df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL))
+
+dph_tse <- merge(df_analytic, totalenroll_analytic, by=c('YEAR','STATE'))
+
+dph_tse$"STUDENT COUNT" <- dph_tse$"STUDENT COUNT" %>% as.numeric
+dph_tse$dph_tse_rate <- dph_tse$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_tse$"STUDENT COUNT"
+
+
+dph_iep <- merge(df_analytic, iep_analytic, by=c('YEAR','STATE'))
+
+dph_iep$AGE.3.TO.21 <- as.numeric(gsub(",","",dph_iep$AGE.3.TO.21))
+dph_iep$dph_iep_rate <- dph_iep$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_iep$AGE.3.TO.21
+
+
+
+
+# %>%
+#   group_by(STATE, YEAR) %>%
+#   summarise(dph_tse_rate = DUE_PROCESS_COMPLAINTS_DPC_TOTAL /"STUDENT COUNT") 
+
+```
 ## Older code that might be relevant but refers to older data / varnames
 
 Might be useful but doesn't run as is due to changes in the input data!
