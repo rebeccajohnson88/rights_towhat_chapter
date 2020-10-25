@@ -6,6 +6,7 @@ output: html_document
 ---
 
 ```{r}
+library(textclean)
 library(data.table)
 library(janitor)
 library(tidyr)
@@ -374,31 +375,61 @@ iep_analytic = rbind(data.frame(filtered_earlier_middle_iep_bound), data.frame(f
 ```{r}
 totalenroll_analytic <- totalenroll_analytic %>%
   rename_all(toupper) %>%
-  mutate(STATE = tolower(STATE)) %>%
-  mutate(STATE = sub("(.)", "\\U\\1", STATE, perl=TRUE))
+  mutate(STATE = tools::toTitleCase(STATE))
 
 iep_analytic <- iep_analytic %>%
   rename_all(toupper)
+
+df_analytic$STATE <-gsub("[[:punct:]]",
+                            "",
+                            df_analytic$STATE)
+df_analytic$YEAR <-gsub("-.*$",
+                            "",
+                            df_analytic$YEAR)
 
 df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL))
 
 dph_tse <- merge(df_analytic, totalenroll_analytic, by=c('YEAR','STATE'))
 
 dph_tse$"STUDENT COUNT" <- dph_tse$"STUDENT COUNT" %>% as.numeric
-dph_tse$dph_tse_rate <- dph_tse$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_tse$"STUDENT COUNT"
+dph_tse$dph_tse_rate <- dph_tse$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_tse$"STUDENT COUNT" * 100
 
 
-dph_iep <- merge(df_analytic, iep_analytic, by=c('YEAR','STATE'))
+dph_iep <- merge(dph_tse, iep_analytic, by=c('YEAR','STATE'))
 
 dph_iep$AGE.3.TO.21 <- as.numeric(gsub(",","",dph_iep$AGE.3.TO.21))
-dph_iep$dph_iep_rate <- dph_iep$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_iep$AGE.3.TO.21
+dph_iep$dph_iep_rate <- dph_iep$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_iep$AGE.3.TO.21 * 100
 
+median_dph <- dph_iep %>%
+  filter(STATE != "District of Columbia") %>%
+  group_by(YEAR) %>%
+  summarize(median_tse_rate = median(dph_tse_rate, na.rm = TRUE), median_iep_rate = median(dph_iep_rate, na.rm = TRUE))
 
+dph_states <- dph_iep %>%
+  filter(STATE == "District of Columbia" | STATE == "New York" | STATE == "New Jersey" | STATE == "Massachusetts")
+  
+dph_dc <- dph_iep %>%
+  filter(STATE == "District of Columbia")
+dph_analytic <- merge(dph_dc,median_dph,by='YEAR')
 
+ggplot(data=dph_analytic, aes(x=YEAR,  group=1)) +
+  geom_line(aes(y=dph_tse_rate), color = 'blue') +
+  geom_line(aes(y=dph_iep_rate), color = 'blue', linetype = "dashed") +
+  geom_line(aes(y=median_tse_rate)) +
+  geom_line(aes(y=median_iep_rate), linetype = "dashed") +
+  scale_x_discrete(name = "Year") +
+  scale_y_continuous(name = "Filings per Student (%)", limits = c(0, 31),breaks = seq(0, 31, 5)) +
+  theme_bw() +
+  ggtitle("District of Columbia Rates vs. Other States Median Rates")
 
-# %>%
-#   group_by(STATE, YEAR) %>%
-#   summarise(dph_tse_rate = DUE_PROCESS_COMPLAINTS_DPC_TOTAL /"STUDENT COUNT") 
+ggplot(data=dph_states, aes(x=YEAR,  group=STATE)) +
+  geom_line(aes(y=dph_tse_rate, color=STATE)) +
+  geom_line(aes(y=dph_iep_rate, color=STATE)) +
+  scale_x_discrete(name = "Year") +
+  scale_y_continuous(name = "Filings per Student (%)", limits = c(0, 31),breaks = seq(0, 31, 5)) +
+  theme_bw() +
+  ggtitle("District of Columbia Rates vs. High Frequency East Coast State Rates")
+
 
 ```
 ## Older code that might be relevant but refers to older data / varnames
