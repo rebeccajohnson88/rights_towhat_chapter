@@ -170,7 +170,7 @@ table(all_dr_years_firsthree_bound$Year)
 df_analytic = rbind(all_dr_years_firsthree_bound, all_dr_years_4through12_bound, fill=TRUE) 
 
 ### clean bound data
-df_analytic$STATE <-gsub("[[:punct:]]",
+df_analytic$STATE <-gsub("[[:punct:]]|\\\xa0",
                             "",
                             df_analytic$STATE)
 df_analytic$YEAR <-gsub("-.*$",
@@ -179,7 +179,18 @@ df_analytic$YEAR <-gsub("-.*$",
 
 df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL))
 
+## check number of states
+nonstates_dispute = paste(gsub("^\\s+|\\s+$", "", 
+              toupper(unique(c(grep("Republic", unique(df_analytic$STATE), value = TRUE, ignore.case = TRUE), 
+              grep("Outlying", unique(df_analytic$STATE), value = TRUE, ignore.case = TRUE),
+              grep("Puerto|Federated|Marianas|BIE|Samoa|50 states|Bureau|Guam|Virgin Island|Indian Education|Marshall", unique(df_analytic$STATE), 
+                   value = TRUE, ignore.case = TRUE))))), collapse = "|") 
 
+df_analyt_cleanstates = df_analytic %>%
+              mutate(STATE = toupper(STATE)) %>%
+              filter(!grepl(nonstates_dispute, STATE))
+
+stopifnot(length(unique(df_analyt_cleanstates$STATE)) == 51)
 ```
 
 ## Write complaints data to file
@@ -190,7 +201,9 @@ df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analyt
 ### current file is stored
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-fwrite(df_analytic,
+
+dispute_analytic <- df_analytic
+fwrite(dispute_analytic,
 "../intermediate_objects/dph_hearings_20062018.csv")
 
 
@@ -227,7 +240,7 @@ totalenroll_analytic <- totalenroll_long %>%
 ### set working directory so that it's where current file is stored
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-fwrite(df_analytic,
+fwrite(totalenroll_analytic,
 "../intermediate_objects/studentenrollment_allstates_20062018.csv")
 
 
@@ -382,7 +395,15 @@ stopifnot(length(unique(iep_analytic$STATE)) == 51)
 ```
 
 
-## Write to interme
+## Write to intermed analytic to file
+
+```{r}
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+fwrite(iep_analytic,
+"../intermediate_objects/iepcounts_allstates_20052018.csv")
+
+```
 
 # Step three: construct two rates and summarize 
 
@@ -393,7 +414,12 @@ stopifnot(length(unique(iep_analytic$STATE)) == 51)
 - Then compare to a few other high complaint east coast states (e.g., NY)
 
 ```{r}
-dph_tse <- merge(df_analytic, totalenroll_analytic, by=c('YEAR','STATE'))
+## before merges, check overlap
+
+
+
+dph_tse <- merge(dispute_analytic, totalenroll_analytic, by=c('YEAR','STATE'),
+                 all.x = TRUE)
 
 dph_tse$STUDENT_COUNT <- dph_tse$STUDENT_COUNT %>% as.numeric
 dph_tse$dph_tse_rate <- dph_tse$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_tse$STUDENT_COUNT * 100
