@@ -1,6 +1,6 @@
 ---
 title: "Trends in due process hearings over time"
-author: "Rebecca Johnson (raj2@princeton.edu)"
+author: "Rebecca Johnson and Rijul Garg"
 date: "5/5/2019"
 output: html_document
 ---
@@ -24,8 +24,8 @@ library(tidyverse)
 #devtools::install_github('UrbanInstitute/education-data-package-r')
 
 
-theme_new <- function(base_size = 24, base_family = "Helvetica"){
-  theme_bw(base_size = base_size, base_family = base_family) %+replace%
+theme_new <- function(base_size = 24){
+  theme_bw(base_size = base_size) %+replace%
     theme(
       panel.grid = element_blank(),   
       panel.border = element_rect(fill = NA, colour = "black", size=1),
@@ -191,7 +191,7 @@ df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analyt
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 fwrite(df_analytic,
-"../intermediate_objects/complaints_allstates.csv")
+"../intermediate_objects/dph_hearings_20062018.csv")
 
 
 
@@ -205,14 +205,14 @@ Original data source: NCES, Common core data, elsi table generator: https://nces
 
 
 ```{r}
-totalenroll_raw = read.csv("../raw_input/elsi_enrollment_removeheaderfooter.csv")
+totalenroll_raw = read.csv("../raw_input/allstates/elsi_enrollment_removeheaderfooter.csv")
 
 ### reorganize data to long format and select total students all grades excludes AE as the correct count
 totalenroll_long <- gather(totalenroll_raw, Year, "Student_Count", Total.Students..State..2017.18:Total.Students.All.Grades..Excludes.AE...Public.School..2006.07, factor_key=TRUE)
 
 ### clean data values and column names
 totalenroll_analytic <- totalenroll_long %>%
-  select(State = State.Name, Year, "Student_Count") %>%
+  dplyr::select(State = State.Name, Year, "Student_Count") %>%
   filter(grepl('All', Year)) %>%
   mutate(Year = str_extract(Year, "(\\d+)+")) %>%
   rename_all(toupper) %>%
@@ -228,7 +228,7 @@ totalenroll_analytic <- totalenroll_long %>%
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 fwrite(df_analytic,
-"../intermediate_objects/enrollment_allstates.csv")
+"../intermediate_objects/studentenrollment_allstates_20062018.csv")
 
 
 ```
@@ -279,7 +279,7 @@ filtered_earlier_iep = lapply(clean_earlier_iep,
                                function(x) {
                                  x <- x %>%
                                    filter(Disability == "All disabilities") %>%
-                                   select(Year, State, "Age 3 to 21" = "Age 3-21 Totals")
+                                   dplyr::select(Year, State, "Age 3 to 21" = "Age 3-21 Totals")
                                  return(x)
                                })
 
@@ -294,12 +294,12 @@ names(filtered_middle_iep[[1]]) <- gsub("[\r\n]",
                             "", names(filtered_middle_iep[[1]]))
 filtered_first_middle_iep <- filtered_middle_iep[[1]] %>%
   rename("Age 3 to 21" = "Ages3_21Total ") %>%
-  select(Year, State, "Age 3 to 21")
+  dplyr::select(Year, State, "Age 3 to 21")
 
 filtered_rest_middle_iep <- lapply(filtered_middle_iep[2:5], 
                                function(x) {
                                  x <- x %>%
-                                   select(Year, State, "Age 3 to 21")
+                                   dplyr::select(Year, State, "Age 3 to 21")
                                  return(x)
                                })
 
@@ -341,13 +341,13 @@ clean_later_iep = lapply(all_later_iep,
 clean_2016_iep <- all_later_iep[[5]] %>%
     row_to_names(row_number = 4) %>%
     clean_names() %>%
-    select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21)
+    dplyr::select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21)
 
 clean_later_iep[[5]] <- clean_2016_iep
 filtered_later_iep = lapply(clean_later_iep,
                            function(x) { 
   x <- x %>%
-    select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21) %>%
+    dplyr::select(year, state_name, sea_education_environment, sea_disability_category, age_3_to_5, ages_6_21) %>%
     filter(sea_disability_category == "All Disabilities") %>%
     filter(grepl("Total",sea_education_environment))%>%
     mutate(age_3_to_5=replace(age_3_to_5, age_3_to_5 == "-", 0)) %>%
@@ -361,15 +361,28 @@ filtered_later_iep = lapply(clean_later_iep,
 filtered_later_iep_bound <- do.call(rbind.data.frame,
                                 filtered_later_iep)
 
-iep_analytic = rbind(data.frame(filtered_earlier_middle_iep_bound), data.frame(filtered_later_iep_bound))
+iep_init = rbind(data.frame(filtered_earlier_middle_iep_bound), data.frame(filtered_later_iep_bound))
 
-iep_analytic <- iep_analytic %>%
+nonstates = paste(toupper(unique(c(grep("Republic", unique(iep_init$State), value = TRUE, ignore.case = TRUE), 
+              grep("Outlying", unique(iep_init$State), value = TRUE, ignore.case = TRUE),
+              grep("Puerto|Federated|Marianas|BIE|Samoa|50 states|Bureau|Guam|Virgin Island", unique(iep_init$State), 
+                   value = TRUE, ignore.case = TRUE)))), collapse = "|") 
+
+iep_analytic <- iep_init %>%
   rename_all(toupper) %>%
-  rename(AGE_3_21_TOTAL = AGE.3.TO.21)
+  mutate(STATE = toupper(STATE), # since half states are lowercase; others are uppercase
+    AGE_3_21_TOTAL = as.numeric(gsub(",", "", AGE.3.TO.21))) %>%
+  dplyr::select(YEAR, STATE, AGE_3_21_TOTAL) %>%
+  filter(!grepl(nonstates, STATE)) #filtering out those outside 50 states = DC
 
 
+## check to see if # of unique states equal to 51 
+## 50 states + DC
+stopifnot(length(unique(iep_analytic$STATE)) == 51)
 ```
 
+
+## Write to interme
 
 # Step three: construct two rates and summarize 
 
