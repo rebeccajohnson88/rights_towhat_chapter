@@ -20,8 +20,8 @@ library(scales)
 library(xtable)
 library(stringr)
 library(tidyverse)
+library(stringr)
 
-#devtools::install_github('UrbanInstitute/education-data-package-r')
 
 
 theme_new <- function(base_size = 24){
@@ -177,7 +177,18 @@ df_analytic$YEAR <-gsub("-.*$",
                             "",
                             df_analytic$YEAR)
 
-df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL <- as.numeric(gsub(",","",df_analytic$DUE_PROCESS_COMPLAINTS_DPC_TOTAL))
+
+## convert char with "," to numeric
+make_num <- function(one_var){
+  
+  return(as.numeric(gsub(",", "", one_var)))
+}
+
+df_analytic <- df_analytic %>%
+        mutate(DUE_PROCESS_COMPLAINTS_DPC_TOTAL = make_num(DUE_PROCESS_COMPLAINTS_DPC_TOTAL),
+               EXPEDITED_DUE_PROCESS_COMPLAINTS_EDPC_TOTAL = make_num(EXPEDITED_DUE_PROCESS_COMPLAINTS_EDPC_TOTAL),
+               MEDIATION_REQUESTS_TOTAL = make_num(MEDIATION_REQUESTS_TOTAL),
+               WRITTEN_SIGNED_COMPLAINTS_WSC_TOTAL = make_num(WRITTEN_SIGNED_COMPLAINTS_WSC_TOTAL))
 
 ## check number of states
 nonstates_dispute = paste(gsub("^\\s+|\\s+$", "", 
@@ -187,7 +198,8 @@ nonstates_dispute = paste(gsub("^\\s+|\\s+$", "",
                    value = TRUE, ignore.case = TRUE))))), collapse = "|") 
 
 df_analyt_cleanstates = df_analytic %>%
-              mutate(STATE = toupper(STATE)) %>%
+              mutate(STATE = toupper(STATE),
+                     FALL_SY = gsub("\\-.*", "", YEAR)) %>%
               filter(!grepl(nonstates_dispute, STATE))
 
 stopifnot(length(unique(df_analyt_cleanstates$STATE)) == 51)
@@ -202,7 +214,7 @@ stopifnot(length(unique(df_analyt_cleanstates$STATE)) == 51)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 
-dispute_analytic <- df_analytic
+dispute_analytic <- df_analyt_cleanstates
 fwrite(dispute_analytic,
 "../intermediate_objects/dph_hearings_20062018.csv")
 
@@ -230,7 +242,7 @@ totalenroll_analytic <- totalenroll_long %>%
   mutate(Year = str_extract(Year, "(\\d+)+")) %>%
   rename_all(toupper) %>%
   mutate_if(is.factor, as.character) %>%
-  mutate(STATE = tools::toTitleCase(tolower(STATE)))
+  mutate(STATE = toupper(STATE))
 ```
 
 ## Write student enrollment data to file
@@ -415,266 +427,153 @@ fwrite(iep_analytic,
 
 ```{r}
 ## before merges, check overlap
+diffstates = setdiff(unique(dispute_analytic$STATE),
+        unique(totalenroll_analytic$STATE))
+diffyears = setdiff(unique(dispute_analytic$FALL_SY),
+        unique(totalenroll_analytic$YEAR))
+if(length(diffstates) != 0){
+    print(sprintf("Data dispute analytic has following states not in enrollment",
+                  paste(diffstates, collapse = ";")))
+        }
 
 
 
-dph_tse <- merge(dispute_analytic, totalenroll_analytic, by=c('YEAR','STATE'),
-                 all.x = TRUE)
-
-dph_tse$STUDENT_COUNT <- dph_tse$STUDENT_COUNT %>% as.numeric
-dph_tse$dph_tse_rate <- dph_tse$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_tse$STUDENT_COUNT * 100
+dph_tse <- merge(dispute_analytic, totalenroll_analytic, by.x=c('FALL_SY','STATE'),
+                 by.y = c("YEAR", "STATE"),
+                 all.x = TRUE) 
 
 
-dph_iep <- merge(dph_tse, iep_analytic, by=c('YEAR','STATE'))
+diffstates = setdiff(unique(dph_tse$STATE),
+        unique(iep_analytic$STATE))
+diffyears = setdiff(unique(dph_tse$YEAR),
+        unique(iep_analytic$YEAR))
+dph_iep <- merge(dph_tse, iep_analytic, by=c('YEAR','STATE')) %>%
+        mutate(dph_iep_rate = ((DUE_PROCESS_COMPLAINTS_DPC_TOTAL + EXPEDITED_DUE_PROCESS_COMPLAINTS_EDPC_TOTAL)/AGE_3_21_TOTAL)*10000,
+              dph_tse_rate = 
+            ((DUE_PROCESS_COMPLAINTS_DPC_TOTAL+EXPEDITED_DUE_PROCESS_COMPLAINTS_EDPC_TOTAL)/STUDENT_COUNT)*10000,
+              mediation_iep_rate = (MEDIATION_REQUESTS_TOTAL/AGE_3_21_TOTAL)*10000,
+              wsc_iep_rate = (WRITTEN_SIGNED_COMPLAINTS_WSC_TOTAL/AGE_3_21_TOTAL)*10000,
+               STATE = case_when(
+              STATE == "DISTRICT OF COLUMBIA" ~ "DC",
+              TRUE ~ stringr::str_to_title(STATE)
+               ))
 
-dph_iep$AGE_3_21_TOTAL <- as.numeric(gsub(",","",dph_iep$AGE_3_21_TOTAL))
-dph_iep$dph_iep_rate <- dph_iep$DUE_PROCESS_COMPLAINTS_DPC_TOTAL / dph_iep$AGE_3_21_TOTAL * 100
 
-median_dph <- dph_iep %>%
-  filter(STATE != "District of Columbia") %>%
-  group_by(YEAR) %>%
-  summarize(median_tse_rate = median(dph_tse_rate, na.rm = TRUE), median_iep_rate = median(dph_iep_rate, na.rm = TRUE))
 
-dph_states <- dph_iep %>%
-  filter(STATE == "District of Columbia" | STATE == "New York" | STATE == "New Jersey" | STATE == "Massachusetts")
-  
-dph_dc <- dph_iep %>%
-  filter(STATE == "District of Columbia")
-dph_analytic <- merge(dph_dc,median_dph,by='YEAR')
+## state groups
+dc <- "DC"
+east = c(dc, "New York", "Virginia", "Maryland",
+         "New Jersey",
+         "Texas")
 
-ggplot(data=dph_analytic, aes(x=YEAR,  group=1)) +
-  geom_line(aes(y=dph_tse_rate), color = 'blue') +
-  geom_line(aes(y=dph_iep_rate), color = 'blue', linetype = "dashed") +
-  geom_line(aes(y=median_tse_rate)) +
-  geom_line(aes(y=median_iep_rate), linetype = "dashed") +
-  scale_x_discrete(name = "Year") +
-  scale_y_continuous(name = "Filings per Student (%)", limits = c(0, 31),breaks = seq(0, 31, 5)) +
-  theme_bw() +
-  ggtitle("District of Columbia Rates vs. Other States Median Rates")
 
-ggplot(data=dph_states, aes(x=YEAR,  group=STATE)) +
-  geom_line(aes(y=dph_tse_rate, color=STATE)) +
-  geom_line(aes(y=dph_iep_rate, color=STATE)) +
-  scale_x_discrete(name = "Year") +
-  scale_y_continuous(name = "Filings per Student (%)", limits = c(0, 31),breaks = seq(0, 31, 5)) +
-  theme_bw() +
-  ggtitle("District of Columbia Rates vs. High Frequency East Coast State Rates")
 
+
+scaleFUN <- function(x) sprintf("%.1f", x)
+
+dc_col = "#E91436"
+ggplot(dph_iep %>%
+      filter(STATE %in% east), 
+  aes(x = YEAR, y = dph_iep_rate,
+      group = STATE)) +
+  geom_point(color = dc_col, size = 3) +
+  geom_line(color = dc_col, size = 1) +
+  facet_wrap(~STATE, scales = "free") +
+  expand_limits(y = 0) +
+  ylab("Count of due process filings\nper 10,000 IEP students") +
+  theme_new() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   size = 14)) +
+  xlab("School year (fall)") +
+  scale_y_continuous(breaks = pretty_breaks(n = 8))
+
+ggsave("../output/dphrate_periep.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+ggplot(dph_iep %>%
+      filter(STATE %in% east), 
+  aes(x = YEAR, y = dph_tse_rate,
+      group = STATE)) +
+  geom_point(color = dc_col, size = 3) +
+  geom_line(color = dc_col, size = 1) +
+  facet_wrap(~STATE, scales = "free") +
+  expand_limits(y = 0) +
+  ylab("Count of due process filings\nper 10,000 students") +
+  theme_new() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   size = 14)) +
+  xlab("School year (fall)") +
+  scale_y_continuous(breaks = pretty_breaks(n = 8),
+                     labels = scaleFUN)
+
+
+ggsave("../output/dphrate_perstud.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 12,
+       height = 8)
+
+
+## then, show DC relative to the median
+## medians
+dph_nondc = dph_iep %>%
+        filter(!STATE %in% dc) %>%
+        group_by(YEAR) %>%
+        summarise_at(c("dph_iep_rate", 
+                             "mediation_iep_rate",
+                             "wsc_iep_rate"),
+                     median, na.rm = TRUE) %>%
+        mutate(STATE = "Median\n(excluding DC)") 
+dph_dc = dph_iep %>%
+      filter(STATE == dc) %>%
+      dplyr::select(STATE, YEAR, 
+                    dph_iep_rate,
+                    mediation_iep_rate,
+                    wsc_iep_rate)
+dph_nymaryland = dph_iep %>%
+      filter(STATE %in% grep("New York|Maryland", east, value = TRUE)) %>%
+      dplyr::select(STATE, YEAR, 
+                    dph_iep_rate,
+                    mediation_iep_rate,
+                    wsc_iep_rate)
+
+dph_comparetypes = rbind.data.frame(dph_nondc,
+                                    dph_dc,
+                                    dph_nymaryland) %>%
+                reshape2::melt(, id.vars = c("STATE", "YEAR")) %>%
+                mutate(disp_type = 
+                      case_when(grepl("^dph", variable) ~ "DPH\nfilings",
+                                grepl("^med", variable) ~ "Mediation\nrequests",
+                                grepl("wsc", variable) ~ "Written\nsigned complaints"))
+
+
+
+ggplot(dph_comparetypes, aes(x = YEAR, y = value,
+                             fill = STATE,
+                             group = STATE)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~disp_type, scales = "free_y", ncol = 1) +
+  theme_new() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, size = 14)) +
+  ylab("Per 10,000 IEP students") +
+  xlab("School year (fall)") +
+  labs(fill = "") + 
+  guides(fill = guide_legend(ncol = 2)) +
+  scale_fill_manual(values = 
+                  c("DC" = dc_col,
+                    "Median\n(excluding DC)" = "wheat4",
+                    "New York" = "#002D72",
+                    "Maryland" = "#EAAB00"))
+
+
+ggsave("../output/type_variation.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width = 8,
+       height = 12)
 
 ```
-## Older code that might be relevant but refers to older data / varnames
-
-Might be useful but doesn't run as is due to changes in the input data!
-
-
-```{r}
-
-
-## merge using state name
-colnames(compare_states) = gsub("\\s+", "_", colnames(compare_states))
-compare_states = compare_states %>%
-            rename(total_students = `Total_Students_[State]_2013-14`,
-                   total_districts = `Total_Number_Operational_School_Districts_[District]_2013-14`)
-unique(compare_states$State_Name)
-unique(dph$State)
-
-
-dph_mainyear = dph %>%
-      filter(Year == "2016-2017") %>%
-      mutate(dph_filed = as.numeric(gsub(",", "", as.character(`Due_Process_ComplaintsDPCTotal`))),
-             dph_hearings = as.numeric(gsub(",", "", 
-                              as.character(`DPC_Hearingsfully_adjudicatedTotal`)))) %>%
-      dplyr::select(State, dph_filed, dph_hearings) %>%
-      mutate(State_Name = toupper(State)) %>%
-      dplyr::select(-State) 
-      
-
-## merge
-
-compare_w_dph = merge(compare_states,
-                      dph_mainyear,
-                      by = "State_Name",
-                      all.x = TRUE) %>%
-            left_join(ieps %>% dplyr::select(State_Name, ncesiepcount),
-                      on = "State_Name") %>%
-            mutate(ncesiepcount = ifelse(State_Name == "DISTRICT OF COLUMBIA",
-                                         10644, ncesiepcount)) %>%
-            mutate(filings_perstudent = (dph_filed/total_students)*10000,
-                   hearings_perstudent = (dph_hearings/total_students)*10000,
-                   ieps_perstudent= (ncesiepcount/total_students)*100,
-                   students_per_district = total_students/total_districts,
-                   state_category = case_when(State_Name %in% c("DISTRICT OF COLUMBIA",
-                                                                "TEXAS",
-                                                                "OHIO") ~ "Case study",
-                                    State_Name %in% states_obtained ~ "Filings obtained",
-                                    TRUE ~ "Filings not obtained"),
-                   state_title = str_to_title(State_Name),
-                   hearing_per_filing = ifelse(dph_filed == 0,
-                                          0, dph_hearings/dph_filed))
-
-ggplot(compare_w_dph, aes(x = reorder(state_title, filings_perstudent), 
-                          y = filings_perstudent,
-                          color = state_category)) +
-  geom_point(size = 4) +
-  ylab("Due process filings per\n10,000 students") +
-  theme_new(base_size = 24) +
-  theme(axis.text.y = element_text(size = 10),
-        legend.position = c(0.7, 0.2),
-        legend.background = element_blank()) +
-  scale_color_manual(values = c("#FDE725FF", 
-                                "wheat4",
-                              "#238A8DFF")) +
-  coord_flip() +
-  labs(color = "") +
-  xlab("")
-
-ggsave("../output/dph_rate.pdf",
-       plot = last_plot(),
-       width = 9,
-       height = 12,
-       device = "pdf")
-
-
-## create dc specific plot
-focus_states = compare_w_dph %>% filter(State_Name %in% c("DISTRICT OF COLUMBIA", "VIRGINIA", "MARYLAND", "NEW YORK"))
-national_median = quantile(compare_w_dph$filings_perstudent,
-                           probs = 0.5)
-focus_states_forplot = rbind.data.frame(focus_states %>%
-                                      dplyr::select(state_title,
-                                                    filings_perstudent,
-                                                    state_category),
-                          data.frame(state_title = "National\nmedian",
-                                     filings_perstudent = national_median,
-                                     state_category = "Filings obtained")) %>%
-                          mutate(clean_state = 
-                                      case_when(state_title == "District Of Columbia" ~
-                                                "DC",
-                                                TRUE ~ state_title),
-                                 clean_category = 
-                                  case_when(clean_state == "DC" ~ "Case study",
-                                            TRUE ~ "Other"))
-ggplot(focus_states_forplot, aes(x = reorder(clean_state, filings_perstudent), 
-                          y = filings_perstudent,
-                          fill = clean_category)) +
-  geom_bar(stat = "identity") +
-  ylab("Due process filings per\n10,000 students") +
-  theme_new(base_size = 24) +
-  theme(legend.position = c(0.7, 0.2),
-        legend.background = element_blank()) +
-  scale_fill_manual(values = c("Case study" = "#132460",
-                                "Other" = "#999999")) +
-  coord_flip() +
-  labs(color = "") +
-  xlab("") +
-  geom_label(aes(x = reorder(clean_state, filings_perstudent),
-                 y = filings_perstudent,
-                  label = round(filings_perstudent, 2)),
-             fill = "white", size = 14) +
-  guides(fill = FALSE)  +
-  ylim(-5, 50)
-
-ggsave("../output/dph_rate_dcfocus.jpg",
-       plot = last_plot(),
-       width = 9,
-       height = 12,
-       device = "jpg")
-  
-
-ggplot(compare_w_dph %>%
-      filter(state_title != "Hawaii"),
-      aes(x = reorder(state_title, students_per_district), 
-                          y = students_per_district,
-                          color = state_category)) +
-  geom_point(size = 4) +
-  ylab("Total students divided by total\nnumber of districts") +
-  theme_new(base_size = 24) +
-  scale_y_continuous(breaks = pretty_breaks(n = 10)) +
-  theme(axis.text.y = element_text(size = 10),
-        legend.position = c(0.7, 0.2),
-        axis.text.x = element_text(angle = 90),
-        legend.background = element_blank()) +
-  scale_color_manual(values = c("#FDE725FF", 
-                                "wheat4",
-                              "#238A8DFF")) +
-  coord_flip() +
-  labs(color = "") +
-  xlab("")
-
-ggsave("../output/dist_consolidation.pdf",
-       plot = last_plot(),
-       width = 9,
-       height = 12,
-       device = "pdf")
-
-ggplot(compare_w_dph, aes(x = reorder(state_title, ieps_perstudent), 
-                          y = ieps_perstudent,
-                          color = state_category)) +
-  geom_point(size = 4) +
-  ylab("Percent of students who have\nIEPs") +
-  theme_new(base_size = 24) +
-  scale_y_continuous(breaks = pretty_breaks(n = 10)) +
-  theme(axis.text.y = element_text(size = 10),
-        legend.position = c(0.3, 0.8),
-        legend.background = element_blank()) +
-  scale_color_manual(values = c("#FDE725FF", 
-                                "wheat4",
-                              "#238A8DFF")) +
-  coord_flip() +
-  labs(color = "") +
-  xlab("")
-
-ggsave("../output/iep_rate.pdf",
-       plot = last_plot(),
-       width = 9,
-       height = 12,
-       device = "pdf")
-
-
-
-
-
-
-
-## 
-dph_states_wdata = dph %>%
-          filter(State %in% filings_progress$state)
-
-
-
-dist = read.csv("../data/allstates/district_consolidation.csv") %>%
-      mutate(n_students = )
-
-dph_1314 = dph %>%
-  filter(Year == "2013-2014") %>%
-  left_join(statedisp %>% filter(springschoolyear == 2014) %>% %>% mutate(state = as.character(state)) %>%
-                    dplyr::select(state, ncesiepcount),
-                    by = "state")
-
-
-
-
-filings_progress = filings_progress %>%
-          left_join(dph %>% 
-                      filter(Year == "2012-2013") %>%
-                      dplyr::select(State, Due_Process_ComplaintsDPCTotal),
-                    by = c("state" = "State")) %>%
-          left_join(statedisp %>% filter(springschoolyear == 2013) %>% mutate(state = as.character(state)) %>%
-                    dplyr::select(state, ncesiepcount),
-                    by = "state") %>%
-        left_join(dist, by = "state") %>%
-          mutate(n_districts = as.numeric(gsub(",", "", n_districts)), 
-                 students_per_district = as.numeric(gsub(",", "", avg_per_district)),
-                 complaints_total = as.numeric(Due_Process_ComplaintsDPCTotal),
-                 ieps_total = ifelse(state != "District of Columbia",
-                                  as.numeric(ncesiepcount), 
-                                  11000),
-              complaints_per_100iep = (complaints_total/ieps_total)*100) %>%
-            dplyr::select(-avg_per_district, -excluded_districts, -n_schools,
-                          -Due_Process_ComplaintsDPCTotal, -ncesiepcount, -n_students)
-cols_select = c("state", "years", "format", "n_districts",
-                "students_per_district",
-                "complaints_total", "ieps_total", "complaints_per_100iep")
-print(xtable(filings_progress[, cols_select]), include.rownames = FALSE)
-
-```
-
