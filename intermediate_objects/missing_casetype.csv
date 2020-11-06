@@ -1,0 +1,696 @@
+,attending_school,case_no,casetype,dcps_school_against,home_school,failed_parse,casetype_clean_init,casetype_isdigits,casetype_final
+0,,,,,,0,nan,no_digits,Other/failed to parse
+1,,,,Prospect LC,,0,nan,no_digits,Other/failed to parse
+62,Macfar land M iddle School,2012--0031-B,-,Benjamin Banneker Academic HS,Spingarn Senior High School,0,-,no_digits,Other/failed to parse
+63,Macfar land M iddle School,2012--0031-B,-,Benjamin Banneker Academic HS,-,0,-,no_digits,Other/failed to parse
+64,Macfar land M iddle School,2012--0031-B,-,Benjamin Banneker Academic HS,• ~ - - • • I -,0,-,no_digits,Other/failed to parse
+101,Spingarn Senior High School,2012-0049,-,Spingarn Senior High School,Ballou Senior High School,0,-,no_digits,Other/failed to parse
+115,Booker T. Washingto n PCS,2012-0055,-,Langley EC,Wilson Senior High School,0,-,no_digits,Other/failed to parse
+116,0,• V - • • •,•,Langley EC,Wilson Senior High School,0,•,no_digits,Other/failed to parse
+117,0,• V - • • •,•,Garri son ES,Wilson Senior High School,0,•,no_digits,Other/failed to parse
+118,0,• V - • • •,•,Garrison ES,Wilson Senior High School,0,•,no_digits,Other/failed to parse
+204,Cesar Chavez PCS,2012-0096,•,Dunbar High School,Shaw MS @ Gamet -Patt erson,0,•,no_digits,Other/failed to parse
+223,",.. • •",• • r,•,Dunbar High School,Brown,0,•,no_digits,Other/failed to parse
+300,DC Preparatory,2012-0141,02/ 15/2012,Wilson Senior High School,Brow ne EC,0,02/ 15/2012,digits,Other/failed to parse
+301,W ilson Senior High School,2012--0139,02/ 15/2012,Wi lson Senior High School,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+302,W ilson Senior High School,2012--0139,02/ 15/2012,Wilson Senior High School,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+303,W ilson Senior High School,2012--0139,02/ 15/2012,Roosevelt High School,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+304,Roosevelt High School,2012--0138,02/ 15/2012,Roosevelt High School,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+305,Roosevelt High School,2012--0138,02/ 15/2012,Accotink Academy,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+306,Accot ink Academy,2012--0142,02/ 15/2012,Accot ink Academy,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+307,Accot ink Academy,2012--0142,02/ 15/2012,Accotink Academy,Wi lson Senio r High School,0,02/ 15/2012,digits,Other/failed to parse
+308,Cente r City PCS,2012--0140,02/ 15/2012,Accotink Academy,Center City PCS,0,02/ 15/2012,digits,Other/failed to parse
+309,Cente r City PCS,2012--0140,02/ 15/2012,Anacost ia Senior High Schoo l,Center City PCS,0,02/ 15/2012,digits,Other/failed to parse
+310,Cente r City PCS,2012--0140,02/ 15/2012,Anacost ia Sen ior High School,Center City PCS,0,02/ 15/2012,digits,Other/failed to parse
+311,Anaco stia Senior High School,2012--0146,02/ 15/2012,Anacost ia Senior High School,Center City PCS,0,02/ 15/2012,digits,Other/failed to parse
+312,Anaco stia Senior High School,2012--0146,02/ 15/2012,Anacost ia Senior High Schoo l,Center City PCS,0,02/ 15/2012,digits,Other/failed to parse
+313,Lab Schoo l of Was hingto n,2012--0147,02/ 15/2012,Anacost ia Senior High Schoo l,Hearst Elementary School,0,02/ 15/2012,digits,Other/failed to parse
+314,Ludlow -Taylor ES,2012--0144,02/ 15/2012,Lud low-Taylor ES,Hearst Elementary School,0,02/ 15/2012,digits,Other/failed to parse
+315,Cesar Chavez PCS,2012--0148,02/ 15/2012,Lud low-Taylor ES,Hearst Elementary School,0,02/ 15/2012,digits,Other/failed to parse
+316,Cesar Chavez PCS,2012--0148,02/ 15/2012,Ludlow-Taylor ES,Hearst Elementary School,0,02/ 15/2012,digits,Other/failed to parse
+317,Cesar Chavez PCS,2012--0148,02/ 17/2012,Ludlow-Taylor ES,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+318,Ludlow -Taylor ES,2012--0143,02/ 17/2012,Ludlow-Taylor ES,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+319,Ludlow -Taylor ES,2012--0143,02/ 17/2012,Ludlow-Taylo r ES,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+320,New Beginnings Vocationa,2012--0145,02/ 17/2012,Ludlow-Taylo r ES,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+321,New Beginnings Vocat ional School,2012-0149,02/ 17/2012,Ludlow-Taylo r ES,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+322,New Beginnings Vocat ional School,2012-0149,02/ 17/2012,Anaco st ia Senior High School,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+323,New Beginnings Vocat ional School,2012-0149,02/ 17/2012,Anacost ia Senior High School,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+324,New Beginnings Vocat ional School,2012-0149,02/ 17/2012,Anacost ia Senior High Schoo l,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+325,.. ..,2012-0149,02/ 17/2012,Anacost ia Senior High Schoo l,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+326,.. ..,2012-0149,02/ 17/2012,Anacost ia Senior High School,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+327,.. ..,2012-0149,02/ 17/2012,Deal Middle School,Hearst Elementary School,0,02/ 17/2012,digits,Other/failed to parse
+528,03/23/20,03/23/20,03/23/20,Eastern High School,03/23/20,0,03/23/20,digits,Other/failed to parse
+780,Dunbar High School,2012--0368,05/15/ 2012,Dunbar High Schoo l,Dunbar High School,0,05/15/ 2012,digits,Other/failed to parse
+781,Dunbar High School,2012--0368,05/15/ 2012,Accoti nk Academy,Dunbar High School,0,05/15/ 2012,digits,Other/failed to parse
+782,Accot ink Acade my,2012-0367,05/15/ 2012,Accoti nk Academy,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+783,Accot ink Acade my,2012-0367,05/15/ 2012,Accot ink Academy,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+784,Accot ink Acade my,2012-0367,05/15/ 2012,Bruce Monroe ES@ Park View,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+785,Bruce Monroe ES@ Park View,2012--0366,05/15/ 2012,Bruce Monroe ES@ Park View,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+786,Bruce Monroe ES@ Park View,2012--0366,05/15/ 2012,Roosevelt High School,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+787,Roosevelt High Schoo l,2012-0370,05/15/ 2012,Roosevelt High School,Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+788,"Phelps Architectu re, Const ruct ion, and",2012-0370,05/15/ 2012,"Phelps Arch itec ture, Construction, and Engin eeri ng HS",Spingarn Senior High School,0,05/15/ 2012,digits,Other/failed to parse
+789,"Phelps Architectu re, Const ruct ion, and",2012-0369,05/15/ 2012,"Phelps Arch itec ture, Construction, and Engin eeri ng HS",Ballou Senio r High School,0,05/15/ 2012,digits,Other/failed to parse
+790,Enginee ring HS,2012-0369,05/15/ 2012,"Phelps Architec ture, Const ruct ion, and Engineeri ng HS",Ballou Senio r High School,0,05/15/ 2012,digits,Other/failed to parse
+791,Ludlow -Taylor ES,2012--0374,05/15/ 2012,Lud low-Taylor ES,Ballou Senio r High School,0,05/15/ 2012,digits,Other/failed to parse
+792,Accot ink Academy,2012-0373,05/15/ 2012,Accotink Academy,Ballou Senio r High School,0,05/15/ 2012,digits,Other/failed to parse
+793,Accot ink Academy,2012-0373,05/15/ 2012,Accotink Academy,Columb ia Heights Educat ion,0,05/15/ 2012,digits,Other/failed to parse
+794,Colum bia Heights Education,2012-0376-8,05/15/ 2012,Columb ia Heights Educat ion Center High School,Columb ia Heights Educat ion,0,05/15/ 2012,digits,Other/failed to parse
+795,Colum bia Heights Education,2012-0376-8,05/16/20 12,Columb ia Heights Educat ion Center High School,Cente r High School,0,05/16/20 12,digits,Other/failed to parse
+796,Dunbar High School,2012-0375,05/16/20 12,Dunbar High Schoo l,Cente r High School,0,05/16/20 12,digits,Other/failed to parse
+797,Dunbar High School,2012-0375,05/16/20 12,Columb ia Heights Educat ion Center High School,Columb ia Heigh ts Educat ion,0,05/16/20 12,digits,Other/failed to parse
+798,Colum bia Heights Educat ion Center High Schoo l,2012-0376,05/16/20 12,Columb ia Heights Educat ion Center High School,Columb ia Heigh ts Educat ion,0,05/16/20 12,digits,Other/failed to parse
+799,Colum bia Heights Educat ion Center High Schoo l,2012-0376,05/16/20 12,Columb ia Heights Educat ion Center High School,Cente r High Schoo l,0,05/16/20 12,digits,Other/failed to parse
+800,"""--~...-. I'=, ._..,,,,..,~, ,,.._.~•v• '",2012-0379,05/16/20 12,"Phelps Architecture, Construction, and Engineeri ng HS",Cente r High Schoo l,0,05/16/20 12,digits,Other/failed to parse
+801,"""--~...-. I'=, ._..,,,,..,~, ,,.._.~•v• '",2012-0379,05/16/20 12,Simon Elementary Schoo l,Cente r High Schoo l,0,05/16/20 12,digits,Other/failed to parse
+802,Simo n Elementary,2012-0377,05/16/20 12,Simon Elementary Schoo l,Cente r High Schoo l,0,05/16/20 12,digits,Other/failed to parse
+803,Simo n Elementary,2012-0377,05/16/20 12,Simon Elementa ry Schoo l,Cente r High Schoo l,0,05/16/20 12,digits,Other/failed to parse
+804,Simo n Elementary,2012-0377,05/17/2012,Simon Elementa ry Schoo l,Cente r High Schoo l,0,05/17/2012,digits,Other/failed to parse
+805,High Road DC A-M,2012-0378,05/17/2012,Simon Elementa ry Schoo l,Cente r High Schoo l,0,05/17/2012,digits,Other/failed to parse
+806,High Road DC A-M,2012-0378,05/17/2012,Simon Elementa ry Schoo l,"s;c■ .;u.;;,;;- ~'-'t-' ""'",0,05/17/2012,digits,Other/failed to parse
+807,Accot ink Acade my,2012--0380,05/17/2012,Accotink Academy,"s;c■ .;u.;;,;;- ~'-'t-' ""'",0,05/17/2012,digits,Other/failed to parse
+808,Accot ink Acade my,2012--0380,05/18/20 12,Accotink Academy,"s;c■ .;u.;;,;;- ~'-'t-' ""'",0,05/18/20 12,digits,Other/failed to parse
+809,Bridges PCS,2012--0381,05/18/20 12,Accotink Academy,Tubman Elem entary School,0,05/18/20 12,digits,Other/failed to parse
+810,Non-Attend,2012-0384,05/18/20 12,Spingarn Senior High School,Spingarn Senior High School,0,05/18/20 12,digits,Other/failed to parse
+811,Ach ievemen t Prep Academy Publ ic Charte r School,2012--0385,05/18/20 12,Spingarn Senior High School,"--- ~- .""."""" . , c μ -•""""""",0,05/18/20 12,digits,Other/failed to parse
+812,Ach ievemen t Prep Academy Publ ic Charte r School,2012--0385,05/18/20 12,Spingarn Senio r High School,"--- ~- .""."""" . , c μ -•""""""",0,05/18/20 12,digits,Other/failed to parse
+813,Ach ievemen t Prep Academy Publ ic Charte r School,2012--0385,05/2 1/2012,Spingarn Senio r High School,"--- ~- .""."""" . , c μ -•""""""",0,05/2 1/2012,digits,Other/failed to parse
+814,Ach ievemen t Prep Academy Publ ic Charte r School,2012--0385,05/2 1/2012,Spingarn Senior High School,"--- ~- .""."""" . , c μ -•""""""",0,05/2 1/2012,digits,Other/failed to parse
+815,Spingarn Senior High School,2012--0382,05/2 1/2012,Spingarn Senior High School,"--- ~- .""."""" . , c μ -•""""""",0,05/2 1/2012,digits,Other/failed to parse
+816,Spingarn Senior High School,2012--0382,05/2 1/2012,Spingarn Senio r High Schoo l,"--- ~- .""."""" . , c μ -•""""""",0,05/2 1/2012,digits,Other/failed to parse
+822,05/2 9/2012,05/2 9/2012,05/2 9/2012,CARE Center at Shaw JHS-EC,05/2 9/2012,0,05/2 9/2012,digits,Other/failed to parse
+1346,Non -Attend,2012--0641,""" ""~•--- • - •~""",Spingarn Senior High School,Spingarn Senior High School,0,""" ""~•--- • - •~""",no_digits,Other/failed to parse
+1347,Roosevel t High Schoo l,2012--0646,""" ""~•--- • - •~""",Roosevelt High School,Ballou Senior High Schoo l,0,""" ""~•--- • - •~""",no_digits,Other/failed to parse
+1409,W ilson Senior High School,2012--0676,09/27/2012,Wilson Senior High School,Wilson Senior High School,0,09/27/2012,digits,Other/failed to parse
+1410,The Harbour School,2012--0678,09/27/2012,Kingsbury Day School,Wilson Senior High School,0,09/27/2012,digits,Other/failed to parse
+1411,The Harbour School,2012--0678,09/27/2012,Aiton Elementary School,Wilson Senior High School,0,09/27/2012,digits,Other/failed to parse
+1412,Aiton Eleme ntary School,2012--0679,09/27/2012,Aiton Elementary School,Wilson Senior High School,0,09/27/2012,digits,Other/failed to parse
+1413,Aiton Eleme ntary School,2012--0679,09/27/2012,Non-Attending,Wilson Senior High School,0,09/27/2012,digits,Other/failed to parse
+1414,Non-At tend ing,2012-0684,09/27/2012,Non-Attending,Hardy MS@ Hami lton School,0,09/27/2012,digits,Other/failed to parse
+1415,Non-At tend ing,2012-0684,09/27/2012,Murch Elementary School,Hardy MS@ Hami lton School,0,09/27/2012,digits,Other/failed to parse
+1416,Murc h Elementary School,2012--0682,09/27/2012,Murch Elementary School,Hardy MS@ Hami lton School,0,09/27/2012,digits,Other/failed to parse
+1417,Murc h Elementary School,2012--0682,09/27/2012,Mur ch Elementa ry School,Hardy MS@ Hami lton School,0,09/27/2012,digits,Other/failed to parse
+1418,Murc h Elementary School,2012--0682,09/27/2012,Ballou Senior High School,Hardy MS@ Hami lton School,0,09/27/2012,digits,Other/failed to parse
+1419,Ballou Senior High School,2012--0680,09/27/2012,Ballou Senior High School,Ballou Senior High School,0,09/27/2012,digits,Other/failed to parse
+1420,Ballou Senior High School,2012--0680,09/28/2012,Spingarn Senior High School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1421,Spingarn Senior High School,2012-068 1,09/28/2012,Spingarn Senior High School,Roosevel t 5.T.A.Y High School,0,09/28/2012,digits,Other/failed to parse
+1422,M urch Elementa ry School,2012-0683,09/28/2012,Murch Elementary School,Roosevel t 5.T.A.Y High School,0,09/28/2012,digits,Other/failed to parse
+1423,M urch Elementa ry School,2012-0683,09/28/2012,Roosevelt High School,Roosevel t 5.T.A.Y High School,0,09/28/2012,digits,Other/failed to parse
+1424,Non-Attend,2012-0685,09/28/2012,Roosevelt High School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1425,Non-Attend,2012-0685,09/28/2012,Stanton Elementary School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1426,Non-Attend,2012-0685,09/28/2012,Sta nton Elementary School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1427,Stanton Elementa ry School,2012-0687,09/28/2012,Sta nton Elementary School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1428,Stanton Elementa ry School,2012-0687,09/28/2012,Stanton Elementary School,Ballou Senior High School,0,09/28/2012,digits,Other/failed to parse
+1429,Stanton Elementa ry School,2012-0687,10/01/2012,Stanton Elementary School,Ballou Senior High School,0,10/01/2012,digits,Other/failed to parse
+1430,Stanton Elementa ry School,2012-0687,10/01/2012,Mo ten Elementary School @ Wilkinson,Ballou Senior High School,0,10/01/2012,digits,Other/failed to parse
+1431,Moten Elementary School @ Wi lkinson,2012--0686,10/01/2012,Moten Elementary School @ Wilkinson,Ballou Senior High School,0,10/01/2012,digits,Other/failed to parse
+1432,Moten Elementary School @ Wi lkinson,2012--0686,10/01/2012,Mclea n School,Ballou Senior High School,0,10/01/2012,digits,Other/failed to parse
+1433,M clean School,2012-0688,10/01/2012,Mcl ean School,Wilson Senior High School,0,10/01/2012,digits,Other/failed to parse
+1434,M clean School,2012-0688,10/01/2012,Choice Academy MS/SHS - HOME SCHOOL,Wilson Senior High School,0,10/01/2012,digits,Other/failed to parse
+1435,M clean School,2012-0688,10/ 02/ 2012,Choice Academy MS/SHS - HOME SCHOOL,Wilson Senior High School,0,10/ 02/ 2012,digits,Other/failed to parse
+1436,M clean School,2012-0688,10/ 02/ 2012,Choice Academy MS/SHS • HOME SCHOOL,Wilson Senior High School,0,10/ 02/ 2012,digits,Other/failed to parse
+1437,Choice Academy MS/SHS - HOME SCHOOL,2012-0689,10/ 02/ 2012,Choice Academy MS/SHS - HOME SCHOOL,Shaw MS @ Garnet-Pat terson,0,10/ 02/ 2012,digits,Other/failed to parse
+1438,Choice Academy MS/SHS - HOME SCHOOL,2012-0689,10/ 02/ 2012,Eliot -Hine Middle School,Shaw MS @ Garnet-Pat terson,0,10/ 02/ 2012,digits,Other/failed to parse
+1439,Eliot -Hine M iddle School,2012-0690,10/ 02/ 2012,El iot-H ine Mi ddle School,Eliot -Hine M iddle School,0,10/ 02/ 2012,digits,Other/failed to parse
+1440,Eliot -Hine M iddle School,2012-0690,10/ 02/ 2012,Eliot -Hine M iddle School,Eliot -Hine M iddle School,0,10/ 02/ 2012,digits,Other/failed to parse
+1441,Eliot -Hine M iddle School,2012-0690,10/ 02/ 2012,Spingarn Senior High School,Eliot -Hine M iddle School,0,10/ 02/ 2012,digits,Other/failed to parse
+1473,10/ 12/2012,10/ 12/2012,10/ 12/2012,Malco lm X ES,10/ 12/2012,0,10/ 12/2012,digits,Other/failed to parse
+1474,10/ 12/2012,10/ 12/2012,10/ 12/2012,Cardozo High Schoo l,10/ 12/2012,0,10/ 12/2012,digits,Other/failed to parse
+1548,-- ... ..,11/02/2012,11/02/2012,11/02/2012,11/02/2012,0,11/02/2012,digits,Other/failed to parse
+1549,-- ... ..,11/02/2012,11/02/2012,John Burroughs EC,11/02/2012,0,11/02/2012,digits,Other/failed to parse
+1550,-- ... ..,11/02/2012,11/02/2012,Bright wood EC,11/02/2012,0,11/02/2012,digits,Other/failed to parse
+1619,11/29/2012,11/29/2012,11/29/2012,Johnson MS,11/29/2012,0,11/29/2012,digits,Other/failed to parse
+1620,11/29/2012,11/29/2012,11/29/2012,Wa lker-Jones/Tur ner EC,11/29/2012,0,11/29/2012,digits,Other/failed to parse
+1621,11/29/2012,11/29/2012,11/29/2012,Wa lker-Jones/Tu rner EC,11/29/2012,0,11/29/2012,digits,Other/failed to parse
+1649,12/11/20 12,12/11/20 12,12/11/20 12,12/11/20 12,Incarcerated Yout h Prog ram,0,12/11/20 12,digits,Other/failed to parse
+1679,12/26/2012,12/26/2012,12/27/2012,Hart Middle School,12/26/2012,0,12/27/2012,digits,Other/failed to parse
+1680,12/26/2012,12/26/2012,12/27/2012,Hart M iddle School,12/26/2012,0,12/27/2012,digits,Other/failed to parse
+1681,12/26/2012,12/26/2012,12/27/2012,Sousa M iddle School,12/26/2012,0,12/27/2012,digits,Other/failed to parse
+1682,Sousa M iddle School,2012-0842,12/27/2012,Sousa M iddle School,12/26/2012,0,12/27/2012,digits,Other/failed to parse
+1683,Sousa M iddle School,2012-0842,12/27/2012,Ludlow-Taylor ES,12/26/2012,0,12/27/2012,digits,Other/failed to parse
+1684,Ludlow-Tay lor ES,2013-0005,12/27/2012,Ludlow-Taylor ES,Ludlow-Tay lor ES,0,12/27/2012,digits,Other/failed to parse
+1685,Macfa rland M iddle School,2012-0844,12/27/2012,Macfarland M iddle School,Ronald H. Brow n MS,0,12/27/2012,digits,Other/failed to parse
+1686,Macfa rland M iddle School,2012-0844,12/27/2012,Shaw MS@ Garnet -Patterson,Ronald H. Brow n MS,0,12/27/2012,digits,Other/failed to parse
+1687,Shaw MS@ Garnet- Patt erson,2012-0848,12/27/2012,Shaw MS@ Garnet -Patterson,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1688,Shaw MS@ Garnet- Patt erson,2012-0848,12/27/2012,Shaw MS@ Garnet-Patterson,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1689,Shaw MS@ Garnet- Patt erson,2012-0848,12/27/2012,Woodson Academy@ Ron Brown,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1690,Shaw MS@ Garnet- Patt erson,2012-0848,12/27/2012,Woodson Academy @ Ron Brown,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1691,Woodson Academy @ Ron Brown,2012-0846,12/27/2012,Woodson Academy@ Ron Brown,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1692,Woodson Academy @ Ron Brown,2012-0846,12/27/2012,Woodson Academy @ Ron Brown,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1693,Woodson Academy @ Ron Brown,2012-0846,12/27/2012,Hart Middle School,Shaw MS @ Garnet-Patterson,0,12/27/2012,digits,Other/failed to parse
+1694,Woodson Academy @ Ron Brown,2012-0846,12/28/2012,Hart M iddle School,Shaw MS @ Garnet-Patterson,0,12/28/2012,digits,Other/failed to parse
+1695,Woodson Academy @ Ron Brown,2012-0846,12/28/2012,Hart Midd le School,Shaw MS @ Garnet-Patterson,0,12/28/2012,digits,Other/failed to parse
+1696,Hart M iddle School,2012-0847,12/28/2012,Hart Midd le School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1697,Hart M iddle School,2012-0847,12/28/2012,Hart M iddle School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1698,Hart M iddle School,2012-0847,12/28/2012,Murch Elementary School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1699,Murch Elementary School,2012-0850,12/28/2012,Murch Elementary School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1700,Murch Elementary School,2012-0850,12/28/2012,Murc h Elementa ry School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1701,Hart M iddle School,2012-0847-B,12/28/2012,Hart Middle School,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1702,Hart M iddle School,2012-0847-B,12/28/2012,Spingarn Stay SHS,Hart M iddle Schoo l,0,12/28/2012,digits,Other/failed to parse
+1703,Spingarn Stay SHS,2012-085 1,12/28/2012,Spingarn Stay SHS,cardozo High School,0,12/28/2012,digits,Other/failed to parse
+1704,Spingarn Stay SHS,2012-085 1,12/28/2012,LaSalle-Backus EC,cardozo High School,0,12/28/2012,digits,Other/failed to parse
+1705,LaSalle-Backus EC,2012-0849,12/28/2012,LaSalle-Backus EC,Brookland ES @ Bunker Hill,0,12/28/2012,digits,Other/failed to parse
+1706,Achievement Prep Academy Public Charter School,2012-0845,12/28/2012,LaSalle-Backus EC,Brookland ES @ Bunker Hill,0,12/28/2012,digits,Other/failed to parse
+1707,Pathways,2013-0003,12/28/2012,LaSalle-Backus EC,Brookland ES @ Bunker Hill,0,12/28/2012,digits,Other/failed to parse
+1708,Pathways,2013-0003,12/28/2012,Anacost ia Senior High School,Brookland ES @ Bunker Hill,0,12/28/2012,digits,Other/failed to parse
+1709,Non-Attend ing,2013-0004,12/28/2012,Anacost ia Senior High School,Anacost ia Senior High School,0,12/28/2012,digits,Other/failed to parse
+1710,Non-Attend ing,2013-0004,01/02/ 2013,Anacost ia Senior High Schoo l,Anacost ia Senior High School,0,01/02/ 2013,digits,Other/failed to parse
+1711,Non-Attend ing,2013-0004,01/02/ 2013,Mo nroe School,Anacost ia Senior High School,0,01/02/ 2013,digits,Other/failed to parse
+1712,Monroe School,2013-000 1,01/02/ 2013,Mo nroe School,Anacost ia Senior High School,0,01/02/ 2013,digits,Other/failed to parse
+1713,Monroe School,2013-000 1,01/02/ 2013,Mon roe Schoo l,Anacost ia Senior High School,0,01/02/ 2013,digits,Other/failed to parse
+1714,Monroe School,2013-000 1,01/02/ 2013,Tyler Elementary School,Anacost ia Senior High School,0,01/02/ 2013,digits,Other/failed to parse
+1715,Tyler Elementary School,2013-0010,01/02/ 2013,Tyler Elementary School,Tyler Elementary School,0,01/02/ 2013,digits,Other/failed to parse
+1716,Accot ink Academy,2013-0006,01/04/2013,Accotink Academy,Perry Street Preparatory PCS,0,01/04/2013,digits,Other/failed to parse
+1717,Cesar Chavez PCS,2013-0008,01/04/2013,Accotink Academy,Ballou Senior High School,0,01/04/2013,digits,Other/failed to parse
+1718,Lab School of Washington,2013-0007,01/04/2013,Accotink Academy,Coolidge High School,0,01/04/2013,digits,Other/failed to parse
+1719,DC Preparatory,2013-00lS,01/04/2013,Accotink Academy,Spingarn Senior High School,0,01/04/2013,digits,Other/failed to parse
+1720,DC Preparatory,2013-00lS,01/04/2013,Murch Elementary School,Spingarn Senior High School,0,01/04/2013,digits,Other/failed to parse
+1721,Lab School of Washington,2013-00 14,01/04/2013,Murch Elementary School,Stoddert ES,0,01/04/2013,digits,Other/failed to parse
+1722,Lab School of Washington,2013-00 14,01/04/2013,Cardozo High School,Stoddert ES,0,01/04/2013,digits,Other/failed to parse
+1723,Cardozo High School,2013-0009,01/04/2013,Cardozo High School,Cardozo High School,0,01/04/2013,digits,Other/failed to parse
+1724,Cardozo High School,2013-0009,01/07/2013,Cardozo High School,Cardozo High School,0,01/07/2013,digits,Other/failed to parse
+1725,Commonwea lth Academy,2013-00 12,01/07/2013,Cardozo High School,Cardozo High School,0,01/07/2013,digits,Other/failed to parse
+1726,Commonwea lth Academy,2013-00 12,01/07/2013,Oyster Adams Bi lingual,Cardozo High School,0,01/07/2013,digits,Other/failed to parse
+1727,Commonwea lth Academy,2013-00 12,01/07/2013,Oyster Adams Bilingual,Cardozo High School,0,01/07/2013,digits,Other/failed to parse
+1728,Oyster Adams Bilingual,2013-0011,01/07/2013,Oyster Adams Bilingual,LaSalle-Backus EC,0,01/07/2013,digits,Other/failed to parse
+1729,Oyster Adams Bilingual,2013-0011,01/07/2013,Oyster Adams Bilingua l,LaSalle-Backus EC,0,01/07/2013,digits,Other/failed to parse
+1730,Oyster Adams Bilingual,2013-0011,01/07/2013,Oyster Adams Bi lingual,LaSalle-Backus EC,0,01/07/2013,digits,Other/failed to parse
+1731,Oyster Adams Bilingual,2013-0011,01/07/2013,Oyste r Adams Bilingua l,LaSalle-Backus EC,0,01/07/2013,digits,Other/failed to parse
+1868,02/ 14/20 13,02/ 14/20 13,02/ 14/20 13,Sousa M iddle School,02/ 14/20 13,0,02/ 14/20 13,digits,Other/failed to parse
+1924,cardozo High Schoo l,2013-0105,02/26/2013,Cardozo High School,Garfiel d ES,0,02/26/2013,digits,Other/failed to parse
+1925,cardozo High Schoo l,2013-0105,02/26/2013,Spingarn Senior High School,Garfiel d ES,0,02/26/2013,digits,Other/failed to parse
+1926,Spingarn Senior High School,2013-0102,02/26/2013,Spingarn Senior High School,Garfiel d ES,0,02/26/2013,digits,Other/failed to parse
+1927,Spingarn Senior High School,2013-0102,02/26/2013,Anacost ia Senior High School,Garfiel d ES,0,02/26/2013,digits,Other/failed to parse
+1928,Spingarn Senior High School,2013-0102,02/26/2013,Anacostia Senior High School,Garfiel d ES,0,02/26/2013,digits,Other/failed to parse
+1929,Anacostia Senior High School,2013-0104,02/26/2013,Anacostia Senior High School,Anacost ia Senior High School,0,02/26/2013,digits,Other/failed to parse
+1930,Anacostia Senior High School,2013-0104,02/26/2013,Anacost ia Senior High School,Anacost ia Senior High School,0,02/26/2013,digits,Other/failed to parse
+1931,Anacostia Senior High School,2013-0104,02/26/2013,Seaton Elementary School,Anacost ia Senior High School,0,02/26/2013,digits,Other/failed to parse
+1932,Seaton Elementary School,2013-0106,02/26/2013,Seaton Elementary School,Seaton Elementary School,0,02/26/2013,digits,Other/failed to parse
+1933,Seaton Elementary School,2013-0106,02/26/2013,Seaton Eleme nta ry School,Seaton Elementary School,0,02/26/2013,digits,Other/failed to parse
+1934,Seaton Elementary School,2013-0106,"....... '""6' 02/27/2013",Seaton Eleme nta ry School,Seaton Elementary School,0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1935,Spingarn Senior High School,"'""0' 2013-010 7","....... '""6' 02/27/2013",Seaton Eleme nta ry School,Spingarn Senior High School,0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1936,Spingarn Senior High School,"'""0' 2013-010 7","....... '""6' 02/27/2013",Miner Elementary,Spingarn Senior High School,0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1937,Miner Elementary,2013-0108,"....... '""6' 02/27/2013",Miner Elementary,Spingarn Senior High School,0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1938,Miner Elementary,2013-0108,"....... '""6' 02/27/2013",Miner Elemen tary,Spingarn Senior High School,0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1939,Roosevelt High School,2013-0 111,"....... '""6' 02/27/2013",Miner Elemen tary,Youth Build PCS (LAY C),0,"....... '""6' 02/27/2013",no_digits,Other/failed to parse
+1940,Roosevelt High School,2013-0 111,02/28/2013,Miner Elemen tary,Youth Build PCS (LAY C),0,02/28/2013,digits,Other/failed to parse
+1941,Roosevelt High School,2013-0 111,02/28/2013,Johnson MS,Youth Build PCS (LAY C),0,02/28/2013,digits,Other/failed to parse
+1942,OTHER,2013-0110,02/28/2013,Johnson MS,Johnson MS,0,02/28/2013,digits,Other/failed to parse
+1943,OTHER,2013-0110,02/28/2013,Langdon Elementary School,Johnson MS,0,02/28/2013,digits,Other/failed to parse
+1947,03/05/20 13,03/05/20 13,03/05/20 13,Dunbar High Schoo l,03/05/20 13,0,03/05/20 13,digits,Other/failed to parse
+1948,03/05/20 13,03/05/20 13,03/05/20 13,Dunbar High School,03/05/20 13,0,03/05/20 13,digits,Other/failed to parse
+1949,03/05/20 13,03/05/20 13,03/05/20 13,Dunba r High Schoo l,03/05/20 13,0,03/05/20 13,digits,Other/failed to parse
+2456,06/ 12/2013,06/ 12/2013,06/ 12/2013,"Harris, C.W. ES",06/ 12/2013,0,06/ 12/2013,digits,Other/failed to parse
+2507,06/26/2013,06/26/2013,06/26/2013,Prospect LC,06/26/2013,0,06/26/2013,digits,Other/failed to parse
+2508,06/26/2013,06/26/2013,06/26/2013,Kimba ll Elementary Schoo l,06/26/2013,0,06/26/2013,digits,Other/failed to parse
+2715,"T11rn g,..- fnl l:ragn t:l gmgn t :.in, <:;r-hnn l",",n1~ .t Mf;..A",.4a:::ind I i: 6,Turne r @ Green Elementary,Rand le-H ighlands ES,0,.4a:::ind I i: 6,no_digits,Other/failed to parse
+3117,11/27/2013,...,11/27/2013,11/27/2013,11/27/2013,0,11/27/2013,digits,Other/failed to parse
+3118,11/27/2013,...,11/27/2013,"Harris, C.W. ES",11/27/2013,0,11/27/2013,digits,Other/failed to parse
+3119,11/27/2013,...,11/27/2013,"Harr is, C.W. ES",11/27/2013,0,11/27/2013,digits,Other/failed to parse
+3120,11/27/2013,...,11/27/2013,Parkmo unt Schoo l,11/27/2013,0,11/27/2013,digits,Other/failed to parse
+3121,11/27/2013,...,11/27/2013,Parkmo unt School,11/27/2013,0,11/27/2013,digits,Other/failed to parse
+3518,03/ 25/2014,03/ 25/2014,03/ 25/2014,Mo nroe Schoo l,03/ 25/2014,0,03/ 25/2014,digits,Other/failed to parse
+3546,cardozo High School,2014-0154,. . -,Johnson MS,Hyde ES,0,. . -,no_digits,Other/failed to parse
+3547,cardozo High School,2014-0154,. . -,Lab Schoo l of Wash ington,Hyde ES,0,. . -,no_digits,Other/failed to parse
+3548,Lab School of Was hingto n,2014--0156,. . -,Lab School of Wash ington,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3549,Lab School of Was hingto n,2014--0156,. . -,Lab Schoo l of Wash ington,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3550,Lab School of Was hingto n,2014--0156,. . -,Ballou STAY,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3551,Ballou STAY,2014--0160,. . -,Ballou STAY,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3552,Ballou STAY,2014--0160,. . -,Jeff erson MS,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3553,Ballou STAY,2014--0160,. . -,Jefferson MS,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3554,Jefferson,2014--0157,. . -,Jefferson MS,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3555,Jefferson,2014--0157,. . -,Jeff erson MS,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3556,Jefferson,2014--0157,. . -,El iot-H ine Middle School,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3557,Jefferson,2014--0157,. . -,Eliot -Hine Middle School,Deal M iddle Schoo l,0,. . -,no_digits,Other/failed to parse
+3558,Eliot -Hine M idd le School,2014--0159,. . -,Eliot-H ine Middle Schoo l,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3559,Eliot -Hine M idd le School,2014--0159,. . -,El iot -Hine Middle Schoo l,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3560,Eliot -Hine M idd le School,2014--0159,. . -,El iot-H ine Middle School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3561,Eliot -Hine M idd le School,2014--0159,. . -,Kelly M iller MS,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3562,Eliot -Hine M idd le School,2014--0159,. . -,Kelly M iller M S,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3563,Kelly M il ler MS,2014--0158,. . -,Kelly M iller M S,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3564,Kelly M il ler MS,2014--0158,. . -,Kelly M iller MS,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3565,Kelly M il ler MS,2014--0158,. . -,Wilson Senior High School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3566,W ilson Senior High Schoo l,2014--0164,. . -,Wilson Senior High School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3567,W ilson Senior High Schoo l,2014--0164,. . -,Wi lson Senior High School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3568,W ilson Senior High Schoo l,2014--0164,. . -,Key Elementary School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3569,W ilson Senior High Schoo l,2014--0164,. . -,Key Eleme ntary School,Eliot -Hine M idd le School,0,. . -,no_digits,Other/failed to parse
+3570,OTHER,2014--0162,. . -,Key Eleme ntary School,Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3571,OTHER,2014--0162,. . -,Key Elementary School,Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3572,OTHER,2014--0162,. . -,Youth Build PCS (LAYC),Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3573,Youth Bui ld PCS( LAYC),2014-0168,. . -,Youth Build PCS (LAYC),Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3574,Youth Bui ld PCS( LAYC),2014-0168,. . -,Youth Build PCS (LAY C),Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3575,Youth Bui ld PCS( LAYC),2014-0168,. . -,Turne r@ Green Elementary,Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3576,Youth Bui ld PCS( LAYC),2014-0168,. . -,Turne r @ Green Elementary,Key Eleme ntary School,0,. . -,no_digits,Other/failed to parse
+3647,Lab School of Was hingto n,2014--0197,04/17/2014,HD Cooke Elementary School,Man n Elementary School,0,04/17/2014,digits,Other/failed to parse
+3648,HD Cooke Elementary,2014--0201,04/17/2014,HD Cooke Elementary School,Man n Elementary School,0,04/17/2014,digits,Other/failed to parse
+3649,HD Cooke Elementary,2014--0201,04/17/2014,HO Cooke Elementary School,Man n Elementary School,0,04/17/2014,digits,Other/failed to parse
+3650,HD Cooke Elementary,2014--0201,04/17/2014,Beers Elementary School,Man n Elementary School,0,04/17/2014,digits,Other/failed to parse
+3651,Beers Elementary,2014--0200,04/17/2014,Beers Elementary School,Beers Elementar y School,0,04/17/2014,digits,Other/failed to parse
+3652,KIPP (All Campuses),2014--0196,04/17/2014,Beers Elementary School,Houston Eleme ntary School,0,04/17/2014,digits,Other/failed to parse
+3653,KIPP (All Campuses),2014--0196,04/17/2014,Wa lker-Jones/Tu rner EC,Houston Eleme ntary School,0,04/17/2014,digits,Other/failed to parse
+3654,Walker -Jones/T urne r EC,2014--0202,04/18/2014,Wa lker-Jones/Tu rner EC,Walker -Jones/T urne r EC,0,04/18/2014,digits,Other/failed to parse
+3655,Walker -Jones/T urne r EC,2014--0202,04/18/2014,Wa lker-Jones/Turner EC,Walker -Jones/T urne r EC,0,04/18/2014,digits,Other/failed to parse
+3656,Walker -Jones/T urne r EC,2014--0202,04/18/2014,Sousa M idd le School,Walker -Jones/T urne r EC,0,04/18/2014,digits,Other/failed to parse
+3657,Sousa Middle,2014--0203,04/21/20 14,Sousa M idd le School,Kelly Miller MS,0,04/21/20 14,digits,Other/failed to parse
+3658,Sousa Middle,2014--0203,04/21/20 14,Thomas Elementary School,Kelly Miller MS,0,04/21/20 14,digits,Other/failed to parse
+3659,Thomas Elementary Schoo l,2014--0204,04/23/20 14,Thomas Elementary School,Thomas Elementary Schoo l,0,04/23/20 14,digits,Other/failed to parse
+3660,Thomas Elementary Schoo l,2014--0204,04/23/20 14,Thomas Elementa ry Schoo l,Thomas Elementary Schoo l,0,04/23/20 14,digits,Other/failed to parse
+3661,Thomas Elementary Schoo l,2014--0204,04/23/20 14,Thomas Elementary Schoo l,Thomas Elementary Schoo l,0,04/23/20 14,digits,Other/failed to parse
+3662,Thomas Elementary Schoo l,2014--0204,04/23/20 14,Simon Elementary School,Thomas Elementary Schoo l,0,04/23/20 14,digits,Other/failed to parse
+3663,Simon Elementary,2014--0205,04/25/2014,Simon Elementary School,Leckie Elemen tary Schoo l,0,04/25/2014,digits,Other/failed to parse
+3664,Simon Elementary,2014--0205,04/25/2014,Simon Eleme ntary School,Leckie Elemen tary Schoo l,0,04/25/2014,digits,Other/failed to parse
+3665,Simon Elementary,2014--0205,04/25/2014,Ballou STAY,Leckie Elemen tary Schoo l,0,04/25/2014,digits,Other/failed to parse
+3666,Simon Elementary,2014--0205,04/25/2014,Ballou STAY,H.D. Woodson Senior High,0,04/25/2014,digits,Other/failed to parse
+3667,Ballou STAY,2014--0206,04/28/2014,Ballou STAY,H.D. Woodson Senior High,0,04/28/2014,digits,Other/failed to parse
+3668,Ballou STAY,2014--0206,04/28/2014,Ballou STAY,Schoo l,0,04/28/2014,digits,Other/failed to parse
+3669,Ballou STAY,2014--0206,04/28/2014,Roosevelt High School,Schoo l,0,04/28/2014,digits,Other/failed to parse
+3670,Non -Attend,2014--0207,04/28/2014,Roosevelt High School,Roosevelt High School,0,04/28/2014,digits,Other/failed to parse
+3671,Non -Attend,2014--0207,04/29/ 2014,Roosevelt High School,Roosevelt High School,0,04/29/ 2014,digits,Other/failed to parse
+3672,Non -Attend,2014--0207,04/29/ 2014,lab Schoo l of Wash ington,Roosevelt High School,0,04/29/ 2014,digits,Other/failed to parse
+3673,Lab Schoo l of Was hingto n,2014--0208,04/29/ 2014,Lab Schoo l of Wash ington,Cool idge High Schoo l,0,04/29/ 2014,digits,Other/failed to parse
+3674,Lab Schoo l of Was hingto n,2014--0208,04/29/ 2014,Hyde ES,Cool idge High Schoo l,0,04/29/ 2014,digits,Other/failed to parse
+3675,OTHER,2014--0209,04/30/20 14,Hyde ES,Hyde ES,0,04/30/20 14,digits,Other/failed to parse
+3676,OTHER,2014--0209,04/30/20 14,Nat ional Collegiate PCS,Hyde ES,0,04/30/20 14,digits,Other/failed to parse
+3677,National Collegiate PCS,2014--0211,05/01/2 014,Nat iona l Collegiate PCS,Hyde ES,0,05/01/2 014,digits,Other/failed to parse
+3678,National Collegiate PCS,2014--0211,05/01/2 014,Nat ional Collegiate PCS,Hyde ES,0,05/01/2 014,digits,Other/failed to parse
+3679,National Collegiate PCS,2014--0211,05/01/2 014,Kelly M iller MS,Hyde ES,0,05/01/2 014,digits,Other/failed to parse
+3749,05/23/20 14,05/23/20 14,05/23/20 14,Dunbar High Schoo l,05/23/20 14,0,05/23/20 14,digits,Other/failed to parse
+3750,05/23/20 14,05/23/20 14,05/23/20 14,HD Cooke Elementary School,05/23/20 14,0,05/23/20 14,digits,Other/failed to parse
+3838,M iner Elementary,2014-0281,06/20/2014,M iner Elemen tary,Kramer M idd le School,0,06/20/2014,digits,Other/failed to parse
+3839,IDEAL Academy PCS( all campuses),2014-0283,06/20/2014,M iner Elemen tary,Kramer M idd le School,0,06/20/2014,digits,Other/failed to parse
+3840,BASIS Charter School,2014-028 2,06/20/2014,M iner Elemen tary,Kramer M idd le School,0,06/20/2014,digits,Other/failed to parse
+3841,BASIS Charter School,2014-028 2,06/20/2014,McKinley Technology High,Kramer M idd le School,0,06/20/2014,digits,Other/failed to parse
+3842,Mc Kin ley Technol ogy High,2014-0288,06/20/2014,McKinley Technology High,LaSalle-Backus EC,0,06/20/2014,digits,Other/failed to parse
+3843,Mc Kin ley Technol ogy High,2014-0288,06/20/2014,McKinley Techno logy High,LaSalle-Backus EC,0,06/20/2014,digits,Other/failed to parse
+3844,Mc Kin ley Technol ogy High,2014-0288,06/20/2014,Ballou Senior High School,LaSalle-Backus EC,0,06/20/2014,digits,Other/failed to parse
+3845,Ballou Senio r High School,2014-0289,06/20/2014,Ballou Senior High School,LaSalle-Backus EC,0,06/20/2014,digits,Other/failed to parse
+3846,Ballou Senio r High School,2014-0289,06/20/2014,Wilson Senior High School,LaSalle-Backus EC,0,06/20/2014,digits,Other/failed to parse
+3847,W ilson Senior High School,2014-028 7,06/23/2014,Wil son Senior High School,Wi lson Senio r High School,0,06/23/2014,digits,Other/failed to parse
+3848,W ilson Senior High School,2014-028 7,06/23/2014,Wilson Senior High School,Wi lson Senio r High School,0,06/23/2014,digits,Other/failed to parse
+3849,W ilson Senior High School,2014-028 7,06/23/2014,Watk ins Elementary School,Wi lson Senio r High School,0,06/23/2014,digits,Other/failed to parse
+3850,Watk ins Elementary,2014-0285,06/23/2014,Watk ins Elemen tary School,Watk ins Eleme ntary School,0,06/23/2014,digits,Other/failed to parse
+3851,Watk ins Elementary,2014-0285,06/23/2014,Watk ins Elemen tary Schoo l,Watk ins Eleme ntary School,0,06/23/2014,digits,Other/failed to parse
+3852,High Road PG,2014-0286,06/23/2014,Watk ins Elemen tary Schoo l,Watk ins Eleme ntary School,0,06/23/2014,digits,Other/failed to parse
+3853,High Road PG,2014-0286,06/23/2014,M iner Elemen tary,Watk ins Eleme ntary School,0,06/23/2014,digits,Other/failed to parse
+3854,M iner Elementary,2014-029 1,06/23/2014,M ine r Elementary,M iner Eleme ntary,0,06/23/2014,digits,Other/failed to parse
+3855,M iner Elementary,2014-029 1,06/23/2014,M iner Elemen tary,M iner Eleme ntary,0,06/23/2014,digits,Other/failed to parse
+3856,M iner Elementary,2014-029 1,06/24/20 14,M iner Elemen tary,M iner Eleme ntary,0,06/24/20 14,digits,Other/failed to parse
+3857,BASIS Charter Schoo l,2014-0290,06/24/20 14,M iner Elemen tary,BASIS Charter Schoo l,0,06/24/20 14,digits,Other/failed to parse
+3858,BASIS Charter Schoo l,2014-0290,06/24/20 14,Hart M iddle School,BASIS Charter Schoo l,0,06/24/20 14,digits,Other/failed to parse
+3859,Hart M iddle School,2014-0293,06/24/20 14,Hart M iddle School,Hart M idd le School,0,06/24/20 14,digits,Other/failed to parse
+3860,Hart M iddle School,2014-0293,06/24/20 14,Hart Midd le School,Hart M idd le School,0,06/24/20 14,digits,Other/failed to parse
+3861,Hart M iddle School,2014-0293,06/24/20 14,Raymond Elementary School,Hart M idd le School,0,06/24/20 14,digits,Other/failed to parse
+3862,Hart M iddle School,2014-0293,06/25/2014,Raymond Elementary School,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3863,Raymond Elementary,2014-0292,06/25/2014,Raymond Elementary School,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3864,Raymond Elementary,2014-0292,06/25/2014,Raymond Element ary School,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3865,Raymond Elementary,2014-0292,06/25/2014,Jeff erson MS,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3866,Jefferson,2014-0295,06/25/2014,Jeff erson MS,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3867,Jefferson,2014-0295,06/25/2014,Jefferson MS,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3868,Jefferson,2014-0295,06/25/2014,Broo klan d ES@ Bunker Hill,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3869,Broo kland ES@ Bunke r Hill,2014-0296,06/25/2014,Broo klan d ES@ Bunker Hill,Hart M idd le School,0,06/25/2014,digits,Other/failed to parse
+3870,Broo kland ES@ Bunke r Hill,2014-0296,06/27/2014,Brookland ES@ Bunker Hill,Hart M idd le School,0,06/27/2014,digits,Other/failed to parse
+3871,Broo kland ES@ Bunke r Hill,2014-0296,06/27/2014,Hardy MS@ Hamil t on School,Hart M idd le School,0,06/27/2014,digits,Other/failed to parse
+3872,Broo kland ES@ Bunke r Hill,2014-0296,06/27/2014,Hardy M S @ Hami lt on School,Hart M idd le School,0,06/27/2014,digits,Other/failed to parse
+3873,Hardy MS@ Hamilton Schoo l,2014-0294,06/27/2014,Hardy M S @ Hami lt on School,Hardy MS@ Hami lton Schoo l,0,06/27/2014,digits,Other/failed to parse
+3874,Hardy MS@ Hamilton Schoo l,2014-0294,06/27/2014,Hardy MS@ Hami lt on School,Hardy MS@ Hami lton Schoo l,0,06/27/2014,digits,Other/failed to parse
+3875,Hardy MS@ Hamilton Schoo l,2014-0294,06/27/2014,Hardy MS@ Hamilto n School,Hardy MS@ Hami lton Schoo l,0,06/27/2014,digits,Other/failed to parse
+3876,Hardy MS@ Hamilton Schoo l,2014-0294,06/27/2014,Anacost ia Senior High Schoo l,Hardy MS@ Hami lton Schoo l,0,06/27/2014,digits,Other/failed to parse
+3877,Hardy MS@ Hamilton Schoo l,2014-0294,06/27/2014,Anacost ia Sen ior High School,Hardy MS@ Hami lton Schoo l,0,06/27/2014,digits,Other/failed to parse
+3878,Anaco st ia Senior High School,2014-0297,06/27/2014,Anacost ia Senior High School,Anacost ia Senior High School,0,06/27/2014,digits,Other/failed to parse
+3879,Anaco st ia Senior High School,2014-0297,06/27/2014,Anacost ia Senior High Schoo l,Anacost ia Senior High School,0,06/27/2014,digits,Other/failed to parse
+3880,Anaco st ia Senior High School,2014-0297,06/30/ 2014,Anacost ia Senior High Schoo l,Anacost ia Senior High School,0,06/30/ 2014,digits,Other/failed to parse
+3881,Katherine,2014-0299,06/30/ 2014,Anacost ia Senior High Schoo l,Key Eleme ntary School,0,06/30/ 2014,digits,Other/failed to parse
+3882,Katherine,2014-0299,06/30/ 2014,Cardozo High Schoo l,Key Eleme ntary School,0,06/30/ 2014,digits,Other/failed to parse
+3883,cardozo High School,2014-0298,06/30/ 2014,Cardozo High School,cardozo High School,0,06/30/ 2014,digits,Other/failed to parse
+3884,cardozo High School,2014-0298,06/30/ 2014,Langdon Elementary School,cardozo High School,0,06/30/ 2014,digits,Other/failed to parse
+3885,Langdon Eleme ntary School,2014-0301,06/30/ 2014,Langdon Elementary School,cardozo High School,0,06/30/ 2014,digits,Other/failed to parse
+3886,Hart M iddle Schoo l,2014-0303,06/30/ 2014,Hart Middle School,Hart M idd le Schoo l,0,06/30/ 2014,digits,Other/failed to parse
+3887,Hart M iddle Schoo l,2014-0303,06/30/ 2014,Anacost ia Senior High Schoo l,Hart M idd le Schoo l,0,06/30/ 2014,digits,Other/failed to parse
+3888,Hart M iddle Schoo l,2014-0303,07/01/20 14,Anacost ia Senior High Schoo l,Hart M idd le Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3889,Anaco sti a Senio r High School,2014-0302,07/01/20 14,Anacost ia Senior High School,Hart M idd le Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3890,Anaco sti a Senio r High School,2014-0302,07/01/20 14,Anacost ia Senior High Schoo l,Hart M idd le Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3891,Anaco sti a Senio r High School,2014-0302,07/01/20 14,H.D. Woodson Senior High School,Hart M idd le Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3892,H.D. Woodson Senior High Schoo l,2014-0300,07/01/20 14,H.D. Woodson Senior High School,Eastern High Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3893,Ach ievement Prep Academy Publ ic Charter,2014-0304,07/01/20 14,H.D. Woodson Senior High School,Eastern High Schoo l,0,07/01/20 14,digits,Other/failed to parse
+3894,Ach ievement Prep Academy Publ ic Charter,2014-0304,07/02/2014,H.D. Woodson Senior High School,Eastern High Schoo l,0,07/02/2014,digits,Other/failed to parse
+3895,Accot ink Acade my,2014-0305,07/02/2014,Accot ink Academy,Eastern High Schoo l,0,07/02/2014,digits,Other/failed to parse
+3896,Accot ink Academy,2014-0308,07/02/2014,Accot ink Academy,Eastern High Schoo l,0,07/02/2014,digits,Other/failed to parse
+3897,Accot ink Academy,2014-0308,07/03/2014,Accot ink Academy,Wash ington Math Science,0,07/03/2014,digits,Other/failed to parse
+3905,-,07/18/2014,07/18/2014,07/18/2014,-,0,07/18/2014,digits,Other/failed to parse
+3906,-,07/18/2014,07/18/2014,OTHER,-,0,07/18/2014,digits,Other/failed to parse
+4220,11/26/2014,11/26/2014,11/26/2014,Bell Mu lt icultural Senior High School,11/26/2014,0,11/26/2014,digits,Other/failed to parse
+4221,11/26/2014,11/26/2014,11/26/2014,Bell Mu lt icult ural Senior High School,11/26/2014,0,11/26/2014,digits,Other/failed to parse
+4306,01/12/2015,01/12/2015,01/12/2015,Ludlow-Taylo r ES,01/12/2015,0,01/12/2015,digits,Other/failed to parse
+4307,01/12/2015,01/12/2015,01/12/2015,Ludlow-Taylor ES,01/12/2015,0,01/12/2015,digits,Other/failed to parse
+4515,Incarcerated Youth Program Correct ional,04/08/2015,04/08/2015,04/08/2015,04/08/2015,0,04/08/2015,digits,Other/failed to parse
+4571,Roosevelt High School,2015-0146,04/22/2015,Roosevelt High School,Kramer M iddle School,0,04/22/2015,digits,Other/failed to parse
+4572,Roosevelt High School,2015-0146,04/22/2015,Ballou Senior High School,Kramer M iddle School,0,04/22/2015,digits,Other/failed to parse
+4573,Ballou Senior High School,2015-0145,04/22/2015,Ballou Senior High School,Ballou Senior High School,0,04/22/2015,digits,Other/failed to parse
+4574,Ballou Senior High School,2015-0145,04/22/2015,Sousa M iddle School,Ballou Senior High School,0,04/22/2015,digits,Other/failed to parse
+4575,Sousa Middle School,2015-0147,04/22/2015,Sousa M iddle School,Kelly Miller MS,0,04/22/2015,digits,Other/failed to parse
+4576,Sousa Middle School,2015-0147,04/23/2015,Sousa M iddle School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4577,New Beginnings Vocat ional School,2015-0130,04/23/2015,Sousa M iddle School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4578,New Beginnings Vocat ional School,2015-0130,04/23/2015,HD Cooke Elementary School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4579,HD Cooke Elementary School,2015-0148,04/23/2015,HD Cooke Elementary School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4580,Inspired Teaching Demonstration PCS,2015-0151,04/23/2015,HD Cooke Elementary School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4581,Inspired Teaching Demonstration PCS,2015-0151,04/23/2015,Stanton Elementary School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4582,Inspired Teaching Demonstration PCS,2015-0151,04/23/2015,Stanto n Elementary School,Kelly Miller MS,0,04/23/2015,digits,Other/failed to parse
+4583,Stanto n Elementary School,2015-015 2,04/23/2015,Stanto n Elementary School,Stanton Elementary School,0,04/23/2015,digits,Other/failed to parse
+4584,Stanto n Elementary School,2015-015 2,04/23/2015,Stanton Elementary School,Stanton Elementary School,0,04/23/2015,digits,Other/failed to parse
+4585,Stanto n Elementary School,2015-015 2,04/2 4/2015,Stanto n Elementary School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4586,Stanto n Elementary School,2015-015 2,04/2 4/2015,Stanton Elementary School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4587,Stanto n Elementary School,2015-015 2,04/2 4/2015,Stuart -Hobson Middle School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4588,Stuart-Hobson Midd le School,2015-0150,04/2 4/2015,Stuart-Hobson Middle School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4589,Stuart-Hobson Midd le School,2015-0150,04/2 4/2015,Dunbar High School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4590,Dunbar High School,2015-0149,04/2 4/2015,Dunbar High School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4591,Dunbar High School,2015-0149,04/2 4/2015,Dunbar High Schoo l,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4592,Dunbar High School,2015-0149,04/2 4/2015,Coolidge High School,Stanton Elementary School,0,04/2 4/2015,digits,Other/failed to parse
+4593,Coolidge High School,2015-0153,04/27/2015,Coolidge High School,Stanton Elementary School,0,04/27/2015,digits,Other/failed to parse
+4594,Coolidge High School,2015-0153,04/27/2015,Ballou Senior High School,Stanton Elementary School,0,04/27/2015,digits,Other/failed to parse
+4595,Ballou Senior High School,2015-0155,04/27/2015,Ballou Senior High School,Ballou Senior High School,0,04/27/2015,digits,Other/failed to parse
+4596,Ballou Senior High School,2015-0155,04/27/2015,Kramer M idd le Schoo l,Ballou Senior High School,0,04/27/2015,digits,Other/failed to parse
+4597,Ballou Senior High School,2015-0155,04/27/2015,Kramer M idd le School,Ballou Senior High School,0,04/27/2015,digits,Other/failed to parse
+4971,Wa lker-Jones/T urne r EC,2015-0284,08/24/2015,Eastern High School,Wi lson Senio r High School,0,08/24/2015,digits,Other/failed to parse
+4972,Wa lker-Jones/T urne r EC,2015-0284,08/24/2015,Eastern High Schoo l,Wi lson Senio r High School,0,08/24/2015,digits,Other/failed to parse
+4973,Eastern High Schoo l,2015-0283,08/24/2015,Eastern High Schoo l,Wi lson Senio r High School,0,08/24/2015,digits,Other/failed to parse
+4974,Eastern High Schoo l,2015-0283,08/24/2015,Eastern High School,Wi lson Senio r High School,0,08/24/2015,digits,Other/failed to parse
+4975,Eastern High Schoo l,2015-0283,08/24/2015,Dunbar High School,Wi lson Senio r High School,0,08/24/2015,digits,Other/failed to parse
+4976,Dunbar High School,2015-0285,08/24/2015,Dunbar High School,Dunbar High School,0,08/24/2015,digits,Other/failed to parse
+4977,Dunbar High School,2015-0285,08/24/2015,Dunba r High Schoo l,Dunbar High School,0,08/24/2015,digits,Other/failed to parse
+4978,Dunbar High School,2015-0285,08/24/2015,Dunbar High Schoo l,Dunbar High School,0,08/24/2015,digits,Other/failed to parse
+4979,OTHER,2015-0286·8,08/24/2015,KIPP (Al l Campuses),KIPP (All Campuses),0,08/24/2015,digits,Other/failed to parse
+4980,OTHER,2015-0286·8,08/25/ 2015,KIPP (Al l Campuses),KIPP (All Campuses),0,08/25/ 2015,digits,Other/failed to parse
+4981,OTHER,2015-0286·8,08/25/ 2015,Stuart -Hobson M iddle Schoo l,KIPP (All Campuses),0,08/25/ 2015,digits,Other/failed to parse
+4982,Stuart-Hobson Midd,2015-0287,08/25/ 2015,Stuart -Hobson M iddle Schoo l,Johnson MS,0,08/25/ 2015,digits,Other/failed to parse
+4983,Stuart-Hobson Midd,2015-0287,08/25/ 2015,Stuart-Hobson M iddle Schoo l,Johnson MS,0,08/25/ 2015,digits,Other/failed to parse
+4984,OTHER,2015-0286,08/25/ 2015,Stuart-Hobson M iddle Schoo l,KIPP (All Campuses),0,08/25/ 2015,digits,Other/failed to parse
+4985,OTHER,2015-0286,08/25/ 2015,Cardozo High School,KIPP (All Campuses),0,08/25/ 2015,digits,Other/failed to parse
+5044,Reginald Lour ie Center Schoo l,2015-0311,09/21/20 15,Reginald Lourie Cente r School,Tyler Elementary Schoo l,0,09/21/20 15,digits,Other/failed to parse
+5045,Reginald Lour ie Center Schoo l,2015-0311,09/21/20 15,Regina ld Lour ie Center School,Tyler Elementary Schoo l,0,09/21/20 15,digits,Other/failed to parse
+5046,Reginald Lour ie Center Schoo l,2015-0311,09/21/20 15,New Beginni ngs Vocat iona l School,Tyler Elementary Schoo l,0,09/21/20 15,digits,Other/failed to parse
+5047,Pathways,2015-0312,09/22/2015,New Beginnings Vocat iona l School,Ballou Senior High Schoo l,0,09/22/2015,digits,Other/failed to parse
+5048,Pathways,2015-0312,09/22/2015,New Beginni ngs Vocat iona l School,Ballou Senior High Schoo l,0,09/22/2015,digits,Other/failed to parse
+5049,Pathways,2015-0312,09/22/2015,Ballou Senior High School,Ballou Senior High Schoo l,0,09/22/2015,digits,Other/failed to parse
+5050,Ballou Senior High School,2015-0313,09/23/2015,Ballou Senior High School,Ballou Senior High Schoo l,0,09/23/2015,digits,Other/failed to parse
+5051,Ballou Senior High School,2015-0313,09/23/2015,New Beginni ngs Vocat iona l School,Ballou Senior High Schoo l,0,09/23/2015,digits,Other/failed to parse
+5052,New Beginnings Vocationa,2015-0315,09/23/2015,New Beginni ngs Vocat iona l School,Ballou Senior High Schoo l,0,09/23/2015,digits,Other/failed to parse
+5053,New Beginnings Vocationa,2015-0315,09/25/2015,New Beginnings Vocat iona l School,Ballou Senior High Schoo l,0,09/25/2015,digits,Other/failed to parse
+5054,New Beginnings Vocationa,2015-0315,09/25/2015,Brook land MS,Ballou Senior High Schoo l,0,09/25/2015,digits,Other/failed to parse
+5055,Broo kland ES@ Bunker Hill,2015-0314,09/25/2015,Brook land MS,Brook land ES @ Bunker Hill,0,09/25/2015,digits,Other/failed to parse
+5056,Broo kland ES@ Bunker Hill,2015-0314,09/25/2015,Krame r M idd le School,Brook land ES @ Bunker Hill,0,09/25/2015,digits,Other/failed to parse
+5057,Kramer M idd le School,2015-0316,09/25/2015,Krame r M idd le Schoo l,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5058,Kramer M idd le School,2015-0316,09/25/2015,Kramer M idd le School,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5059,Kramer M idd le School,2015-0316,09/25/2015,Dunbar High School,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5060,Dunbar High School,2015-0319,09/25/2015,Dunba r High Schoo l,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5061,Dunbar High School,2015-0319,09/25/2015,Dunbar High Schoo l,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5062,Dunbar High School,2015-0319,09/25/2015,Hearst Elementa ry School,Kramer M idd le School,0,09/25/2015,digits,Other/failed to parse
+5063,Katheri ne Thomas,2015-0318,09/25/2015,Hearst Elementa ry School,Murc h Elementary School,0,09/25/2015,digits,Other/failed to parse
+5064,Katheri ne Thomas,2015-0318,09/28/2015,Hearst Eleme nta ry School,Murc h Elementary School,0,09/28/2015,digits,Other/failed to parse
+5065,Katheri ne Thomas,2015-0318,09/28/2015,Sharpe Health School,Murc h Elementary School,0,09/28/2015,digits,Other/failed to parse
+5066,OTHER,2015-0317,09/28/2015,Sharpe Health School,Kelly Mille r MS,0,09/28/2015,digits,Other/failed to parse
+5067,OTHER,2015-0317,09/28/2015,Lab Schoo l of Washington,Kelly Mille r MS,0,09/28/2015,digits,Other/failed to parse
+5068,OTHER,2015-0320,09/28/2015,Lab Schoo l of Washington,Wi lson Senio r High School,0,09/28/2015,digits,Other/failed to parse
+5069,OTHER,2015-0320,09/28/2015,Lab Schoo l of Wash ington,Wi lson Senio r High School,0,09/28/2015,digits,Other/failed to parse
+5070,OTHER,2015-0320,09/ 29/20 15,DC Scholars Public Charter Schoo l,Wi lson Senio r High School,0,09/ 29/20 15,digits,Other/failed to parse
+5071,Lab School of Was hington,2015-0321,09/ 29/20 15,DC Scholars Public Charter Schoo l,Deal M idd le School,0,09/ 29/20 15,digits,Other/failed to parse
+5072,Lab School of Was hington,2015-0321,09/ 29/20 15,Eagle Academy PCS,Deal M idd le School,0,09/ 29/20 15,digits,Other/failed to parse
+5073,Eagle Academy PCS,2015-0322,09/ 29/20 15,Eagle Academy PCS,Eagle Academy PCS,0,09/ 29/20 15,digits,Other/failed to parse
+5074,Eagle Academy PCS,2015-0322,09/30/20 15,Eagle Academy PCS,Eagle Academy PCS,0,09/30/20 15,digits,Other/failed to parse
+5075,Eagle Academy PCS,2015-0322,09/30/20 15,Ludlow-Tay lor ES,Eagle Academy PCS,0,09/30/20 15,digits,Other/failed to parse
+5125,Thurgood Marshall Academy,2015-0344,"LA~CUO<CU OW,.",Kelly M iller MS,Anacost ia Senior High Schoo l,0,"LA~CUO<CU OW,.",no_digits,Other/failed to parse
+5126,Langdon Elem enta ry Schoo l,2015-0342,"LA~CUO<CU OW,.",Langdon Elementary School,"Harri s, C.W . ES",0,"LA~CUO<CU OW,.",no_digits,Other/failed to parse
+5127,Langdon Elem enta ry Schoo l,2015-0342,"LA~CUO<CU OW,.",Eastern High School,"Harri s, C.W . ES",0,"LA~CUO<CU OW,.",no_digits,Other/failed to parse
+5128,Langdon Elem enta ry Schoo l,2015-0342,"LA~CUO<CU OW,.",Eastern High Schoo l,"Harri s, C.W . ES",0,"LA~CUO<CU OW,.",no_digits,Other/failed to parse
+5421,03/ 02/2016,03/ 02/2016,03/ 02/2016,H.0. Woodson Senior High School,03/ 02/2016,0,03/ 02/2016,digits,Other/failed to parse
+5422,03/ 02/2016,03/ 02/2016,03/ 02/2016,H.D. Woodson Senior High School,03/ 02/2016,0,03/ 02/2016,digits,Other/failed to parse
+5459,. ..,. ..,03/24/2016,03/24/2016,...,0,03/24/2016,digits,Other/failed to parse
+5460,. ..,. ..,03/24/2016,Brookland MS,...,0,03/24/2016,digits,Other/failed to parse
+5461,. ..,. ..,03/28/20 16,Brookland MS,...,0,03/28/20 16,digits,Other/failed to parse
+5462,. ..,. ..,03/28/20 16,Brookland MS,Friendship Public Charter,0,03/28/20 16,digits,Other/failed to parse
+5463,"Friendship Public Chane, School (all campuses)",2016-0073,03/28/20 16,Brookland MS,Friendship Public Charter,0,03/28/20 16,digits,Other/failed to parse
+5464,"Friendship Public Chane, School (all campuses)",2016-0073,03/28/20 16,Brookland MS,School (all campuses),0,03/28/20 16,digits,Other/failed to parse
+5465,"Friendship Public Chane, School (all campuses)",2016-0073,03/28/20 16,Brookland MS,Friendship Public Charte r,0,03/28/20 16,digits,Other/failed to parse
+5466,Friendship Public Chaner School (all campuses),2016-0072,03/28/20 16,Brookland MS,Friendship Public Charte r,0,03/28/20 16,digits,Other/failed to parse
+5467,Friendship Public Chaner School (all campuses),2016-0072,03/28/20 16,Brookland MS,School (all campuses),0,03/28/20 16,digits,Other/failed to parse
+5468,Friendship Public Chaner School (all campuses),2016-0072,03/28/20 16,Anacost ia Senior High School,School (all campuses),0,03/28/20 16,digits,Other/failed to parse
+5469,Anacostia Senior High School,2016-0075,03/28/20 16,Anacost ia Senior High School,Anacost ia Senior High School,0,03/28/20 16,digits,Other/failed to parse
+5470,Anacostia Senior High School,2016-0075,03/28/20 16,Coolidge High School,Anacost ia Senior High School,0,03/28/20 16,digits,Other/failed to parse
+5471,Coolidge High School,2016-0078,03/28/20 16,Coolidge High School,Anacost ia Senior High School,0,03/28/20 16,digits,Other/failed to parse
+5472,Coolidge High School,2016-0078,03/29/2016,Coolidge High School,Anacost ia Senior High School,0,03/29/2016,digits,Other/failed to parse
+5473,Johnson MS,2016-0077,03/29/2016,Johnson MS,Johnson MS,0,03/29/2016,digits,Other/failed to parse
+5474,Johnson MS,2016-0077,03/29/2016,National Childre n's Cente r (N•Z),Johnson MS,0,03/29/2016,digits,Other/failed to parse
+5475,National Children's Center (N-Z),2016-0079,03/31/2016,Nat ional Children's Center (N-Z),Nat ional Children 's Center (N•Z),0,03/31/2016,digits,Other/failed to parse
+5476,National Children's Center (N-Z),2016-0079,03/31/2016,National Children's Center (N-Z),Nat ional Children 's Center (N•Z),0,03/31/2016,digits,Other/failed to parse
+5477,National Children's Center (N-Z),2016-0079,03/31/2016,Coolidge High School,Nat ional Children 's Center (N•Z),0,03/31/2016,digits,Other/failed to parse
+5478,Non-Attend ing,2016-0083,03/31/2016,Coolidge High School,Coolidge High School,0,03/31/2016,digits,Other/failed to parse
+5479,Non-Attend ing,2016-0083,03/31/2016,Moten Elementary School @ Wilkinson,Moten Elementa ry School@,0,03/31/2016,digits,Other/failed to parse
+5480,Moten Elementary School @ Wi lkinson,2016-0080,03/31/2016,Moten Elementary School @ Wilkinson,Moten Elementa ry School@,0,03/31/2016,digits,Other/failed to parse
+5481,Moten Elementary School @ Wi lkinson,2016-0080,03/31/2016,Moten Elementary School @ Wilkinson,Wilkinson,0,03/31/2016,digits,Other/failed to parse
+5482,Moten Elementary School @ Wi lkinson,2016-0080,03/31/2016,Hart Middle School,Wilkinson,0,03/31/2016,digits,Other/failed to parse
+5483,Moten Elementary School @ Wi lkinson,2016-0080,03/31/2016,Hart M iddle School,Wilkinson,0,03/31/2016,digits,Other/failed to parse
+5484,Han M iddle School,2016-0082,03/31/2016,Hart M iddle School,Han Middle School,0,03/31/2016,digits,Other/failed to parse
+5485,Han M iddle School,2016-0082,04/ 01/2016,Hart M iddle School,Han Middle School,0,04/ 01/2016,digits,Other/failed to parse
+5486,Han M iddle School,2016-0082,04/ 01/2016,Coolidge High School,Han Middle School,0,04/ 01/2016,digits,Other/failed to parse
+5487,Coolidge High School,2016-0084,04/ 01/2016,Coolidge High School,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5488,Coolidge High School,2016-0084,04/ 01/2016,Brook land MS,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5489,Coolidge High School,2016-0084,04/ 01/2016,Brookland MS,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5490,Brookland MS,2016-0081,04/ 01/2016,Brookland MS,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5491,Brookland MS,2016-0081,04/ 01/2016,Brook land MS,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5492,Brookland MS,2016-0081,04/ 01/2016,Wilson Senior High School,Ballou Senior High School,0,04/ 01/2016,digits,Other/failed to parse
+5493,W ilson Senior High School,2016-008S,04/04/2016,Wilson Senior High School,Wilson Senior High School,0,04/04/2016,digits,Other/failed to parse
+5494,W ilson Senior High School,2016-008S,04/04/2016,Lab School of Washington,Wilson Senior High School,0,04/04/2016,digits,Other/failed to parse
+5731,Harmo ny,·-· 07/26/2016 2016-0174,"-~r •----- ~· .~,.",Lab School of Washington,Hardy MS @ Hami lton Schoo l,0,"-~r •----- ~· .~,.",no_digits,Other/failed to parse
+5732,Harmo ny,·-· 07/26/2016 2016-0174,"-~r •----- ~· .~,.",Hardy MS @ Hamil ton School,Hardy MS @ Hami lton Schoo l,0,"-~r •----- ~· .~,.",no_digits,Other/failed to parse
+5733,Harmo ny,·-· 07/26/2016 2016-0174,"-~r •----- ~· .~,.",Hardy MS@ Hamil t on School,Hardy MS @ Hami lton Schoo l,0,"-~r •----- ~· .~,.",no_digits,Other/failed to parse
+5734,Harmo ny,·-· 07/26/2016 2016-0174,"-~r •----- ~· .~,.",Hardy MS@ Hamil to n School,Hardy MS @ Hami lton Schoo l,0,"-~r •----- ~· .~,.",no_digits,Other/failed to parse
+5744,08/08/2016,08/08/2016,08/08/2016,Roosevelt High Schoo l,08/08/2016,0,08/08/2016,digits,Other/failed to parse
+5890,National Collegiate PCS,2016-0248,10/19/2016,Ketcha m Elementary School,Ballou Senior High Schoo l,0,10/19/2016,digits,Other/failed to parse
+5891,National Collegiate PCS,2016-0248,10/19/2016,Brook land MS,Ballou Senior High Schoo l,0,10/19/2016,digits,Other/failed to parse
+5892,Brookland MS,2016-0250,10/19/2016,Brook land MS,Ballou Senior High Schoo l,0,10/19/2016,digits,Other/failed to parse
+5893,Brookland MS,2016-0250,10/20/2016,Brook land MS,Ballou Senior High Schoo l,0,10/20/2016,digits,Other/failed to parse
+5894,KIPP (All Campuses),2016-0249,10/20/2016,Brook land MS,Hart M iddle Schoo l,0,10/20/2016,digits,Other/failed to parse
+5895,KIPP (All Campuses),2016-0249,10/20/2016,Dunbar High School,Hart M iddle Schoo l,0,10/20/2016,digits,Other/failed to parse
+5896,KIPP (All Campuses),2016-0249,10/20/2016,Dunba r High School,Hart M iddle Schoo l,0,10/20/2016,digits,Other/failed to parse
+5897,KIPP (All Campuses),2016-0249,10/20/2016,Dunbar High Schoo l,Hart M iddle Schoo l,0,10/20/2016,digits,Other/failed to parse
+5898,Dunbar High School,2016-025 1,10/20/2016,Dunbar High School,Roosevelt High School,0,10/20/2016,digits,Other/failed to parse
+5899,Dunbar High School,2016-025 1,10/2 1/2016,Dunbar High School,Roosevelt High School,0,10/2 1/2016,digits,Other/failed to parse
+5900,Dunbar High School,2016-025 1,10/2 1/2016,Dunba r High Schoo l,Roosevelt High School,0,10/2 1/2016,digits,Other/failed to parse
+5901,DC Scholars Public Charter School,2016-0252,10/2 1/2016,Dunba r High Schoo l,"Harri s, C.W . ES",0,10/2 1/2016,digits,Other/failed to parse
+5902,Noyes Elemen tary Schoo l,2016-0254,10/2 1/2016,Noyes Elementary Schoo l,Noyes Elemen tary Schoo l,0,10/2 1/2016,digits,Other/failed to parse
+5903,Noyes Elemen tary Schoo l,2016-0254,10/24/2016,Noyes Elementary Schoo l,Noyes Elemen tary Schoo l,0,10/24/2016,digits,Other/failed to parse
+5904,Stanton Eleme ntary School,2016-025 3,10/24/2016,Stanton Elementary School,Stanton Eleme nta ry School,0,10/24/2016,digits,Other/failed to parse
+5905,High Road PG,2016-0255,10/25/20 16,High Road PG,Dunbar High School,0,10/25/20 16,digits,Other/failed to parse
+5906,Ballou Senio r High School,2016-0257,10/25/20 16,Ballou Senior High School,Dunbar High School,0,10/25/20 16,digits,Other/failed to parse
+5907,Ballou Senio r High School,2016-0257,10/25/20 16,Hearst Eleme ntary School,Dunbar High School,0,10/25/20 16,digits,Other/failed to parse
+5908,Ballou Senio r High School,2016-0257,10/26/2016,Hearst Elementary School,Dunbar High School,0,10/26/2016,digits,Other/failed to parse
+5909,OTHER,2016-0256,10/26/2016,Hearst Elementary School,Shepherd ES,0,10/26/2016,digits,Other/failed to parse
+5910,OTHER,2016-0256,10/26/2016,Hearst Eleme ntary School,Shepherd ES,0,10/26/2016,digits,Other/failed to parse
+5911,Randle-H ighlands ES,2016-0258,10/27/2016,Randle-High lands ES,Randle-H ighlands ES,0,10/27/2016,digits,Other/failed to parse
+5912,Randle-H ighlands ES,2016-0258,10/27/2016,Archbishop Carroll High Schoo l,Randle-H ighlands ES,0,10/27/2016,digits,Other/failed to parse
+5913,Randle-H ighlands ES,2016-0258,10/27/2016,Archbishop Carroll High School,Randle-H ighlands ES,0,10/27/2016,digits,Other/failed to parse
+5914,Arc hbishop Carro ll High School,2016-0259,10/27/2016,Archbishop Carroll High School,Randle-H ighlands ES,0,10/27/2016,digits,Other/failed to parse
+5915,Arc hbishop Carro ll High School,2016-0259,10/27/2016,Archbisho p Carr oll High Schoo l,Randle-H ighlands ES,0,10/27/2016,digits,Other/failed to parse
+5916,Arc hbishop Carro ll High School,2016-0259,10/28/2016,Lab Schoo l of Wash ington,Randle-H ighlands ES,0,10/28/2016,digits,Other/failed to parse
+5917,Lab Schoo l of Was hington,2016-0195,10/28/2016,Lab Schoo l of Wash ington,Deal Middle Schoo l,0,10/28/2016,digits,Other/failed to parse
+5918,Lab Schoo l of Was hington,2016-0195,10/28/2016,Lab Schoo l of Wash ington,Friendship Public Charter,0,10/28/2016,digits,Other/failed to parse
+5919,Friends hip Publ ic Charte r Schoo l (all campuses),2016-0260,10/28/2016,Lab Schoo l of Wash ington,Friendship Public Charter,0,10/28/2016,digits,Other/failed to parse
+5920,Friends hip Publ ic Charte r Schoo l (all campuses),2016-0260,10/28/2016,Lab Schoo l of Wash ington,Schoo l (all campuses),0,10/28/2016,digits,Other/failed to parse
+5921,Friends hip Publ ic Charte r Schoo l (all campuses),2016-0260,10/28/2016,"Phelps Architecture, Construction, and Engineeri ng HS",Schoo l (all campuses),0,10/28/2016,digits,Other/failed to parse
+5922,"Phelps Architectu re, Construction, and",2016-0260,10/28/2016,"Phelps Architecture, Construction, and Engineeri ng HS",H.D. Woodson Sen ior High,0,10/28/2016,digits,Other/failed to parse
+5923,"Phelps Architectu re, Construction, and",2016-0262,10/28/2016,"Phelps Architecture, Construction, and Engineeri ng HS",H.D. Woodson Sen ior High,0,10/28/2016,digits,Other/failed to parse
+5924,Enginee ring HS,2016-0262,10/28/2016,"Phelps Architec ture, Const ruct ion, and Engineeri ng HS",Schoo l,0,10/28/2016,digits,Other/failed to parse
+5925,Enginee ring HS,2016-0262,10/28/2016,"Phelps Architecture, Construction, and Engineeri ng HS",Schoo l,0,10/28/2016,digits,Other/failed to parse
+5926,Enginee ring HS,2016-0262,10/28/2016,Kingsbury Day Schoo l,Schoo l,0,10/28/2016,digits,Other/failed to parse
+5933,Kelly M il ler MS,2016--0264,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",Kelly M iller MS,Kelly Miller MS,0,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",no_digits,Other/failed to parse
+5934,Tako ma Educat iona l Cente r,2016--0265,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",Takoma Educational Center,Kelly Miller MS,0,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",no_digits,Other/failed to parse
+5935,Tako ma Educat iona l Cente r,2016--0265,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",Miner Elemen ta ry,Kelly Miller MS,0,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",no_digits,Other/failed to parse
+5936,Tako ma Educat iona l Cente r,2016--0265,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",Miner Elementary,Kelly Miller MS,0,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",no_digits,Other/failed to parse
+5937,Tako ma Educat iona l Cente r,2016--0265,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",Mine r Elemen tary,Kelly Miller MS,0,"'-"">_'.._;.;.,,~,;;.,., ,-.J l'f",no_digits,Other/failed to parse
+5943,Miner Elementary,2016--0267,"-a~cu,.cu v,,_,~ """"""",Miner Elemen tary,Ketcham Eleme ntary School,0,"-a~cu,.cu v,,_,~ """"""",no_digits,Other/failed to parse
+5944,DC Scholars Public Charter School,2016--0266,"n. ,",Miner Elemen tary,Ketcham Eleme ntary School,0,"n. ,",no_digits,Other/failed to parse
+5945,DC Scholars Public Charter School,2016--0266,"n. ,",Dunbar High Schoo l,Ketcham Eleme ntary School,0,"n. ,",no_digits,Other/failed to parse
+5946,DC Scholars Public Charter School,2016--0266,"n. ,",Dunbar High School,Ketcham Eleme ntary School,0,"n. ,",no_digits,Other/failed to parse
+5947,DC Scholars Public Charter School,2016--0266,"n. ,",Dunba r High School,Ketcham Eleme ntary School,0,"n. ,",no_digits,Other/failed to parse
+6120,Kramer M idd le School,2017-0037,"._,..._.., ..u ,,._..,. 1• V l'il",Kramer M iddle School,2017-0037,0,"._,..._.., ..u ,,._..,. 1• V l'il",no_digits,Other/failed to parse
+6121,Brow ne EC,2017-0038 Maury Elementary School,"._,..._.., ..u ,,._..,. 1• V l'il",Browne EC,2017-0038 Maury Elementary School,0,"._,..._.., ..u ,,._..,. 1• V l'il",no_digits,Other/failed to parse
+6124,Brow ne EC,"'""""""...',.:, .  ....,.,, ...,, 2017-0042 Maury Elementary School","'""""1_v-'.u,,..,.., •...J l 'il",Browne EC,"'""""""...',.:, .  ....,.,, ...,, 2017-0042 Maury Elementary School",0,"'""""1_v-'.u,,..,.., •...J l 'il",no_digits,Other/failed to parse
+6125,Brow ne EC,"'""""""...',.:, .  ....,.,, ...,, 2017-0042 Maury Elementary School","'""""1_v-'.u,,..,.., •...J l 'il",Coolidge High Schoo l,"'""""""...',.:, .  ....,.,, ...,, 2017-0042 Maury Elementary School",0,"'""""1_v-'.u,,..,.., •...J l 'il",no_digits,Other/failed to parse
+6147,02/27/2017,02/27/2017,02/27/2017,Columb ia Heights Educat ion Center High School,02/27/2017,0,02/27/2017,digits,Other/failed to parse
+6148,02/27/2017,02/27/2017,02/27/2017,Dunba r High Schoo l,02/27/2017,0,02/27/2017,digits,Other/failed to parse
+6171,n11nh :1r l-lio h < r hnn,",n17..nn7'>",lt.a::a in <t I S:6,Dunba r High School,n11n h::1r l-l ioh <rhnnl,0,lt.a::a in <t I S:6,no_digits,Other/failed to parse
+6179,03/22/2017,03/22/2017,03/22/2017,Kennedy Inst itu te,03/22/2017,0,03/22/2017,digits,Other/failed to parse
+6291,05/18/2017,05/18/2017,05/18/2017,Sousa M idd le School,05/18/2017,0,05/18/2017,digits,Other/failed to parse
+6292,05/18/2017,05/18/2017,05/18/2017,Brow ne EC,05/18/2017,0,05/18/2017,digits,Other/failed to parse
+6293,05/18/2017,05/18/2017,05/18/2017,Browne EC,05/18/2017,0,05/18/2017,digits,Other/failed to parse
+6341,Monroe,2017-0155,"._,....,_. . . u,~,;;v 1• V l'il",Mo nroe School,Deal M idd le Schoo l,0,"._,....,_. . . u,~,;;v 1• V l'il",no_digits,Other/failed to parse
+6342,Payne Elementary,2017-0157,"._,....,_. . . u,~,;;v 1• V l'il",Payne Elementar y School,Payne Eleme ntary School,0,"._,....,_. . . u,~,;;v 1• V l'il",no_digits,Other/failed to parse
+6343,Payne Elementary,2017-0157,"._,....,_. . . u,~,;;v 1• V l'il",Roosevelt High School,Payne Eleme ntary School,0,"._,....,_. . . u,~,;;v 1• V l'il",no_digits,Other/failed to parse
+6366,06/27/20 17,06/27/20 17,06/27/20 17,Aiton Elementary Schoo l,06/27/20 17,0,06/27/20 17,digits,Other/failed to parse
+6401,07/ 11/2017,07/ 11/2017,07/ 11/2017,Anacost ia Senior High Schoo l,07/ 11/2017,0,07/ 11/2017,digits,Other/failed to parse
+6402,07/ 11/2017,07/ 11/2017,07/ 11/2017,Sousa M idd le School,07/ 11/2017,0,07/ 11/2017,digits,Other/failed to parse
+6457,OTHER,2017-0214,08/10/2017,Wilson Senior High School,Wilson Senio r High School,0,08/10/2017,digits,Other/failed to parse
+6458,LaSalle-Backus EC,2017-02 15,08/10/2017,LaSalle-Backus EC,LaSalle-Backus EC,0,08/10/2017,digits,Other/failed to parse
+6459,LaSalle-Backus EC,2017-02 15,08/11/2017,LaSalle-Backus EC,LaSalle-Backus EC,0,08/11/2017,digits,Other/failed to parse
+6460,Kingsb ury Day School,2017-0216,08/11/2017,LaSalle-Backus EC,Kingsb ury Day Schoo l,0,08/11/2017,digits,Other/failed to parse
+6461,Kingsb ury Day School,2017-0216,08/11/2017,Beers Eleme ntary School,Kingsb ury Day Schoo l,0,08/11/2017,digits,Other/failed to parse
+6462,Beers Elementary,2017-02 19,08/11/2017,Beers Eleme ntary School,Ketcham Eleme ntary School,0,08/11/2017,digits,Other/failed to parse
+6463,Beers Elementary,2017-02 19,08/11/2017,Beers Elementary School,Ketcham Eleme ntary School,0,08/11/2017,digits,Other/failed to parse
+6464,Beers Elementary,2017-02 19,08/11/2017,Savoy Elementary School,Turner@ Green Eleme ntary,0,08/11/2017,digits,Other/failed to parse
+6465,Turner @ Green Elementary Schoo l,2017-0218,08/14/2017,Savoy Elementary School,Turner@ Green Eleme ntary,0,08/14/2017,digits,Other/failed to parse
+6466,Turner @ Green Elementary Schoo l,2017-0218,08/14/2017,Savoy Elementary School,School,0,08/14/2017,digits,Other/failed to parse
+6467,Turner @ Green Elementary Schoo l,2017-0218,08/14/2017,Savoy Elementary School,Turner@ Green Eleme nta ry,0,08/14/2017,digits,Other/failed to parse
+6468,Turner @ Green Elementary,2017-0217,08/14/2017,Savoy Elementary School,Turner@ Green Eleme nta ry,0,08/14/2017,digits,Other/failed to parse
+6469,Turner @ Green Elementary,2017-0217,08/14/2017,Savoy Elementary School,School,0,08/14/2017,digits,Other/failed to parse
+6470,Turner @ Green Elementary,2017-0217,08/14/2017,Cardozo High School,School,0,08/14/2017,digits,Other/failed to parse
+6471,Cardozo High Schoo l,2017-0220,08/15/2017,Cardozo High School,School,0,08/15/2017,digits,Other/failed to parse
+6472,Cardozo High Schoo l,2017-0220,08/15/2017,Lab Schoo l of Wash ington,School,0,08/15/2017,digits,Other/failed to parse
+6473,Cardozo High Schoo l,2017-0220,08/15/2017,Lab School of Wash ington,School,0,08/15/2017,digits,Other/failed to parse
+6474,Lab School of Was hington,2017-0222,08/15/2017,Lab School of Wash ington,Wilson Senio r High School,0,08/15/2017,digits,Other/failed to parse
+6475,Lab School of Was hington,2017-0222,08/15/2017,Lab Schoo l of Wash ington,Wilson Senio r High School,0,08/15/2017,digits,Other/failed to parse
+6476,Lab School of Was hington,2017-0222,08/17/2017,Lab Schoo l of Wash ington,Wilson Senio r High School,0,08/17/2017,digits,Other/failed to parse
+6477,Lab School of Was hington,2017-0222,08/17/2017,Thomas Elementa ry School,Wilson Senio r High School,0,08/17/2017,digits,Other/failed to parse
+6478,Lab School of Was hington,2017-0222,08/17/2017,Thomas Elementary School,Wilson Senio r High School,0,08/17/2017,digits,Other/failed to parse
+6479,Thomas Elementa ry Schoo l,2017-0221,08/17/2017,Thomas Elementary School,Smothers ES,0,08/17/2017,digits,Other/failed to parse
+6480,Thomas Elementa ry Schoo l,2017-0221,08/17/2017,Eaton Elementary School,Smothers ES,0,08/17/2017,digits,Other/failed to parse
+6481,Eaton Eleme ntary School,2017-0224,08/17/2017,Eaton Elementary School,M iner Elementary,0,08/17/2017,digits,Other/failed to parse
+6482,Eaton Eleme ntary School,2017-0224,08/17/2017,Cleve land Elementary School,M iner Elementary,0,08/17/2017,digits,Other/failed to parse
+6483,Eaton Eleme ntary School,2017-0224,08/18/2017,Cleve land Elementary School,M iner Elementary,0,08/18/2017,digits,Other/failed to parse
+6484,Cleveland Elementa ry School,2017-0223,08/18/2017,Cleve land Elementary School,M iner Elementary,0,08/18/2017,digits,Other/failed to parse
+6485,Cleveland Elementa ry School,2017-0223,08/18/2017,Cleveland Elementary School,M iner Elementary,0,08/18/2017,digits,Other/failed to parse
+6486,Cleveland Elementa ry School,2017-0223,08/18/2017,Wheatley EC,M iner Elementary,0,08/18/2017,digits,Other/failed to parse
+6487,Howard Univers ity PCS,2017-0227,08/18/2017,Whea t ley EC,Kelly Miller MS,0,08/18/2017,digits,Other/failed to parse
+6488,Howard Univers ity PCS,2017-0227,08/18/2017,Wheatley EC,Kelly Miller MS,0,08/18/2017,digits,Other/failed to parse
+6489,Howard Univers ity PCS,2017-0227,08/18/2017,Langley EC,Kelly Miller MS,0,08/18/2017,digits,Other/failed to parse
+6490,Langley EC,2017-0226,08/18/2017,Langley EC,Langley EC,0,08/18/2017,digits,Other/failed to parse
+6491,Langley EC,2017-0226,08/18/2017,West Elementary School,Langley EC,0,08/18/2017,digits,Other/failed to parse
+6559,09/28/20 17,09/28/20 17,09/28/20 17,Dunba r High Schoo l,09/28/20 17,0,09/28/20 17,digits,Other/failed to parse
+6560,09/28/20 17,09/28/20 17,09/28/20 17,Columbia Heights Educat ion Center High Schoo l,09/28/20 17,0,09/28/20 17,digits,Other/failed to parse
+6561,09/28/20 17,09/28/20 17,09/28/20 17,Columb ia Heights Educat ion Cente r High School,09/28/20 17,0,09/28/20 17,digits,Other/failed to parse
+6562,Washington Math Science Technology Public,09/28/20 17,09/28/20 17,Columb ia Heights Educat ion Cente r High School,09/28/20 17,0,09/28/20 17,digits,Other/failed to parse
+6824,Monro e School,2018-0 016,"-a~cu,.cu v,, "" ~""""""",Mo nroe School,"u1 . ... , , ~ ..... .... .. ,_ ., ,_",0,"-a~cu,.cu v,, "" ~""""""",no_digits,Other/failed to parse
+6825,E.L. Haynes PCS,2018-0017,"-a~cu,.cu v,, "" ~""""""",Mo nroe School,"u1 . ... , , ~ ..... .... .. ,_ ., ,_",0,"-a~cu,.cu v,, "" ~""""""",no_digits,Other/failed to parse
+6826,E.L. Haynes PCS,2018-0017,n. r,Mo nroe School,"u1 . ... , , ~ ..... .... .. ,_ ., ,_",0,n. r,no_digits,Other/failed to parse
+6827,E.L. Haynes PCS,2018-0017,n. r,River Terrace EC,"u1 . ... , , ~ ..... .... .. ,_ ., ,_",0,n. r,no_digits,Other/failed to parse
+6918,Rand le-Highlands ES,·• ~• 2018-0050,"••e •-· --- •-'""",Randl e-High lands ES,Randle-Highlands ES,0,"••e •-· --- •-'""",no_digits,Other/failed to parse
+6919,Rand le-Highlands ES,·• ~• 2018-0050,"••e •-· --- •-'""",Jeff erson MS,Randle-Highlands ES,0,"••e •-· --- •-'""",no_digits,Other/failed to parse
+6971,Walke r-Jones/T urne r EC,2018-0064,03/ 07/2018,Cleve land Elementary School,Walker-Jones/ Turne r EC,0,03/ 07/2018,digits,Other/failed to parse
+6972,Clevelan d Elementary,2018-0065,03/ 07/2018,Cleve land Elementary School,Kimball Eleme ntary School,0,03/ 07/2018,digits,Other/failed to parse
+6973,Clevelan d Elementary,2018-0065,03/ 07/2018,Hearst Eleme nta ry School,Kimball Eleme ntary School,0,03/ 07/2018,digits,Other/failed to parse
+6974,Clevelan d Elementary,2018-0065,03/ 07/2018,Hearst Eleme ntary School,Kimball Eleme ntary School,0,03/ 07/2018,digits,Other/failed to parse
+6975,Clevelan d Elementary,2018-0065,03/ 07/2018,Hearst Eleme ntary School,Columb ia Heigh ts Educat ion,0,03/ 07/2018,digits,Other/failed to parse
+6976,Lab School of Was hington,2018-0066,03/ 07/2018,Hearst Eleme nta ry School,Columb ia Heigh ts Educat ion,0,03/ 07/2018,digits,Other/failed to parse
+6977,Lab School of Was hington,2018-0066,03/ 07/2018,Hearst Eleme nta ry School,Center High School,0,03/ 07/2018,digits,Other/failed to parse
+6978,Lab School of Was hington,2018-0066,03/ 07/2018,Hearst Eleme ntary School,Center High School,0,03/ 07/2018,digits,Other/failed to parse
+6979,Lab School of Was hington,2018-0066,03/ 12/2018,Hearst Eleme ntary School,Center High School,0,03/ 12/2018,digits,Other/failed to parse
+6980,Monument Academy,2018-0068,03/ 12/2018,Hearst Eleme ntary School,Center High School,0,03/ 12/2018,digits,Other/failed to parse
+6981,Monument Academy,2018-0068,03/ 12/2018,Hardy MS@ Hamil t on School,Center High School,0,03/ 12/2018,digits,Other/failed to parse
+6982,Hardy MS@ Hamilton School,2018-0069,03/ 12/2018,Hardy MS@ Hamil t on School,Deal M iddle Schoo l,0,03/ 12/2018,digits,Other/failed to parse
+6983,Monument Academy PCS,2018-0067,03/ 12/2018,Hardy MS@ Hamil t on School,Deal M iddle Schoo l,0,03/ 12/2018,digits,Other/failed to parse
+6984,Monument Academy PCS,2018-0067,03/ 12/2018,River Terrace EC,Deal M iddle Schoo l,0,03/ 12/2018,digits,Other/failed to parse
+6985,River Terrac e EC,2018-0070,03/ 12/2018,River Terrace EC,Jefferson MS,0,03/ 12/2018,digits,Other/failed to parse
+6986,River Terrac e EC,2018-0070,03/ 12/2018,Stuart-Hobson M iddle School,Jefferson MS,0,03/ 12/2018,digits,Other/failed to parse
+6987,River Terrac e EC,2018-0070,03/ 12/2018,Stuart -Hobson M iddle School,Jefferson MS,0,03/ 12/2018,digits,Other/failed to parse
+6988,River Terrac e EC,2018-0070,03/13/2018,Stuart -Hobson M iddle School,Jefferson MS,0,03/13/2018,digits,Other/failed to parse
+6989,Stuart -Hobson M iddle Schoo l,2018-0071,03/13/2018,Stuart -Hobson M iddle School,Hart M iddle Schoo l,0,03/13/2018,digits,Other/failed to parse
+6990,Stuart -Hobson M iddle Schoo l,2018-0071,03/13/2018,Stuart -Hobson M iddle Schoo l,Hart M iddle Schoo l,0,03/13/2018,digits,Other/failed to parse
+6991,Stuart -Hobson M iddle Schoo l,2018-0071,03/13/2018,Stuart-Hobson M iddle Schoo l,Hart M iddle Schoo l,0,03/13/2018,digits,Other/failed to parse
+6992,Cesar Chavez PCS,2018-0072,03/13/2018,Stuart -Hobson M iddle Schoo l,Cesar Chavez PCS,0,03/13/2018,digits,Other/failed to parse
+6993,Cesar Chavez PCS,2018-0072,03/ 14/2018,Stuart -Hobson M iddle Schoo l,Cesar Chavez PCS,0,03/ 14/2018,digits,Other/failed to parse
+6994,Cesar Chavez PCS,2018-0072,03/ 14/2018,Eastern High School,Cesar Chavez PCS,0,03/ 14/2018,digits,Other/failed to parse
+6995,Eastern High Schoo l,2018-0073,03/ 14/2018,Eastern High School,Cesar Chavez PCS,0,03/ 14/2018,digits,Other/failed to parse
+6996,Eastern High Schoo l,2018-0073,03/ 14/2018,Easte rn High School,Cesar Chavez PCS,0,03/ 14/2018,digits,Other/failed to parse
+6997,Eastern High Schoo l,2018-0074,03/ 14/2018,Eastern High School,Eastern High Schoo l,0,03/ 14/2018,digits,Other/failed to parse
+6998,Eastern High Schoo l,2018-0074,03/ 14/2018,Am idon Elementary School,Eastern High Schoo l,0,03/ 14/2018,digits,Other/failed to parse
+6999,Eastern High Schoo l,2018-0074,03/ 14/2018,Am idon Elementary,Eastern High Schoo l,0,03/ 14/2018,digits,Other/failed to parse
+7014,Merid ian PCS,2018-0081,"'""""'"" - "" "" 'r""""",Hardy M S @ Hamil t on School,Hardy MS@ Hamilton School,0,"'""""'"" - "" "" 'r""""",no_digits,Other/failed to parse
+7015,Merid ian PCS,2018-0081,"0, C A",Hardy M S @ Hamil t on School,Hardy MS@ Hamilton School,0,"0, C A",digits,Other/failed to parse
+7016,Hardy M S@ Hamilton School,2018-0083,"0, C A",Hardy MS@ Hamil t on School,Hardy MS@ Hamilton School,0,"0, C A",digits,Other/failed to parse
+7017,Hardy M S@ Hamilton School,2018-0083,"0, C A",Whea t ley EC,Hardy MS@ Hamilton School,0,"0, C A",digits,Other/failed to parse
+7030,Jefferson M S,2018-0086,"___- ~""",Jefferson MS,Kelly M ille r MS,0,"___- ~""",no_digits,Other/failed to parse
+7031,Lab School of Washington,2018-0088,~·,Jefferson MS,Wilson Senior High School,0,~·,no_digits,Other/failed to parse
+7032,Lab School of Washington,2018-0088,~·,Jefferson MS,Hope Comm unity PCS Lamond,0,~·,no_digits,Other/failed to parse
+7081,KIPP (All Campuses),2018--0111,"•a~•u,-,u ,,.; ,.",Brook land MS,Broo kland MS,0,"•a~•u,-,u ,,.; ,.",no_digits,Other/failed to parse
+7082,KIPP (All Campuses),2018--0112,-·,Brook land MS,Orr Elemen tary Schoo l,0,-·,no_digits,Other/failed to parse
+7083,KIPP (All Campuses),2018--0112,-·,Lab Schoo l of Wash ington,Orr Elemen tary Schoo l,0,-·,no_digits,Other/failed to parse
+7310,Childrens Guild - PG,2018--0193,"._,....,_. . . u,~,;;v 1• V l'il",Childrens Guild - PG,Wilson Senior High Schoo l,0,"._,....,_. . . u,~,;;v 1• V l'il",no_digits,Other/failed to parse
+7311,Accot ink Acade my,2018--0195,"._,....,_. . . u,~,;;v 1• V l'il",Childrens Guild - PG,Hart Middle Schoo l,0,"._,....,_. . . u,~,;;v 1• V l'il",no_digits,Other/failed to parse
+7318,Accotin k Acade my,• ...; 1'i1 2018--0201,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",Accotink Academy,Bunker Hill Eleme ntary School,0,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",no_digits,Other/failed to parse
+7319,Accotin k Acade my,• ...; 1'i1 2018--0201,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",Noyes Elementary School,Bunker Hill Eleme ntary School,0,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",no_digits,Other/failed to parse
+7320,Accotin k Acade my,• ...; 1'i1 2018--0201,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",Noyes Element ary School,Bunker Hill Eleme ntary School,0,"..._... .. ~. .... ..,,., ...,, '""""""' _. ......., ~ ......",no_digits,Other/failed to parse
+7334,OTHER,2018-0204,-..r --•~--- ·~- •r-,OTHER,Langdon Elementary Schoo l,0,-..r --•~--- ·~- •r-,no_digits,Other/failed to parse
+7335,Cesar Chavez PCS,2018-0205,18 n.,OTHER,Langdon Elementary Schoo l,0,18 n.,digits,Other/failed to parse
+7336,Cesar Chavez PCS,2018-0205,"""",OTHER,Langdon Elementary Schoo l,0,"""",no_digits,Other/failed to parse
+7337,Cesar Chavez PCS,2018-0205,"""",Lab Schoo l of Wash ington,Langdon Elementary Schoo l,0,"""",no_digits,Other/failed to parse
+7372,Non-At tend ing,l 'f 08/27/2018 2018-0221,"'-nt"":•.~,.-.--~ •...J",Johnson MS,Johnson MS,0,"'-nt"":•.~,.-.--~ •...J",no_digits,Other/failed to parse
+7687,01/24/2019,01/24/2019,01/24/2019,Payne Elementary Schoo l,01/24/2019,0,01/24/2019,digits,Other/failed to parse
+7797,Peabody Elementary School,2019-0087,03/26/ 2019,03/26/ 2019,03/26/ 2019,0,03/26/ 2019,digits,Other/failed to parse
+7798,Peabody Elementary School,2019-0087,03/26/ 2019,Ballou STAY,03/26/ 2019,0,03/26/ 2019,digits,Other/failed to parse
+7799,Ballou STAY,2019-0 089,03/28/2019,Ballou STAY,Ballou STAY,0,03/28/2019,digits,Other/failed to parse
+7800,Ballou STAY,2019-0 089,03/28/2019,Am idon Elementary School,Ballou STAY,0,03/28/2019,digits,Other/failed to parse
+7801,Amidon Eleme nta ry School,2019-0 090,04/ 01/2019,Am idon Elementary School,Amidon Elementary School,0,04/ 01/2019,digits,Other/failed to parse
+7802,Lab School of Washington,2019-0 091,04/ 03/2019,Am idon Elementary School,Amidon Elementary School,0,04/ 03/2019,digits,Other/failed to parse
+7803,Lab School of Washington,2019-0 091,04/ 03/2019,Other,Amidon Elementary School,0,04/ 03/2019,digits,Other/failed to parse
+7804,OTHER,2019-0 092,04/ 05/ 2019,Other,Cool idge High School,0,04/ 05/ 2019,digits,Other/failed to parse
+7805,OTHER,2019-0 092,04/ 05/ 2019,Kelly M iller MS,Cool idge High School,0,04/ 05/ 2019,digits,Other/failed to parse
+7806,Kelly Mil ler MS,2019-0094,04/ 05/ 2019,Kelly M iller MS,Kelly Mille r MS,0,04/ 05/ 2019,digits,Other/failed to parse
+7807,Kelly Mil ler MS,2019-0094,04/ 05/ 2019,Kelly M iller M S,Kelly Mille r MS,0,04/ 05/ 2019,digits,Other/failed to parse
+7808,Kelly Mil ler MS,2019-0094,04/08/2019,Kelly M iller M S,Kelly Mille r MS,0,04/08/2019,digits,Other/failed to parse
+7809,DC Interna tional PCS,2019-0 093,04/08/2019,Kelly M iller M S,DC International PCS,0,04/08/2019,digits,Other/failed to parse
+7810,DC Interna tional PCS,2019-0 093,04/08/2019,Hend ley Elementary School,DC International PCS,0,04/08/2019,digits,Other/failed to parse
+7811,Hendley Elementary School,2019-009S,04/08/2019,Hend ley Elementary School,Hendley Elementary School,0,04/08/2019,digits,Other/failed to parse
+7812,Hendley Elementary School,2019-009S,04/08/2019,Bunker Hill Elementary School,Hendley Elementary School,0,04/08/2019,digits,Other/failed to parse
+7813,Bunker Hill Eleme ntary School,2019-0097,04/08/2019,Bunker Hill Elementar y School,Powell Elementary School,0,04/08/2019,digits,Other/failed to parse
+7814,Bunker Hill Eleme ntary School,2019-0097,04/09/2019,Bunker Hill Elementary School,Powell Elementary School,0,04/09/2019,digits,Other/failed to parse
+7815,Bunker Hill Eleme ntary School,2019-0097,04/09/2019,Dunba r High Schoo l,Powell Elementary School,0,04/09/2019,digits,Other/failed to parse
+7816,Bunker Hill Eleme ntary School,2019-0097,04/09/2019,Dunba r High School,Powell Elementary School,0,04/09/2019,digits,Other/failed to parse
+7817,Dunbar High School,2019-0 096,04/09/2019,Dunba r High School,Dunbar High School,0,04/09/2019,digits,Other/failed to parse
+7818,Dunbar High School,2019-0 096,04/09/2019,Dunbar High School,Dunbar High School,0,04/09/2019,digits,Other/failed to parse
+7819,Dunbar High School,2019-0 096,04/09/2019,Noyes Elementary School,Dunbar High School,0,04/09/2019,digits,Other/failed to parse
+7820,Noyes Elementa ry School,2019-0 098,04/ 10/2019,Noyes Elementary School,Noyes Elementary School,0,04/ 10/2019,digits,Other/failed to parse
+7821,Noyes Elementa ry School,2019-0 098,04/ 10/2019,King ML ES,Noyes Elementary School,0,04/ 10/2019,digits,Other/failed to parse
+7822,Noyes Elementa ry School,2019-0 098,04/ 10/2019,King M L ES,Noyes Elementary School,0,04/ 10/2019,digits,Other/failed to parse
+7823,King M LES,2019-0100,04/ 10/2019,King M L ES,OTHER,0,04/ 10/2019,digits,Other/failed to parse
+7824,King M LES,2019-0100,04/ 11/2019,King M L ES,OTHER,0,04/ 11/2019,digits,Other/failed to parse
+7825,King M LES,2019-0100,04/ 11/2019,Langdon Elementary School,OTHER,0,04/ 11/2019,digits,Other/failed to parse
+7826,Langdon Eleme nta ry School,2019-0 099,04/ 11/2019,Langdon Elementary School,Langdon Elementa ry School,0,04/ 11/2019,digits,Other/failed to parse
+7827,Early Childhood Academy PCS,2019-0102,04/ 11/2019,Langdon Elementary School,Langdon Elementa ry School,0,04/ 11/2019,digits,Other/failed to parse
+7828,Early Childhood Academy PCS,2019-0102,04/ 11/2019,Cardozo Educational Cam pus,Langdon Elementa ry School,0,04/ 11/2019,digits,Other/failed to parse
+7829,Early Childhood Academy PCS,2019-0102,04/ 11/2019,Cardozo Educational Campus,Langdon Elementa ry School,0,04/ 11/2019,digits,Other/failed to parse
+7865,Achievemen t Prep Academy Public Chart er School,2019-0115,04/30 /2019,Early Stages A-M,Simon Elementary Schoo l,0,04/30 /2019,digits,Other/failed to parse
+7866,Friends hip Publ ic Charter School (all campuses),2019-0116,04/30 /2019,Early Stages A-M,Simon Elementary Schoo l,0,04/30 /2019,digits,Other/failed to parse
+7867,Friends hip Publ ic Charter School (all campuses),2019-0116,04/30 /2019,Early Stages A-M,Friends hip Public Char te r,0,04/30 /2019,digits,Other/failed to parse
+7868,Friends hip Public Charter,2019-0113,04/30 /2019,Early Stages A-M,Friends hip Public Char te r,0,04/30 /2019,digits,Other/failed to parse
+7869,Friends hip Public Charter,2019-0113,04/30 /2019,Early Stages A-M,Schoo l (all campus es),0,04/30 /2019,digits,Other/failed to parse
+7870,E.L. Haynes PCS,2019-0117,05/01/2019,Early Stages A-M,Wilson Senior High School,0,05/01/2019,digits,Other/failed to parse
+7871,Friendship Publ ic Charter Schoo l (all campuses),2019-0118,05/01/2019,Early Stages A-M,Wilson Senior High School,0,05/01/2019,digits,Other/failed to parse
+7872,Friendship Publ ic Charter Schoo l (all campuses),2019-0118,05/01/2019,Eastern High School,Wilson Senior High School,0,05/01/2019,digits,Other/failed to parse
+7873,Friendship Publ ic Charter Schoo l (all campuses),2019-0118,05/ 02/2 019,Eastern High School,Wilson Senior High School,0,05/ 02/2 019,digits,Other/failed to parse
+7874,Eastern High Schoo l,2019-0119,05/ 02/2 019,Eastern High School,Wilson Senior High School,0,05/ 02/2 019,digits,Other/failed to parse
+7875,Eastern High Schoo l,2019-0119,05/ 02/2 019,Deal Midd le School,Wilson Senior High School,0,05/ 02/2 019,digits,Other/failed to parse
+7876,Deal M idd le School,2019-0120,05/ 02/2 019,Deal Midd le School,Wilson Senior High School,0,05/ 02/2 019,digits,Other/failed to parse
+7877,Deal M idd le School,2019-0120,05/03/2019,Deal M iddle School,Wilson Senior High School,0,05/03/2019,digits,Other/failed to parse
+7878,St. Coletta Special Education,2019-0121,05/03/2019,St. Coletta Special Educat ion PCS,Wilson Senior High School,0,05/03/2019,digits,Other/failed to parse
+7879,Wheat ley EC,2019-0123,05/03/2019,Wheat ley EC,Wheat ley EC,0,05/03/2019,digits,Other/failed to parse
+7880,Wheat ley EC,2019-0123,05/03/2019,Stuart -Hobson M iddle School,Wheat ley EC,0,05/03/2019,digits,Other/failed to parse
+7881,Wheat ley EC,2019-0123,05/06/2019,Stuart -Hobson M iddle School,Wheat ley EC,0,05/06/2019,digits,Other/failed to parse
+7882,Stuart-Hobson M idd le School,2019-0122,05/06/2019,Stuart-Hobson M iddle School,Stuar t-H obson Mi dd le School,0,05/06/2019,digits,Other/failed to parse
+7883,Stuart-Hobson M idd le School,2019-0122,05/06/2019,Stuart -Hobson Midd le School,Stuar t-H obson Mi dd le School,0,05/06/2019,digits,Other/failed to parse
+7884,Stuart-H obso n M idd le School,2019-0124,05/07/2019,Stuart-Hobson Midd le Schoo l,Stuar t-H obson Midd le School,0,05/07/2019,digits,Other/failed to parse
+7885,Stuart-H obso n M idd le School,2019-0124,05/07/2019,Kelly M iller MS,Stuar t-H obson Midd le School,0,05/07/2019,digits,Other/failed to parse
+7886,Stuart-H obso n M idd le School,2019-0124,05/07/2019,Kelly Mi ller MS,Stuar t-H obson Midd le School,0,05/07/2019,digits,Other/failed to parse
+7887,Kelly M il ler MS,2019-0125,05/08/2019,Kelly M iller MS,Kelly Miller MS,0,05/08/2019,digits,Other/failed to parse
+7888,Kelly M il ler MS,2019-0125,05/08/2019,Kelly Mi ller MS,Kelly Miller MS,0,05/08/2019,digits,Other/failed to parse
+7889,Kelly M il ler MS,2019-0125,05/08/2019,Ron Brow n College Preparatory High School,Ron Brown College Preparatory,0,05/08/2019,digits,Other/failed to parse
+7890,Ron Brown College Prepara tor y High School,2019-0127,05/08/2019,Ron Brow n College Preparatory High School,Ron Brown College Preparatory,0,05/08/2019,digits,Other/failed to parse
+7891,Ron Brown College Prepara tor y High School,2019-0127,05/08/2019,Ron Brown College Preparatory High School,High School,0,05/08/2019,digits,Other/failed to parse
+7892,Lafayette Elemen tary School,2019-0126,05/08/2019,Lafayette Elementary School,High School,0,05/08/2019,digits,Other/failed to parse
+7893,Lafayette Elemen tary School,2019-0126,05/10/2019,Deal Middle School,High School,0,05/10/2019,digits,Other/failed to parse
+7894,Lafayette Elemen tary School,2019-0126,05/10/2019,Deal M iddle School,High School,0,05/10/2019,digits,Other/failed to parse
+7895,Deal M idd le School,2019-0128,05/10/2019,Deal M iddle School,Deal M idd le Schoo l,0,05/10/2019,digits,Other/failed to parse
+7896,Deal M idd le School,2019-0128,05/10/2019,Deal Mid dle School,Deal M idd le Schoo l,0,05/10/2019,digits,Other/failed to parse
+7897,Deal M idd le School,2019-0128,05/10/2019,Coo lidge High School,Deal M idd le Schoo l,0,05/10/2019,digits,Other/failed to parse
+7898,Coolidge High School,2019-0129,05/10/2019,Coo lidge High School,Coolidge High School,0,05/10/2019,digits,Other/failed to parse
+7899,Coolidge High School,2019-0129,05/10/2019,Coolidge High School,Coolidge High School,0,05/10/2019,digits,Other/failed to parse
+7900,Coolidge High School,2019-0129,05/10/2019,Burrv il le Element ary School,Coolidge High School,0,05/10/2019,digits,Other/failed to parse
+7901,Coolidge High School,2019-0129,05/13/2019,Burrvil le Elem enta ry Schoo l,Coolidge High School,0,05/13/2019,digits,Other/failed to parse
+7902,Non -Att ending,2019-0130,05/13/2019,Burrv i lle Elem entary School,Burr vi lle Elementar y School,0,05/13/2019,digits,Other/failed to parse
+7903,Non -Att ending,2019-0130,05/13/2019,Burrv il le Elementary Schoo l,Burr vi lle Elementar y School,0,05/13/2019,digits,Other/failed to parse
