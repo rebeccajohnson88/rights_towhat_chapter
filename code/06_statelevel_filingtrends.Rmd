@@ -545,7 +545,7 @@ dph_comparetypes = rbind.data.frame(dph_nondc,
                                     dph_nymaryland) %>%
                 reshape2::melt(, id.vars = c("STATE", "YEAR")) %>%
                 mutate(disp_type = 
-                      case_when(grepl("^dph", variable) ~ "DPH\nfilings",
+                      case_when(grepl("^dph", variable) ~ "DPH\nrequests",
                                 grepl("^med", variable) ~ "Mediation\nrequests",
                                 grepl("wsc", variable) ~ "Written\nsigned complaints"))
 

@@ -48,13 +48,12 @@ theme_new <- function(base_size = 16, base_family = "Helvetica"){
 
 
 ```{r}
-base_path = "/Users/raj2/Dropbox/dph_hearing_decisions/"
-dc_data = read.csv(here("../dph_hearing_decisions/data/dc/cleaned/filings_withdem.csv"))
 
-head(dc_data$AGAINST_LEA)
+dc_data = read.csv("../intermediate_objects/cleaned_df/dcfilings_withdem.csv")
+
 ## load raw nces data to get total enrollment 
 ## and latitude/longitude for a school
-dc_nces_raw = read.csv(here("../dph_hearing_decisions/data/dc/intermediate/dc_ccd.csv")) 
+dc_nces_raw = read.csv("../raw_input/dc/dc_ccd.csv")
 colnames(dc_nces_raw) = gsub("\\.+", "_", colnames(dc_nces_raw)) 
 dc_nces_subset = dc_nces_raw %>%
                 dplyr::select(School_Name, 
@@ -113,13 +112,16 @@ print(xtable(data.frame(school_name =
 
 
 ```{r}
+scaleFUN <- function(x) sprintf("%.1f", x)
+scaleFUN2 <- function(x) sprintf("%.2f", x)
+
 ggplot(dc_analytic, aes(x = white_rate, y = black_rate)) +
   geom_point(aes(size = total_students, color = frpl_eligible_rate), alpha = 0.5) +
   geom_smooth(se = FALSE) +
   xlab("Prop. of students who\nare White") +
   ylab("Prop. of students who\nare Black") +
   theme_new(base_size = 24) +
-  scale_color_viridis(direction = -1) +
+  scale_color_viridis(direction = -1, labels = scaleFUN) +
   guides(size = FALSE) +
   theme(legend.position = c(0.7, 0.8),
         legend.background = element_blank(),
@@ -140,7 +142,8 @@ ggplot(dc_analytic, aes(x = white_rate, y = hispanic_rate)) +
   xlab("Prop. of students who\nare White") +
   ylab("Prop. of students who\nare Hispanic") +
   theme_new(base_size = 24) +
-  scale_color_viridis(direction = -1) +
+  scale_color_viridis(direction = -1,
+                      labels = scaleFUN) +
   guides(size = FALSE) +
   theme(legend.position = c(0.7, 0.8),
         legend.background = element_blank(),
@@ -161,12 +164,13 @@ ggplot(dc_analytic, aes(x = black_rate, y = hispanic_rate)) +
   xlab("Prop. of students who\nare Black") +
   ylab("Prop. of students who\nare Hispanic") +
   theme_new(base_size = 24) +
-  scale_color_viridis(direction = -1) +
+  scale_color_viridis(direction = -1,
+                      labels = scaleFUN) +
   guides(size = FALSE) +
-  theme(legend.position = c(0.8, 0.8),
+  theme(legend.position = c(0.7, 0.8),
         legend.background = element_blank(),
         plot.margin = unit(c(0.5, 1, 0.5, 0.5), "cm")) +
-  labs(color = "Prop. of\nstudents\nfree lunch\neligible") +
+  labs(color = "Prop. of students\nfree lunch\neligible") +
   xlim(0, 1) +
   ylim(0, 1)
 
@@ -176,7 +180,18 @@ ggsave("../output/dc_hispblack_scatter.pdf",
        width = 9,
        height = 12)
 
+ggplot(dc_analytic, aes(x = frpl_eligible_rate)) +
+  geom_density(fill = "wheat4") +
+  xlab("Free lunch eligible rate\n(school level)") +
+  theme_new(base_size = 24) +
+  ylab("Density of schools")  +
+  scale_x_continuous(labels = scaleFUN2)
 
+ggsave("../output/dc_frl_dist.pdf",
+       plot = last_plot(),
+       device = "pdf",
+       width= 12,
+       height = 8)
 
 ```
 
