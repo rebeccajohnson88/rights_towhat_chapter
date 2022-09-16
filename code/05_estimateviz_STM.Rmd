@@ -1,6 +1,6 @@
 ---
-title: "03_estimateviz_STM.Rmd"
-author: "Rebecca Johnson (raj2@princeton.edu)"
+title: "05_estimateviz_STM.Rmd"
+author: "Rebecca Johnson"
 date: "1/9/2020"
 output: html_document
 ---
@@ -19,6 +19,7 @@ library(here)
 library(tm)
 library(viridis)
 library(RColorBrewer)
+library(here)
 theme_new <- function(base_size = 16, base_family = "Helvetica"){
   theme_bw(base_size = base_size, base_family = base_family) %+replace%
     theme(
@@ -41,7 +42,7 @@ theme_new <- function(base_size = 16, base_family = "Helvetica"){
 
 
 ```{r}
-dc_preprocessed = read.csv("/Users/raj2/Dropbox/dph_hearing_decisions/data/dc/intermediate/hearings_preprocessed.csv") %>%
+dc_preprocessed = read.csv(here("../dph_hearing_decisions/data/dc/intermediate/hearings_preprocessed.csv")) %>%
         mutate(state = "DC",
                frpl_eligible_rate = NA) %>%
         filter(year %in% seq(from = 2014, to = 2018)) 
@@ -49,7 +50,7 @@ dc_total_filings = 2105
 
 
 
-texas_preprocessed = read.csv("/Users/raj2/Dropbox/dph_hearing_decisions/data/texas/intermediate/hearings_preprocessed.csv") %>%
+texas_preprocessed = read.csv(here("../dph_hearing_decisions/data/texas/intermediate/hearings_preprocessed.csv")) %>%
         mutate(state = "Texas",
         year =  ifelse(year_request < 2014, 2014, 
                             year_request)) #since year_request was for filing and not hearing, and since downloaded
@@ -394,12 +395,19 @@ processed_hearings_dc = textProcessor(documents = df_frompy$text_preprocess[df_f
                                 ## deviating from default and setting to false
                                 ## because we already preprocessed
                                 lowercase = FALSE,
-                              removestopwords = FALSE, 
+                              removestopwords = TRUE, 
                               removenumbers = FALSE,
                             removepunctuation = FALSE, stem = FALSE,
+                              customstopwords = c("lazan",
+                                                  "nakeisha",
+                                                  "peter",
+                                                  "keith",
+                                                  "sylver",
+                                                  "vaden",
+                                                  "sho"),
                                 verbose = TRUE)
 
-print(class(processed_hearings))
+print(class(processed_hearings_dc))
 
 ## results in three outputs
 hearing_docs = processed_hearings_dc$documents
@@ -413,9 +421,7 @@ plotRemoved(hearing_docs,
             lower.thres = seq(from = 1, to = 50, by = 1))
 
 prep_formodel = prepDocuments(hearing_docs, hearing_vocab, 
-                              hearing_meta, lower.thres = 10, 
-                              upper.thres = dim(df_frompy %>%
-                                          filter(state == "DC"))[0]-10)
+                              hearing_meta, lower.thres = 15)
 
 case_fixk_varymodel_dc = selectModel(prep_formodel$documents,
                                   prep_formodel$vocab,
@@ -425,13 +431,19 @@ case_fixk_varymodel_dc = selectModel(prep_formodel$documents,
                                   runs = 10,
                                   seed = 19840404) 
 
+saveRDS(case_fixk_varymodel_dc, "../output/stm_resultsDC.RDS")
+
+
 
 plotModels(case_fixk_varymodel_dc)
-selected_model_dc = case_fixk_varymodel_dc$runout[[2]]
+selected_model_dc = case_fixk_varymodel_dc$runout[[1]]
 summary(selected_model_dc)
 
+## create a table summarizing with the frex metric
+
+
 ## pull up high probability topics
-summ
+
 
 
 relate_attributes_dc = estimateEffect(1:17 ~ both_parents,
@@ -479,7 +491,7 @@ dc_contrast = dc_contrast_init %>%
                                        ordered=TRUE))
 
 
-dc_contrast
+mycolors <- colorRampPalette(brewer.pal(8, "Dark2"))(nrow(dc_contrast))
 
 ggplot(dc_contrast, aes(x = ordered_label, 
                                   y = estimate,
@@ -501,7 +513,7 @@ ggplot(dc_contrast, aes(x = ordered_label,
         legend.background = element_blank(),
         legend.text = element_text(size = 14)) +
   labs(color = "") +
-  scale_color_manual(values =getPalette(nrow(dc_contrast))) +
+  scale_color_manual(values = mycolors) +
   ylim(-0.1, 0.4)
 
 ggsave("../output/dc_ses.pdf",
@@ -510,7 +522,13 @@ ggsave("../output/dc_ses.pdf",
        width = 12,
        height = 8)
 
+## create table of topics
+print(xtable(dc_contrast %>% dplyr::select(topic, ordered_label)),
+      include.rownames = FALSE)
 
+## create representative quotes
+findThoughts(selected_model_dc, texts = df_frompy$text_preprocess[df_frompy$state == "DC"],
+             topics = c(1, 17), n = 2)
 
 ## show ses
 tx_data = df_frompy %>%
