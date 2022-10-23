@@ -32,8 +32,8 @@ def find_fuzzy_namematches(one_name: str, all_names: list,
 
 
 ## Load data and get school names
-cc_crosswalk = pd.read_csv("../data/dc/intermediate/nces_schoolnames.csv")  
-filings_crosswalk = pd.read_csv("../data/dc/intermediate/filings_names.csv")  
+cc_crosswalk = pd.read_csv("../../intermediate_objects/nces_schoolnames_f22run.csv")  
+filings_crosswalk = pd.read_csv("../../intermediate_objects/filings_names_f22run.csv")  
 filings_names = filings_crosswalk.school_against_cleaned.tolist()
 all_names = cc_crosswalk.name_tocompare.tolist()
 
@@ -48,5 +48,5 @@ print("Fuzzy matching took " + str(t1-t0) + " seconds to run")
 
 ## Concatenate results and write
 fuzzymatch_results_df = pd.concat(fuzzymatch_results_list)
-fuzzymatch_results_df.to_csv("../data/dc/intermediate/nces_filings_fuzzymatch.csv")
+fuzzymatch_results_df.to_csv("../../intermediate_objects/nces_filings_fuzzymatch_f22run.csv")
 
